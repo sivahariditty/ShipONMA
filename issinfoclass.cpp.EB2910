@@ -1,0 +1,534 @@
+#include "issinfoclass.h"
+
+ISSInfoClass::ISSInfoClass(QWidget *parent) :
+    QMainWindow(parent)
+{
+    ISSInfoFrame=new QFrame();
+    ISSInfoFrame=new QFrame();
+    ISSInfoFrame->setMouseTracking(true);
+    ISSInfoFrame->setGeometry(QRect(0,0,1366,82));
+    ISSInfoFrame->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);"));
+    ISSInfoFrame->setFrameShape(QFrame::StyledPanel);
+    ISSInfoFrame->setFrameShadow(QFrame::Raised);
+
+    ISSButtonFrame=new QFrame();
+    ISSButtonFrame=new QFrame();
+    ISSButtonFrame->setMouseTracking(true);
+    ISSButtonFrame->setGeometry(QRect(0,82,1366,82));
+    ISSButtonFrame->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);"));
+    ISSButtonFrame->setFrameShape(QFrame::StyledPanel);
+    ISSButtonFrame->setFrameShadow(QFrame::Raised);
+
+
+
+    ISSInformationFun();
+
+}
+
+void ISSInfoClass::ISSInformationFun()
+{
+
+    QFont font;
+    font.setPointSize(10);
+    CO = new QLabel(ISSInfoFrame);
+    CO->setObjectName(QString::fromUtf8("label"));
+    CO->setGeometry(QRect(510,4,21,16));
+    CO->setText("CO");
+    CO->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(0,255,0);"));
+    CO->setFont(font);
+    CO->show();
+    SP = new QLabel(ISSInfoFrame);
+    SP->setObjectName(QString::fromUtf8("label"));
+    SP->setGeometry(QRect(510,22,21,16));
+    SP->setText("SP");
+    SP->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(0,255,0);"));
+    SP->setFont(font);
+    D = new QLabel(ISSInfoFrame);
+    D->setObjectName(QString::fromUtf8("label"));
+    D->setGeometry(QRect(510,41,21,16));
+    D->setText("D");
+    D->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(0,255,0);"));
+    D->setFont(font);
+    Sv = new QLabel(ISSInfoFrame);
+    Sv->setObjectName(QString::fromUtf8("label"));
+    Sv->setGeometry(QRect(510,60,21,16));
+    Sv->setText("Sv");
+    Sv->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(0,255,0);"));
+    Sv->setFont(font);
+    COx = new QLabel(ISSInfoFrame);
+    COx->setObjectName(QString::fromUtf8("label"));
+    COx->setGeometry(QRect(540,4,55,16));
+    COx->setText("xxx");
+    COx->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(255,170,0);"));
+    COx->setFont(font);
+    COx->show();
+    SPx = new QLabel(ISSInfoFrame);
+    SPx->setObjectName(QString::fromUtf8("label"));
+    SPx->setGeometry(QRect(540,22,55,16));
+    SPx->setText("xxx");
+    SPx->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(255,170,0);"));
+    SPx->setFont(font);
+    Dx = new QLabel(ISSInfoFrame);
+    Dx->setObjectName(QString::fromUtf8("label"));
+    Dx->setGeometry(QRect(540,41,55,16));
+    Dx->setText("xxx");
+    Dx->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(255,170,0);"));
+    Dx->setFont(font);
+    Svx = new QLabel(ISSInfoFrame);
+    Svx->setObjectName(QString::fromUtf8("label"));
+    Svx->setGeometry(QRect(540,60,55,16));
+    Svx->setText("xxx");
+    Svx->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(255,170,0);"));
+    Svx->setFont(font);
+
+
+
+    deg = new QLabel(ISSInfoFrame);
+    deg->setObjectName(QString::fromUtf8("label"));
+    deg->setGeometry(QRect(615,4,55,16));
+    deg->setText("Deg");
+    deg->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(0,255,255);"));
+    deg->setFont(font);
+    deg->show();
+
+    knts = new QLabel(ISSInfoFrame);
+    knts->setObjectName(QString::fromUtf8("label"));
+    knts->setGeometry(QRect(615,22,55,16));
+    knts->setText("Kts");
+    knts->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(0,255,255);"));
+    knts->setFont(font);
+    m = new QLabel(ISSInfoFrame);
+    m->setObjectName(QString::fromUtf8("label"));
+    m->setGeometry(QRect(615,41,55,16));
+    m->setText("M");
+    m->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(0,255,255);"));
+    m->setFont(font);
+    ms = new QLabel(ISSInfoFrame);
+    ms ->setObjectName(QString::fromUtf8("label"));
+    ms ->setGeometry(QRect(615,60,55,16));
+    ms ->setText("m/sec");
+    ms ->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(0,255,255);"));
+    ms ->setFont(font);
+
+    HD = new QLabel(ISSInfoFrame);
+    HD->setObjectName(QString::fromUtf8("label"));
+    HD->setGeometry(QRect(690,4,31,16));
+    HD->setText("Hd");
+    HD->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(0,255,0);"));
+    HD->setFont(font);
+    HD->show();
+    SW = new QLabel(ISSInfoFrame);
+    SW->setObjectName(QString::fromUtf8("label"));
+    SW->setGeometry(QRect(690,22,31,16));
+    SW->setText("Sw");
+    SW->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(0,255,0);"));
+    SW->setFont(font);
+    LAT = new QLabel(ISSInfoFrame);
+    LAT->setObjectName(QString::fromUtf8("label"));
+    LAT->setGeometry(QRect(690,41,31,16));
+    LAT->setText("Lat");
+    LAT->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(0,255,0);"));
+    LAT->setFont(font);
+    LNG = new QLabel(ISSInfoFrame);
+    LNG->setObjectName(QString::fromUtf8("label"));
+    LNG->setGeometry(QRect(690,60,31,16));
+    LNG->setText("Lon");
+    LNG->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(0,255,0);"));
+    LNG->setFont(font);
+
+
+    HDx = new QLabel(ISSInfoFrame);
+    HDx->setObjectName(QString::fromUtf8("label"));
+    HDx->setGeometry(QRect(730,4,31,16));
+    HDx->setText("xxx");
+    HDx->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(255,170,0);"));
+    HDx->setFont(font);
+    HDx->show();
+    SWx = new QLabel(ISSInfoFrame);
+    SWx->setObjectName(QString::fromUtf8("label"));
+    SWx->setGeometry(QRect(730,22,70,16));
+    SWx->setText("xxx");
+    SWx->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(255,170,0);"));
+    SWx->setFont(font);
+    LATx = new QLabel(ISSInfoFrame);
+    LATx->setObjectName(QString::fromUtf8("label"));
+    LATx->setGeometry(QRect(730,41,70,16));
+    LATx->setText("xx.xx.xxx");
+    LATx->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(255,170,0);"));
+    LATx->setFont(font);
+    LNGx = new QLabel(ISSInfoFrame);
+    LNGx->setObjectName(QString::fromUtf8("label"));
+    LNGx->setGeometry(QRect(730,60,70,16));
+    LNGx->setText("xxx.xx.xxx");
+    LNGx->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(255,170,0);"));
+    LNGx->setFont(font);
+
+    deg1 = new QLabel(ISSInfoFrame);
+    deg1->setObjectName(QString::fromUtf8("label"));
+    deg1->setGeometry(QRect(800,4,31,16));
+    deg1->setText("Deg");
+    deg1->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(0,255,255);"));
+    deg1->setFont(font);
+    deg1->show();
+    deg2 = new QLabel(ISSInfoFrame);
+    deg2->setObjectName(QString::fromUtf8("label"));
+    deg2->setGeometry(QRect(800,22,31,16));
+    deg2->setText("Deg");
+    deg2->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(0,255,255);"));
+    deg2->setFont(font);
+    n = new QLabel(ISSInfoFrame);
+    n->setObjectName(QString::fromUtf8("label"));
+    n->setGeometry(QRect(802,41,31,16));
+    n->setText("N");
+    n->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(0,255,255);"));
+    n->setFont(font);
+    e = new QLabel(ISSInfoFrame);
+    e->setObjectName(QString::fromUtf8("label"));
+    e->setGeometry(QRect(802,60,31,16));
+    e->setText("E");
+    e->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+        "color: rgb(0,255,255);"));
+    e->setFont(font);
+
+       PLS = new QLabel(ISSInfoFrame);
+       PLS->setObjectName(QString::fromUtf8("label"));
+       PLS->setGeometry(QRect(975,4,25,16));
+       PLS->setText("PLS");
+       PLS->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(0,255,0);"));
+       PLS->setFont(font);
+       PLS->show();
+       LEN = new QLabel(ISSInfoFrame);
+       LEN->setObjectName(QString::fromUtf8("label"));
+       LEN->setGeometry(QRect(975,24,25,16));
+       LEN->setText("LEN");
+       LEN->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(0,255,0);"));
+       LEN->setFont(font);
+       LVL = new QLabel(ISSInfoFrame);
+       LVL->setObjectName(QString::fromUtf8("label"));
+       LVL->setGeometry(QRect(975,46,25,16));
+       LVL->setText("LVL");
+       LVL->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(0,255,0);"));
+       LVL->setFont(font);
+
+
+       PLSx = new QLabel(ISSInfoFrame);
+       PLSx->setObjectName(QString::fromUtf8("label"));
+       PLSx->setGeometry(QRect(1015,4,41,16));
+       PLSx->setText("xxx");
+       PLSx->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(255,170,0);"));
+       PLSx->setFont(font);
+       PLSx->show();
+       LENx = new QLabel(ISSInfoFrame);
+       LENx->setObjectName(QString::fromUtf8("label"));
+       LENx->setGeometry(QRect(1015,24,41,16));
+       LENx->setText("xxx");
+       LENx->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(255,170,0);"));
+       LENx->setFont(font);
+       LVLx = new QLabel(ISSInfoFrame);
+       LVLx->setObjectName(QString::fromUtf8("label"));
+       LVLx->setGeometry(QRect(1015,46,41,16));
+       LVLx->setText("xxx");
+       LVLx->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(255,170,0);"));
+       LVLx->setFont(font);
+
+       ms1 = new QLabel(ISSInfoFrame);
+       ms1->setObjectName(QString::fromUtf8("label"));
+       ms1->setGeometry(QRect(1080,24,41,16));
+       ms1->setText("m/sec");
+       ms1->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(0,255,255);"));
+       ms->setFont(font);
+       db1 = new QLabel(ISSInfoFrame);
+       db1->setObjectName(QString::fromUtf8("label"));
+       db1->setGeometry(QRect(1080,46,31,16));
+       db1->setText("dB");
+       db1->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(0,255,255);"));
+       db1->setFont(font);
+
+       BW = new QLabel(ISSInfoFrame);
+       BW->setObjectName(QString::fromUtf8("label"));
+       BW->setGeometry(QRect(1175,4,41,16));
+       BW->setText("BW");
+       BW->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(0,255,0);"));
+       BW->setFont(font);
+
+       CF = new QLabel(ISSInfoFrame);
+       CF->setObjectName(QString::fromUtf8("label"));
+       CF->setGeometry(QRect(1175,23,31,16));
+       CF->setText("CF");
+       CF->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(0,255,0);"));
+       CF->setFont(font);
+       RL = new QLabel(ISSInfoFrame);
+       RL->setObjectName(QString::fromUtf8("label"));
+       RL->setGeometry(QRect(1175,45,31,16));
+       RL->setText("REL");
+       RL->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(0,255,0);"));
+       RL->setFont(font);
+
+       BWx = new QLabel(ISSInfoFrame);
+       BWx->setObjectName(QString::fromUtf8("label"));
+       BWx->setGeometry(QRect(1215,4,41,16));
+       BWx->setText("xxx");
+       BWx->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(255,170,0);"));
+       BWx->setFont(font);
+
+       CFx = new QLabel(ISSInfoFrame);
+       CFx->setObjectName(QString::fromUtf8("label"));
+       CFx->setGeometry(QRect(1215,23,31,16));
+       CFx->setText("xxx");
+       CFx->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(255,170,0);"));
+       CFx->setFont(font);
+       RLx = new QLabel(ISSInfoFrame);
+       RLx->setObjectName(QString::fromUtf8("label"));
+       RLx->setGeometry(QRect(1215,45,31,16));
+       RLx->setText("xxx");
+       RLx->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(255,170,0);"));
+       RLx->setFont(font);
+
+       hz1 = new QLabel(ISSInfoFrame);
+       hz1->setObjectName(QString::fromUtf8("label"));
+       hz1->setGeometry(QRect(1280,4,41,16));
+       hz1->setText("Hz");
+       hz1->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(0,255,255);"));
+       hz1->setFont(font);
+
+       hz2 = new QLabel(ISSInfoFrame);
+       hz2->setObjectName(QString::fromUtf8("label"));
+       hz2->setGeometry(QRect(1280,23,31,16));
+       hz2->setText("Hz");
+       hz2->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(0,255,255);"));
+       hz2->setFont(font);
+       deg3 = new QLabel(ISSInfoFrame);
+       deg3->setObjectName(QString::fromUtf8("label"));
+       deg3->setGeometry(QRect(1280,45,31,16));
+       deg3->setText("Deg");
+       deg3->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(0,255,255);"));
+       deg3->setFont(font);
+
+       SysMod = new QLabel(ISSInfoFrame);
+       SysMod->setObjectName(QString::fromUtf8("label"));
+       SysMod->setGeometry(QRect(2,14,71,16));
+       SysMod->setText("SYSMODE");
+       SysMod->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(0,255,0);"));
+       SysMod->setFont(font);
+
+       Pag = new QLabel(ISSInfoFrame);
+       Pag->setObjectName(QString::fromUtf8("label"));
+       Pag->setGeometry(QRect(10,50,46,13));
+       Pag->setText("PAGE");
+       Pag->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(0,255,0);"));
+       Pag->setFont(font);
+
+       Datex = new QLabel(ISSInfoFrame);
+       Datex->setObjectName(QString::fromUtf8("label"));
+       Datex->setGeometry(QRect(220,10,91,16));
+       Datex->setText("xx/xx/xx");
+       Datex->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(0,255,0);"));
+       Datex->setFont(font);
+
+       Timex = new QLabel(ISSInfoFrame);
+       Timex->setObjectName(QString::fromUtf8("label"));
+       Timex->setGeometry(QRect(221,23,91,30));
+       Timex->setText("xx:xx:xx");
+       Timex->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(0,255,0);"));
+       Timex->setFont(font);
+
+       StopWatchx = new QLabel(ISSInfoFrame);
+       StopWatchx->setObjectName(QString::fromUtf8("label"));
+       StopWatchx->setGeometry(QRect(360,10,61,16));
+       StopWatchx->setText("00:00:00");
+       StopWatchx->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+           "color: rgb(0,255,0);"));
+       StopWatchx->setFont(font);
+
+
+       Normal1 =new QPushButton(ISSInfoFrame);
+       Normal1->setObjectName(QString::fromUtf8("NORMAL"));
+       Normal1->setGeometry(QRect(80,10,131,23));
+       Normal1->setStyleSheet(QString::fromUtf8("background-color:rgb(170,170, 170)"));
+       Normal1->setFont(font);
+       Normal1->setText("NORMAL");
+
+       ONA =new QPushButton(ISSInfoFrame);
+       ONA->setObjectName(QString::fromUtf8("NORMAL"));
+       ONA->setGeometry(QRect(80,45,130,23));
+       ONA->setStyleSheet(QString::fromUtf8("background-color:rgb(170,170, 170)"));
+       ONA->setFont(font);
+       ONA->setText("ONA");
+
+       Start =new QPushButton(ISSInfoFrame);
+       Start->setObjectName(QString::fromUtf8("NORMAL"));
+       Start->setGeometry(QRect(340,30,51,23));
+       Start->setStyleSheet(QString::fromUtf8("background-color:rgb(170,170, 170)"));
+       Start->setFont(font);
+       Start->setText("Start");
+
+       Stop =new QPushButton(ISSInfoFrame);
+       Stop->setObjectName(QString::fromUtf8("NORMAL"));
+       Stop->setGeometry(QRect(396,30,51,23));
+       Stop->setStyleSheet(QString::fromUtf8("background-color:rgb(170,170, 170)"));
+       Stop->setFont(font);
+       Stop->setText("Reset");
+
+
+      HMI =new QPushButton(ISSButtonFrame);
+      HMI->setObjectName(QString::fromUtf8("NORMAL"));
+      HMI->setGeometry(QRect(80,8,61,23));
+      HMI->setStyleSheet(QString::fromUtf8("background-color:rgb(170,170, 170)"));
+      HMI->setFont(font);
+      HMI->setText("HMI");
+
+      CriticalError =new QPushButton(ISSButtonFrame);
+      CriticalError->setObjectName(QString::fromUtf8("NORMAL"));
+      CriticalError->setGeometry(QRect(280,8,111,23));
+      CriticalError->setStyleSheet(QString::fromUtf8("background-color:rgb(170,170, 170)"));
+      CriticalError->setFont(font);
+      CriticalError->setText("Critical Error");
+
+      Cavitating =new QPushButton(ISSButtonFrame);
+      Cavitating->setObjectName(QString::fromUtf8("NORMAL"));
+      Cavitating->setGeometry(QRect(400,8,111,23));
+      Cavitating->setStyleSheet(QString::fromUtf8("background-color:rgb(170,170, 170)"));
+      Cavitating->setFont(font);
+      Cavitating->setText("Cavitating");
+
+      TorpidoAl =new QPushButton(ISSButtonFrame);
+      TorpidoAl->setObjectName(QString::fromUtf8("NORMAL"));
+      TorpidoAl->setGeometry(QRect(520,8,111,23));
+      TorpidoAl->setStyleSheet(QString::fromUtf8("background-color:rgb(170,170, 170)"));
+      TorpidoAl->setFont(font);
+      TorpidoAl->setText("Torpedo Alert");
+
+      Sonar =new QPushButton(ISSButtonFrame);
+      Sonar->setObjectName(QString::fromUtf8("NORMAL"));
+      Sonar->setGeometry(QRect(750,8,65,23));
+      Sonar->setStyleSheet(QString::fromUtf8("background-color:rgb(170,170, 170)"));
+      Sonar->setFont(font);
+      Sonar->setText("Sonar");
+
+      Active1 =new QPushButton(ISSButtonFrame);
+      Active1->setObjectName(QString::fromUtf8("NORMAL"));
+      Active1->setGeometry(QRect(845,8,60,23));
+      Active1->setStyleSheet(QString::fromUtf8("background-color:rgb(170,170, 170)"));
+      Active1->setFont(font);
+      Active1->setText("Active");
+
+       OAS =new QPushButton(ISSButtonFrame);
+       OAS->setObjectName(QString::fromUtf8("NORMAL"));
+       OAS->setGeometry(QRect(906,8,60,23));
+       OAS->setStyleSheet(QString::fromUtf8("background-color:rgb(170,170, 170)"));
+       OAS->setFont(font);
+       OAS->setText("OAS");
+
+       UCS =new QPushButton(ISSButtonFrame);
+       UCS ->setObjectName(QString::fromUtf8("NORMAL"));
+       UCS ->setGeometry(QRect(967,8,60,23));
+       UCS ->setStyleSheet(QString::fromUtf8("background-color:rgb(170,170, 170)"));
+       UCS ->setFont(font);
+       UCS ->setText("UCS");
+
+       CTD =new QPushButton(ISSButtonFrame);
+       CTD->setObjectName(QString::fromUtf8("NORMAL"));
+       CTD->setGeometry(QRect(1048,8,60,23));
+       CTD->setStyleSheet(QString::fromUtf8("background-color:rgb(170,170, 170)"));
+       CTD->setFont(font);
+       CTD->setText("CTD");
+
+
+       CISC =new QPushButton(ISSButtonFrame);
+       CISC->setObjectName(QString::fromUtf8("NORMAL"));
+       CISC->setGeometry(QRect(1108,8,60,23));
+       CISC->setStyleSheet(QString::fromUtf8("background-color:rgb(170,170, 170)"));
+       CISC->setFont(font);
+       CISC->setText("CISC");
+
+       NAV =new QPushButton(ISSButtonFrame);
+       NAV->setObjectName(QString::fromUtf8("NORMAL"));
+       NAV->setGeometry(QRect(1170,8,60,23));
+       NAV->setStyleSheet(QString::fromUtf8("background-color:rgb(170,170, 170)"));
+       NAV->setFont(font);
+       NAV->setText("NAV");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
