@@ -22,7 +22,7 @@ static const uint qt_meta_data_MainWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      96,   14, // methods
+      97,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -126,6 +126,7 @@ static const uint qt_meta_data_MainWindow[] = {
     2497,   11,   11,   11, 0x0a,
     2520,   11,   11,   11, 0x0a,
     2543,   11,   11,   11, 0x0a,
+    2558,   11,   11,   11, 0x0a,
 
        0        // eod
 };
@@ -197,7 +198,7 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "SesnorGroupSet()\0OctaveSesnorGroupSet()\0"
     "UnitConvertionClose()\0EnergySaveWindow3()\0"
     "metricConvertion1(int)\0metricConvertion2(int)\0"
-    "recChanlData()\0"
+    "recChanlData()\0shwChSelDialog()\0"
 };
 
 void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -302,6 +303,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 93: _t->metricConvertion1((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 94: _t->metricConvertion2((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 95: _t->recChanlData(); break;
+        case 96: _t->shwChSelDialog(); break;
         default: ;
         }
     }
@@ -339,9 +341,9 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 96)
+        if (_id < 97)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 96;
+        _id -= 97;
     }
     return _id;
 }

@@ -162,7 +162,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     connect(EnergyButton,SIGNAL(clicked()),this,SLOT(EnergySaveWindow3()));
 
     connect(DisplayBase->OctaveButton,SIGNAL(clicked()),this,SLOT(OctaveGroupWind()));
-    connect(DisplayBase->RecChnlButton,SIGNAL(clicked()),this,SLOT(recChanlData()));
+    connect(DisplayBase->RecChnlButton,SIGNAL(clicked()),this,SLOT(shwChSelDialog()));
     connect(DisplayBase->SensorGroup,SIGNAL(clicked()),this,SLOT(SensorGroupWind()));
     connect(DisplayBase->UnitButton,SIGNAL(clicked()),this,SLOT(SenosrUnitConv()));
 //connect(DisplayBase->IssInfo->HMI,SIGNAL(clicked()),this,SLOT(HMIChange()));
@@ -1232,6 +1232,7 @@ void MainWindow::SensorGroupFrame()
 
 void MainWindow::drawSelRecChDailog(){
    QFont font;
+   char CHASS[20];
    font.setFamily(QString::fromUtf8("Sans Serif"));
    font.setBold(false);
    font.setPointSize(10);
@@ -1254,6 +1255,24 @@ void MainWindow::drawSelRecChDailog(){
             "color: rgb(0,0,0);"));
    SelectChanRec->setText("Select Channel to Record");
    SelectChanRec->show();
+   RecChSel = new QComboBox(SelectRecChanelFrame);
+   RecChSel->setGeometry(QRect(180, 17, 145, 20));
+   RecChSel->setFont(font);
+   RecChSel->clear();
+   RecChSel->setWindowModality(Qt::WindowModal);
+   RecChSel->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
+                                                 "color: rgb(0,0,0);"));
+   RecChSel->clear();
+
+   for(iCount=0;iCount<29;iCount++){
+      sprintf(CHASS,"H%d",iCount+1);
+      RecChSel->addItem(CHASS,iCount);
+   }
+   StRecBtn = new QPushButton(SelectRecChanelFrame);
+   StRecBtn->setObjectName(QString::fromUtf8("pushButton"));
+   StRecBtn->setGeometry(QRect(180, 100, 100, 35));
+   StRecBtn->setStyleSheet(QString::fromUtf8("background-color: rgb(170, 170, 160);"));
+   StRecBtn->setText("Start Record");
 }
 
 void MainWindow::OctaveSensorGroupFrame()
@@ -1410,6 +1429,13 @@ void MainWindow::OctaveGroupWind()
 }
 
 void MainWindow::recChanlData(){
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::DirectoryOnly);
+    dialog.setStyleSheet("background-color:white");
+    QString strFileName = dialog.getSaveFileName(this,tr("Save File"),"", tr("All Files (*.*)"));
+}
+
+void MainWindow::shwChSelDialog(){
   SelectRecChanel->show();
 }
 

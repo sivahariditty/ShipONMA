@@ -34,11 +34,12 @@ public:
     QTimer *UpdateTimer;
     QLabel *lineGraph,*BarGraph,*ONMAName,*screenshotLabel,*EnergyReplatFile,*RecLabel,*SensorGroupLabel[4],*OctaveSensorGroupLabel[4],*HydLabel7,*AccLabel7,*RecordName,*EnergyFileName,*RecInitcation,*FileDelete,*EnergyFileDelete, *SelectChanRec;
     QDialog *EnergyDialog,*thresholdPopUpWindow,*trackPopUpWindow,*ScreenShotWindow,*ScreenShotSaveOpt,*RecordDialog,*ReplayDialog,*SenGroup,*UnitCon,*OctaveSenGroup, *SelectRecChanel;
-    QPushButton *PrintScreen,*PrintCancel,*ReorderButton,*ReplaySTART,*SensorGroupButton,*OctaveSensorGroupButton,*UnitOKButton,*EnergyButton;
+    QPushButton *PrintScreen,*PrintCancel,*ReorderButton,*ReplaySTART,*SensorGroupButton,*OctaveSensorGroupButton,*UnitOKButton,*EnergyButton,
+		*StRecBtn;
     QVBoxLayout *mainLayout ;
     QPixmap originalPixmap;
     QLineEdit *lineEdit,*EnergyLineEdit;
-    QComboBox *ReplayFiles,*SensorGroupCombo[4],*OctaveSensorGroupCombo[4],*EnergyCombo,*EnergyFileDelete7,*HydUnitCombo,*AccUnitCombo;
+    QComboBox *ReplayFiles,*SensorGroupCombo[4],*OctaveSensorGroupCombo[4],*EnergyCombo,*EnergyFileDelete7,*HydUnitCombo,*AccUnitCombo, *RecChSel;
     QCheckBox *checkRecBox,*octaveBarcheckRecBox[4],*octavecheckRecBox[4],*EnergyFileDelete1,*EnergyFileSave,*EnergyFileRestore;
     QString ReplayFileSelect,EnergyReplytFIleSelect,EnergyDeletetFIleSelect;
     char Buff[4][20];
@@ -176,6 +177,7 @@ void PageSelect(int);
   void metricConvertion1(int);
   void metricConvertion2(int);
   void recChanlData();
+  void shwChSelDialog();
 
 private:
     Ui::MainWindow *ui;
