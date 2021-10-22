@@ -22,7 +22,7 @@ static const uint qt_meta_data_MainWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      94,   14, // methods
+      96,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -76,54 +76,56 @@ static const uint qt_meta_data_MainWindow[] = {
     1493,   11,   11,   11, 0x0a,
     1512,   11,   11,   11, 0x0a,
     1537,   11,   11,   11, 0x0a,
-    1553,   11,   11,   11, 0x0a,
-    1571,   11,   11,   11, 0x0a,
-    1583,   11,   11,   11, 0x0a,
-    1607,   11,   11,   11, 0x0a,
-    1631,   11,   11,   11, 0x0a,
-    1655,   11,   11,   11, 0x0a,
-    1669,   11,   11,   11, 0x0a,
-    1683,   11,   11,   11, 0x0a,
-    1700,   11,   11,   11, 0x0a,
-    1715,   11,   11,   11, 0x0a,
-    1731,   11,   11,   11, 0x0a,
-    1758,   11,   11,   11, 0x0a,
-    1783,   11,   11,   11, 0x0a,
-    1813,   11,   11,   11, 0x0a,
+    1558,   11,   11,   11, 0x0a,
+    1574,   11,   11,   11, 0x0a,
+    1592,   11,   11,   11, 0x0a,
+    1604,   11,   11,   11, 0x0a,
+    1628,   11,   11,   11, 0x0a,
+    1652,   11,   11,   11, 0x0a,
+    1676,   11,   11,   11, 0x0a,
+    1690,   11,   11,   11, 0x0a,
+    1704,   11,   11,   11, 0x0a,
+    1721,   11,   11,   11, 0x0a,
+    1736,   11,   11,   11, 0x0a,
+    1752,   11,   11,   11, 0x0a,
+    1779,   11,   11,   11, 0x0a,
+    1804,   11,   11,   11, 0x0a,
     1834,   11,   11,   11, 0x0a,
-    1851,   11,   11,   11, 0x0a,
-    1871,   11,   11,   11, 0x0a,
-    1893,   11,   11,   11, 0x0a,
-    1910,   11,   11,   11, 0x0a,
-    1933,   11,   11,   11, 0x0a,
-    1948,   11,   11,   11, 0x0a,
+    1855,   11,   11,   11, 0x0a,
+    1872,   11,   11,   11, 0x0a,
+    1892,   11,   11,   11, 0x0a,
+    1914,   11,   11,   11, 0x0a,
+    1931,   11,   11,   11, 0x0a,
+    1954,   11,   11,   11, 0x0a,
     1969,   11,   11,   11, 0x0a,
-    1996,   11,   11,   11, 0x0a,
-    2019,   11,   11,   11, 0x0a,
-    2033,   11,   11,   11, 0x0a,
-    2047,   11,   11,   11, 0x0a,
-    2069,   11,   11,   11, 0x0a,
-    2086,   11,   11,   11, 0x0a,
-    2104,   11,   11,   11, 0x0a,
-    2124,   11,   11,   11, 0x0a,
-    2142,   11,   11,   11, 0x0a,
-    2153,   11,   11,   11, 0x0a,
-    2173,   11,   11,   11, 0x0a,
-    2199,   11,   11,   11, 0x0a,
-    2234, 2231,   11,   11, 0x0a,
-    2251, 2231,   11,   11, 0x0a,
-    2268, 2231,   11,   11, 0x0a,
-    2285, 2231,   11,   11, 0x0a,
-    2302, 2231,   11,   11, 0x0a,
-    2325, 2231,   11,   11, 0x0a,
-    2348, 2231,   11,   11, 0x0a,
-    2371, 2231,   11,   11, 0x0a,
-    2394,   11,   11,   11, 0x0a,
-    2411,   11,   11,   11, 0x0a,
-    2434,   11,   11,   11, 0x0a,
-    2456,   11,   11,   11, 0x0a,
-    2476,   11,   11,   11, 0x0a,
-    2499,   11,   11,   11, 0x0a,
+    1990,   11,   11,   11, 0x0a,
+    2017,   11,   11,   11, 0x0a,
+    2040,   11,   11,   11, 0x0a,
+    2054,   11,   11,   11, 0x0a,
+    2068,   11,   11,   11, 0x0a,
+    2090,   11,   11,   11, 0x0a,
+    2107,   11,   11,   11, 0x0a,
+    2125,   11,   11,   11, 0x0a,
+    2145,   11,   11,   11, 0x0a,
+    2163,   11,   11,   11, 0x0a,
+    2174,   11,   11,   11, 0x0a,
+    2194,   11,   11,   11, 0x0a,
+    2220,   11,   11,   11, 0x0a,
+    2255, 2252,   11,   11, 0x0a,
+    2272, 2252,   11,   11, 0x0a,
+    2289, 2252,   11,   11, 0x0a,
+    2306, 2252,   11,   11, 0x0a,
+    2323, 2252,   11,   11, 0x0a,
+    2346, 2252,   11,   11, 0x0a,
+    2369, 2252,   11,   11, 0x0a,
+    2392, 2252,   11,   11, 0x0a,
+    2415,   11,   11,   11, 0x0a,
+    2432,   11,   11,   11, 0x0a,
+    2455,   11,   11,   11, 0x0a,
+    2477,   11,   11,   11, 0x0a,
+    2497,   11,   11,   11, 0x0a,
+    2520,   11,   11,   11, 0x0a,
+    2543,   11,   11,   11, 0x0a,
 
        0        // eod
 };
@@ -167,12 +169,13 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "SensorGroupWind()\0OctaveGroupWind()\0"
     "SenosrUnitConv()\0SensorUnitFrame()\0"
     "SensorGroupFrame()\0OctaveSensorGroupFrame()\0"
-    "PageSelect(int)\0SetMGroupEnable()\0"
-    "CursorPos()\0HarmonicCursorAction1()\0"
-    "HarmonicCursorAction2()\0HarmonicCursorAction3()\0"
-    "MGC_Slot(int)\0AGC_Slot(int)\0"
-    "PRESET_Slot(int)\0TrackInfo(int)\0"
-    "ScreenShotFun()\0setThresholdConfigButton()\0"
+    "drawSelRecChDailog()\0PageSelect(int)\0"
+    "SetMGroupEnable()\0CursorPos()\0"
+    "HarmonicCursorAction1()\0HarmonicCursorAction2()\0"
+    "HarmonicCursorAction3()\0MGC_Slot(int)\0"
+    "AGC_Slot(int)\0PRESET_Slot(int)\0"
+    "TrackInfo(int)\0ScreenShotFun()\0"
+    "setThresholdConfigButton()\0"
     "CloseTrackConfigButton()\0"
     "cancelThresholdConfigButton()\0"
     "POPThresholdWindow()\0POPTrackWindow()\0"
@@ -194,6 +197,7 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "SesnorGroupSet()\0OctaveSesnorGroupSet()\0"
     "UnitConvertionClose()\0EnergySaveWindow3()\0"
     "metricConvertion1(int)\0metricConvertion2(int)\0"
+    "recChanlData()\0"
 };
 
 void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -247,55 +251,57 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 42: _t->SensorUnitFrame(); break;
         case 43: _t->SensorGroupFrame(); break;
         case 44: _t->OctaveSensorGroupFrame(); break;
-        case 45: _t->PageSelect((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 46: _t->SetMGroupEnable(); break;
-        case 47: _t->CursorPos(); break;
-        case 48: _t->HarmonicCursorAction1(); break;
-        case 49: _t->HarmonicCursorAction2(); break;
-        case 50: _t->HarmonicCursorAction3(); break;
-        case 51: _t->MGC_Slot((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 52: _t->AGC_Slot((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 53: _t->PRESET_Slot((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 54: _t->TrackInfo((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 55: _t->ScreenShotFun(); break;
-        case 56: _t->setThresholdConfigButton(); break;
-        case 57: _t->CloseTrackConfigButton(); break;
-        case 58: _t->cancelThresholdConfigButton(); break;
-        case 59: _t->POPThresholdWindow(); break;
-        case 60: _t->POPTrackWindow(); break;
-        case 61: _t->ScreenShotPicture(); break;
-        case 62: _t->ScreenShotSaveClose(); break;
-        case 63: _t->ScreenShotSave(); break;
-        case 64: _t->RecorderSetParameter(); break;
-        case 65: _t->PathSettings(); break;
-        case 66: _t->EnergyPathSettings(); break;
-        case 67: _t->EnergyFileDeleteSettings(); break;
-        case 68: _t->EnergyReplaySettings(); break;
-        case 69: _t->RecordStart(); break;
-        case 70: _t->ReplayStart(); break;
-        case 71: _t->EnergyWindowFileist(); break;
-        case 72: _t->StorageCapcity(); break;
-        case 73: _t->RecordWindowSet(); break;
-        case 74: _t->EnergySaveWindow2(); break;
-        case 75: _t->ReplayWindowSet(); break;
-        case 76: _t->ReplayON(); break;
-        case 77: _t->FileSelect((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 78: _t->EnergyFileSelect((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 79: _t->EnergyDeleteFileSelect((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 80: _t->GroupCHSel1((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 81: _t->GroupCHSel2((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 82: _t->GroupCHSel3((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 83: _t->GroupCHSel4((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 84: _t->OctaveGroupCHSel1((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 85: _t->OctaveGroupCHSel2((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 86: _t->OctaveGroupCHSel3((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 87: _t->OctaveGroupCHSel4((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 88: _t->SesnorGroupSet(); break;
-        case 89: _t->OctaveSesnorGroupSet(); break;
-        case 90: _t->UnitConvertionClose(); break;
-        case 91: _t->EnergySaveWindow3(); break;
-        case 92: _t->metricConvertion1((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 93: _t->metricConvertion2((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 45: _t->drawSelRecChDailog(); break;
+        case 46: _t->PageSelect((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 47: _t->SetMGroupEnable(); break;
+        case 48: _t->CursorPos(); break;
+        case 49: _t->HarmonicCursorAction1(); break;
+        case 50: _t->HarmonicCursorAction2(); break;
+        case 51: _t->HarmonicCursorAction3(); break;
+        case 52: _t->MGC_Slot((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 53: _t->AGC_Slot((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 54: _t->PRESET_Slot((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 55: _t->TrackInfo((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 56: _t->ScreenShotFun(); break;
+        case 57: _t->setThresholdConfigButton(); break;
+        case 58: _t->CloseTrackConfigButton(); break;
+        case 59: _t->cancelThresholdConfigButton(); break;
+        case 60: _t->POPThresholdWindow(); break;
+        case 61: _t->POPTrackWindow(); break;
+        case 62: _t->ScreenShotPicture(); break;
+        case 63: _t->ScreenShotSaveClose(); break;
+        case 64: _t->ScreenShotSave(); break;
+        case 65: _t->RecorderSetParameter(); break;
+        case 66: _t->PathSettings(); break;
+        case 67: _t->EnergyPathSettings(); break;
+        case 68: _t->EnergyFileDeleteSettings(); break;
+        case 69: _t->EnergyReplaySettings(); break;
+        case 70: _t->RecordStart(); break;
+        case 71: _t->ReplayStart(); break;
+        case 72: _t->EnergyWindowFileist(); break;
+        case 73: _t->StorageCapcity(); break;
+        case 74: _t->RecordWindowSet(); break;
+        case 75: _t->EnergySaveWindow2(); break;
+        case 76: _t->ReplayWindowSet(); break;
+        case 77: _t->ReplayON(); break;
+        case 78: _t->FileSelect((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 79: _t->EnergyFileSelect((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 80: _t->EnergyDeleteFileSelect((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 81: _t->GroupCHSel1((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 82: _t->GroupCHSel2((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 83: _t->GroupCHSel3((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 84: _t->GroupCHSel4((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 85: _t->OctaveGroupCHSel1((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 86: _t->OctaveGroupCHSel2((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 87: _t->OctaveGroupCHSel3((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 88: _t->OctaveGroupCHSel4((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 89: _t->SesnorGroupSet(); break;
+        case 90: _t->OctaveSesnorGroupSet(); break;
+        case 91: _t->UnitConvertionClose(); break;
+        case 92: _t->EnergySaveWindow3(); break;
+        case 93: _t->metricConvertion1((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 94: _t->metricConvertion2((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 95: _t->recChanlData(); break;
         default: ;
         }
     }
@@ -333,9 +339,9 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 94)
+        if (_id < 96)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 94;
+        _id -= 96;
     }
     return _id;
 }

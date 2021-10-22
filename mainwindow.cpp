@@ -52,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     ReplayWindowSet();
     SensorGroupFrame();
     OctaveSensorGroupFrame();
+    drawSelRecChDailog();
     EnergySaveWindow();
     SensorUnitFrame();
     ScreenShotPicture();
@@ -161,7 +162,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     connect(EnergyButton,SIGNAL(clicked()),this,SLOT(EnergySaveWindow3()));
 
     connect(DisplayBase->OctaveButton,SIGNAL(clicked()),this,SLOT(OctaveGroupWind()));
-    connect(DisplayBase->RecChnlButton,SIGNAL(clicked()),this,SLOT(OctaveGroupWind()));
+    connect(DisplayBase->RecChnlButton,SIGNAL(clicked()),this,SLOT(recChanlData()));
     connect(DisplayBase->SensorGroup,SIGNAL(clicked()),this,SLOT(SensorGroupWind()));
     connect(DisplayBase->UnitButton,SIGNAL(clicked()),this,SLOT(SenosrUnitConv()));
 //connect(DisplayBase->IssInfo->HMI,SIGNAL(clicked()),this,SLOT(HMIChange()));
@@ -1229,6 +1230,9 @@ void MainWindow::SensorGroupFrame()
     SensorGroupButton->setText("OK");
 }
 
+void MainWindow::drawSelRecChDailog(){
+}
+
 void MainWindow::OctaveSensorGroupFrame()
 {
     char CHASS[20];
@@ -1380,6 +1384,9 @@ void MainWindow::SensorGroupWind()
 void MainWindow::OctaveGroupWind()
 {
   OctaveSenGroup->show();
+}
+
+void MainWindow::recChanlData(){
 }
 
 void MainWindow::metricConvertion1(int ID)

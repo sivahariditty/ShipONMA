@@ -33,7 +33,7 @@ public:
     QFrame *BaseFrame,*PrintFrame,*RecordFrame,*ReplyFrame,*SenGroupFrame,*EnergyFRame,*UnitFrame,*OctaveSenGroupFrame;
     QTimer *UpdateTimer;
     QLabel *lineGraph,*BarGraph,*ONMAName,*screenshotLabel,*EnergyReplatFile,*RecLabel,*SensorGroupLabel[4],*OctaveSensorGroupLabel[4],*HydLabel7,*AccLabel7,*RecordName,*EnergyFileName,*RecInitcation,*FileDelete,*EnergyFileDelete;
-    QDialog *EnergyDialog,*thresholdPopUpWindow,*trackPopUpWindow,*ScreenShotWindow,*ScreenShotSaveOpt,*RecordDialog,*ReplayDialog,*SenGroup,*UnitCon,*OctaveSenGroup;
+    QDialog *EnergyDialog,*thresholdPopUpWindow,*trackPopUpWindow,*ScreenShotWindow,*ScreenShotSaveOpt,*RecordDialog,*ReplayDialog,*SenGroup,*UnitCon,*OctaveSenGroup, *SelectRecChanel;
     QPushButton *PrintScreen,*PrintCancel,*ReorderButton,*ReplaySTART,*SensorGroupButton,*OctaveSensorGroupButton,*UnitOKButton,*EnergyButton;
     QVBoxLayout *mainLayout ;
     QPixmap originalPixmap;
@@ -117,6 +117,7 @@ public slots:
 void SensorUnitFrame();
 void SensorGroupFrame();
 void OctaveSensorGroupFrame();
+void drawSelRecChDailog();
 
 void PageSelect(int);
  void SetMGroupEnable();
@@ -174,6 +175,7 @@ void PageSelect(int);
 
   void metricConvertion1(int);
   void metricConvertion2(int);
+  void recChanlData();
 
 private:
     Ui::MainWindow *ui;
