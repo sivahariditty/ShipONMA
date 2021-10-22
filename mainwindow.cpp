@@ -1231,6 +1231,29 @@ void MainWindow::SensorGroupFrame()
 }
 
 void MainWindow::drawSelRecChDailog(){
+   QFont font;
+   font.setFamily(QString::fromUtf8("Sans Serif"));
+   font.setBold(false);
+   font.setPointSize(10);
+   font.setPixelSize(12);
+   SelectRecChanel = new QDialog(this);
+   SelectRecChanel->setWindowTitle("Select Channel to Record");
+   SelectRecChanel->setGeometry(QRect(150,100,600,260));
+   SelectRecChanelFrame=new QFrame(SelectRecChanel) ;
+   SelectRecChanelFrame->setMouseTracking(true);
+   SelectRecChanelFrame->setFocusPolicy(Qt::StrongFocus);
+   SelectRecChanelFrame->setGeometry(QRect(0,0,600,260));
+   SelectRecChanelFrame->setStyleSheet(QString::fromUtf8("background-color: rgb(230,230,230);"));
+   SelectRecChanelFrame->setFrameShape(QFrame::StyledPanel);
+   SelectRecChanelFrame->setFrameShadow(QFrame::Raised);
+   SelectChanRec = new QLabel(SelectRecChanelFrame);
+   SelectChanRec->setObjectName(QString::fromUtf8("label"));
+   SelectChanRec->setGeometry(QRect(15, 17,135, 20));
+   SelectChanRec->setFont(font);
+   SelectChanRec->setStyleSheet(QString::fromUtf8("background-color: rgb(230,230,230);\n"
+            "color: rgb(0,0,0);"));
+   SelectChanRec->setText("Select Channel to Record");
+   SelectChanRec->show();
 }
 
 void MainWindow::OctaveSensorGroupFrame()
@@ -1387,6 +1410,7 @@ void MainWindow::OctaveGroupWind()
 }
 
 void MainWindow::recChanlData(){
+  SelectRecChanel->show();
 }
 
 void MainWindow::metricConvertion1(int ID)

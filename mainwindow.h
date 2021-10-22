@@ -30,9 +30,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     StatusPage  *StartPageExecute;
     DisplayWindow *DisplayBase;
-    QFrame *BaseFrame,*PrintFrame,*RecordFrame,*ReplyFrame,*SenGroupFrame,*EnergyFRame,*UnitFrame,*OctaveSenGroupFrame;
+    QFrame *BaseFrame,*PrintFrame,*RecordFrame,*ReplyFrame,*SenGroupFrame,*EnergyFRame,*UnitFrame,*OctaveSenGroupFrame,*SelectRecChanelFrame;
     QTimer *UpdateTimer;
-    QLabel *lineGraph,*BarGraph,*ONMAName,*screenshotLabel,*EnergyReplatFile,*RecLabel,*SensorGroupLabel[4],*OctaveSensorGroupLabel[4],*HydLabel7,*AccLabel7,*RecordName,*EnergyFileName,*RecInitcation,*FileDelete,*EnergyFileDelete;
+    QLabel *lineGraph,*BarGraph,*ONMAName,*screenshotLabel,*EnergyReplatFile,*RecLabel,*SensorGroupLabel[4],*OctaveSensorGroupLabel[4],*HydLabel7,*AccLabel7,*RecordName,*EnergyFileName,*RecInitcation,*FileDelete,*EnergyFileDelete, *SelectChanRec;
     QDialog *EnergyDialog,*thresholdPopUpWindow,*trackPopUpWindow,*ScreenShotWindow,*ScreenShotSaveOpt,*RecordDialog,*ReplayDialog,*SenGroup,*UnitCon,*OctaveSenGroup, *SelectRecChanel;
     QPushButton *PrintScreen,*PrintCancel,*ReorderButton,*ReplaySTART,*SensorGroupButton,*OctaveSensorGroupButton,*UnitOKButton,*EnergyButton;
     QVBoxLayout *mainLayout ;
