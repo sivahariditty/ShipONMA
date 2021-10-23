@@ -10,6 +10,8 @@ char RecorderPathSet[80];
 char BufferPath[1024];
 char ReplayPathSet[1024];
 char RecordPathSet[1024];
+QString ContRecFileName;
+int ContRecSelCh;
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
 {
@@ -167,6 +169,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     connect(DisplayBase->UnitButton,SIGNAL(clicked()),this,SLOT(SenosrUnitConv()));
 //connect(DisplayBase->IssInfo->HMI,SIGNAL(clicked()),this,SLOT(HMIChange()));
     connect(DisplayBase->messageBox1,SIGNAL(clicked()),this,SLOT(SetMGroupEnable()));
+    connect(StRecBtn,SIGNAL(clicked()),this,SLOT(recChanlData()));
 }
 
 void MainWindow::DrawBasePage(QFrame *BaseFrame)
@@ -1433,6 +1436,10 @@ void MainWindow::recChanlData(){
     dialog.setFileMode(QFileDialog::DirectoryOnly);
     dialog.setStyleSheet("background-color:white");
     QString strFileName = dialog.getSaveFileName(this,tr("Save File"),"", tr("All Files (*.*)"));
+    ContRecFileName = strFileName;
+    ContRecSelCh = RecChSel->itemData(RecChSel->currentIndex()).toInt();
+    SelectRecChanel->close();
+    printf("Selected Channed : %d\n",ContRecSelCh);
 }
 
 void MainWindow::shwChSelDialog(){

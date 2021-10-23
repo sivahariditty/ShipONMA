@@ -32,11 +32,14 @@ public:
      void NavDataControl();
      void RecordDataFun();
      void ReplayDataFun();
+     void RecordDataFunCont();
+     void stopRecCont();
      QUdpSocket *socket2,*Sonarsocket,*Recsocket;
     struct ip_mreq group2;
     unsigned int Category1,Subcategory;
     unsigned int iCount,yCount,kCount;
     int32_t DataPtr2,DataBufferCount;
+    unsigned long int SampSetCnt;
 signals:
     
 public slots:
