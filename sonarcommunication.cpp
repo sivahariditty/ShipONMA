@@ -14,14 +14,16 @@ NetworkPacketHeaderType *SonarHeader;
 SonarInterface Sonarint;
 int16_t RecordStartFlag;
 int16_t RecordStartFlagCont;
+int16_t RecordStopFlagCont;
 int IsPtrSet = 0;
 int16_t RecordCompFlag;
+int16_t RecordCompFlagCont;
 extern int16_t RecordProgressBar;
 extern QString ContRecFileName;
 extern int ContRecSelCh;
 
  Recording Records[REC_DATA_SEGLEN];
- Recording *RecordsPtr;
+ int32_t *RecordsPtr;
  SonarDataStructure SonarData;
  extern RecordingControls RecControl;
  int16_t ReplayCompFlag;
@@ -30,6 +32,7 @@ extern int ContRecSelCh;
  extern ControlData Controls[NO_OF_SENSOR];
  extern DelayedSpectrum_Data Del_Controls[NO_OF_SENSOR];
  int16_t RecordSetFlag;
+ int16_t RecordSetFlagCont;
 
 SonarCommunication::SonarCommunication()
 {
@@ -402,27 +405,31 @@ void SonarCommunication::run()
    DataBufferCount=0;
    RecordStartFlag=0;
    RecordStartFlagCont=0;
+   RecordStopFlagCont=0;
 
    //SonarCommunication();
     while(1)
     {
     if(ReplayStartFlag==1)
     {
-      ReplayDataFun();
+      ReplayDataFun(1);
     }
     else
     {
-    RecordDataFun();
+      RecordDataFun();
+      RecordDataFunCont();
+      stopRecCont();
     }
 
     }
 
 }
+
 void SonarCommunication:: RecordDataFun(){
    for(kCount=0;kCount<NO_OF_SENSOR;kCount++){
       if(RecordSetFlag==1){
-       DataBufferCount=0;
-       RecordSetFlag=0;
+         DataBufferCount=0;
+         RecordSetFlag=0;
       }
       if((RecordStartFlag==1)){
          if(Controls[kCount].PostRecStatus[Controls[kCount].RearRecPointer]==true){
@@ -434,61 +441,92 @@ void SonarCommunication:: RecordDataFun(){
             }
             Controls[kCount].PostRecStatus[Controls[kCount].RearRecPointer]=false;
             Controls[kCount].RearRecPointer=(Controls[kCount].RearRecPointer+1)%RawDataBufferSize;
+            RecordProgressBar=DataBufferCount;
+            DataBufferCount=(DataBufferCount+1)%REC_DATA_SEGLEN;
+            if(DataBufferCount==0){
+               fp=fopen(RecControl.RecorderFilePath,"wb+");
+               if(fp==NULL){
+                  printf("\n File Creation Error") ;
+               }
+               fwrite(&Records,sizeof(Records),1,fp);
+               fclose(fp);
+               RecordStartFlag=0;
+               RecordCompFlag=0;
+            }
          }
       }
    }
 }
 
 void SonarCommunication:: RecordDataFunCont(){
-      if(RecordSetFlag==1){
-       DataBufferCount=0;
-       RecordSetFlag=0;
+      if(RecordSetFlagCont==1){
+       DataBufferCountCont=0;
+       RecordSetFlagCont=0;
       }
-      if((RecordStartFlag==1)){
+      if((RecordStartFlagCont==1)){
 	 if(IsPtrSet !=1){
-            RecordsPtr = (Recording *)malloc(sizeof(Recording));
+            RecordsPtr = (int32_t *)malloc(16384*sizeof(int32_t));
 	    IsPtrSet = 1;
 	 }
 	 else{
-            RecordsPtr = (Recording *)realloc(RecordsPtr,sizeof(Recording));
+            RecordsPtr = (int32_t *)realloc(RecordsPtr,(DataBufferCountCont+1)*16384*sizeof(int32_t));
 	 }
          if(Controls[ContRecSelCh].PostRecStatus[Controls[ContRecSelCh].RearRecPointer]==true){
-            RecordsPtr[DataBufferCount].ChannelNo=ContRecSelCh;
-            RecordsPtr[DataBufferCount].SegmentNo=DataBufferCount;
             for(iCount=0;iCount<16384;iCount++){
                DataPtr2=(Controls[ContRecSelCh].RawDataIntBuffer[Controls[ContRecSelCh].RearRecPointer][iCount]);
-               RecordsPtr[DataBufferCount].RecordDataBuffer1[iCount]=DataPtr2;
+               RecordsPtr[DataBufferCountCont] = DataPtr2;
+               RecordsPtr[DataBufferCountCont] = 222;
             }
             Controls[ContRecSelCh].PostRecStatus[Controls[ContRecSelCh].RearRecPointer]=false;
             Controls[ContRecSelCh].RearRecPointer=(Controls[ContRecSelCh].RearRecPointer+1)%RawDataBufferSize;
-            RecordProgressBar=DataBufferCount;
-            DataBufferCount=(DataBufferCount+1)%REC_DATA_SEGLEN;
+	    printf("DataBufferCountCont : %d\n",DataBufferCountCont);
+            DataBufferCountCont=(DataBufferCountCont+1);
          }
       }
+      if(DataBufferCountCont == 2048)
+         stopRecCont();
 }
 
 void SonarCommunication::stopRecCont(){
+   if(RecordStopFlagCont == 1){
+      fp=fopen(ContRecFileName.toStdString().c_str(),"wb+");
+      if(fp==NULL){
+         printf("\n File Creation Error") ;
+      }
+      fwrite(RecordsPtr,DataBufferCountCont*16384*sizeof(int32_t),1,fp);
+      fclose(fp);
+      free(RecordsPtr);
+      RecordStartFlagCont=0;
+      RecordCompFlagCont=0;
+      DataBufferCountCont=0;
+      IsPtrSet = 0;
+      RecordStopFlagCont = 0;
+   }
 }
 
-void SonarCommunication:: ReplayDataFun()
-{
- //printf("\n Iam in Replay Function selscted File=%s",RecControl.ReplayFilePath);
-           fs=fopen(RecControl.ReplayFilePath,"rb+");
-           if(fs==NULL)
-           {
-              printf("\n FILE NOT FOUND ......") ;
-           }
-           else
-           {
-           fread(&Records,sizeof(Records),1,fs);
-           fclose(fs);
-           RecordStartFlag=0;
-           ReplayStartFlag=0;
-
-          // for(int i=0;i<20;i++)
-          // {
-          // printf("\n Replay= %d", Records[i].ChannelNo);
-          // }
-           }
-
+void SonarCommunication:: ReplayDataFun(int opt){
+   if(opt == 1){
+      fs=fopen(RecControl.ReplayFilePath,"rb+");
+      if(fs==NULL){
+         printf("\n FILE NOT FOUND ......") ;
+      }
+      else{
+         fread(&Records,sizeof(Records),1,fs);
+         fclose(fs);
+         RecordStartFlag=0;
+         ReplayStartFlag=0;
+      }
+   }
+   else{
+      fs=fopen(RecControl.ReplayFilePath,"rb+");
+      if(fs==NULL){
+         printf("\n FILE NOT FOUND ......") ;
+      }
+      else{
+         fread(&Records,sizeof(Records),1,fs);
+         fclose(fs);
+         RecordStartFlag=0;
+         ReplayStartFlag=0;
+      }
+   }
 }

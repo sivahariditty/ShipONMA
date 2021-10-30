@@ -35,6 +35,7 @@ extern float  SpcetrumBeatFreq,LofarBeatFreq;
 extern int16_t SpectrumZoomCursor,LofarZoomCursor;
 float SPECZOMM_ALPHA,LOFZOOM_ALPHA;
 extern bool SpectrumZoomCursorStatus,LofarZoomCursorStatus,SpectrumZoomEnable,LofarZoomEnable;
+FILE *frp;
 
 
 int16_t LowerOctaveBand[30]={11,14,18,22,28,35,44,56,70,88,111,140,177,223,281,354,445,561,707,891,1122,1414,1782,2245,2828,3564,4490,5657,7127,8980};
@@ -108,7 +109,7 @@ void SignalProcessingClass::run()
              if(ReplayCompFlag==1)
              {
               ReplayInit();
-              StartRepaly();
+              StartRepalyCont();
              }
              else
              {
@@ -257,7 +258,64 @@ void SignalProcessingClass::StartRepaly()
     ReplayCompFlag=0;
 }
 
+void SignalProcessingClass::StartRepalyCont(){
+   printf("calling StartRepalyCont");
+   int32_t ReplyPtr[16384]; 
+   int32_t testData;
+   frp=fopen("/home/sivahari/test_222.bin","rb+");
+   if(frp==NULL){
+      printf("\n FILE NOT FOUND ......") ;
+   }
+   delDataCnt = 0;
+   rCount=0;
+   ChannelID=(rCount+1);
+   while(!feof(frp)){
+   fread(&ReplyPtr,16384*sizeof(int32_t),1,frp);
+   fread(&testData,sizeof(int32_t),1,frp);
+   for(iCount=0;iCount<16384;iCount++){
+      DataPtr7=(float)ReplyPtr[iCount];
+      printf("data : %d\n",testData);
+      ReplyData[iCount]=(DataPtr7/ADC_Highest_Value);
+      InputData[iCount]= ReplyData[iCount];
+      if(delDataCnt == 0){
+         delData[iCount] = (float)((DataPtr7/ADC_Highest_Value));
+      }
+      else{
+         delData[iCount] += (float)((DataPtr7/ADC_Highest_Value));
+      }
+   }
+   FIRFilter(&GenralFIR1[0],72,&ReplyData[0],&BaseInputData[0],16384);
+   FIRFilter(&GenralFIR1[0],72,&delData[0],&delDataFIR[0],16384);
+   SpectrumProcessing(rCount);
+   delDataCnt ++;
+   if(delDataCnt == DELFACT_I){
+      delSpectrumProcessing(rCount);
+      IsDelData = 1;
+      delDataCnt = 0;
+    }
+    OctaveProcessing(rCount);
+    LofarProcessing(rCount);
+  //delSpectrumProcessing(rCount); //Replay For Delayed Spectrum
+        if(ChannelID<29)
+        {
+            EnergyProcessing(rCount);
+        }
 
+        if(ChannelID==29)
+        {
+      //DemonProcessing(kCount);
+        }
+      //printf("\n Ch %d   %d",ChannelSelected,ChannelID);
+      //if(RecMode==0xFF)
+        {
+       // StartRecordProcessing(kCount,RecEnable,&RecordBuffering[0]);
+        }
+        usleep(DelayMaking);
+      fseek(frp,16384*sizeof(int32_t),SEEK_CUR);
+   }
+    fclose(frp);
+    ReplayCompFlag=0;
+}
 
 void SignalProcessingClass::StartRecordProcessing(int16_t CH_ID,int16_t Enable,int32_t *DataBuffer)
 {

@@ -12,6 +12,9 @@ char ReplayPathSet[1024];
 char RecordPathSet[1024];
 QString ContRecFileName;
 int ContRecSelCh;
+extern int16_t RecordSetFlagCont;
+extern int16_t RecordStartFlagCont;
+extern int16_t RecordStopFlagCont;
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
 {
@@ -1432,18 +1435,24 @@ void MainWindow::OctaveGroupWind()
 }
 
 void MainWindow::recChanlData(){
-    QFileDialog dialog(this);
-    dialog.setFileMode(QFileDialog::DirectoryOnly);
-    dialog.setStyleSheet("background-color:white");
-    QString strFileName = dialog.getSaveFileName(this,tr("Save File"),"", tr("All Files (*.*)"));
-    ContRecFileName = strFileName;
-    ContRecSelCh = RecChSel->itemData(RecChSel->currentIndex()).toInt();
-    SelectRecChanel->close();
-    printf("Selected Channed : %d\n",ContRecSelCh);
+       QFileDialog dialog(this);
+       dialog.setFileMode(QFileDialog::DirectoryOnly);
+       dialog.setStyleSheet("background-color:white");
+       QString strFileName = dialog.getSaveFileName(this,tr("Save File"),"", tr("All Files (*.*)"));
+       ContRecFileName = strFileName;
+       ContRecSelCh = RecChSel->itemData(RecChSel->currentIndex()).toInt();
+       SelectRecChanel->close();
+       RecordStartFlagCont = 1;
+       RecordSetFlagCont = 1;
 }
 
 void MainWindow::shwChSelDialog(){
-  SelectRecChanel->show();
+   if(RecordStartFlagCont == 0){
+      SelectRecChanel->show();
+   }
+   else if(RecordStopFlagCont == 0){
+      RecordStopFlagCont = 1;
+   }
 }
 
 void MainWindow::metricConvertion1(int ID)

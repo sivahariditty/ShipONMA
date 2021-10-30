@@ -31,14 +31,14 @@ public:
      void run();            /**< SonarInterface Thread Automatic Function */
      void NavDataControl();
      void RecordDataFun();
-     void ReplayDataFun();
+     void ReplayDataFun(int);
      void RecordDataFunCont();
      void stopRecCont();
      QUdpSocket *socket2,*Sonarsocket,*Recsocket;
     struct ip_mreq group2;
     unsigned int Category1,Subcategory;
     unsigned int iCount,yCount,kCount;
-    int32_t DataPtr2,DataBufferCount;
+    int32_t DataPtr2,DataBufferCount,DataBufferCountCont;
     unsigned long int SampSetCnt;
 signals:
     

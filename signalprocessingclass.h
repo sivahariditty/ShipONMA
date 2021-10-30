@@ -41,6 +41,7 @@ public:
      void StartInitProcessing();
      void ReplayInit();
      void StartReplayProcessing();
+     void StartRepalyCont();
      void StartRecordProcessing(int16_t,int16_t,int32_t*);
      void SpectrumProcessing(int16_t);
      void delSpectrumProcessing(int16_t);
