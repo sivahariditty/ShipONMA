@@ -178,6 +178,7 @@ void PageSelect(int);
   void metricConvertion2(int);
   void recChanlData();
   void shwChSelDialog();
+  void freezPlot();
 
 private:
     Ui::MainWindow *ui;

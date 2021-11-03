@@ -109,7 +109,8 @@ void SignalProcessingClass::run()
              if(ReplayCompFlag==1)
              {
               ReplayInit();
-              StartRepalyCont();
+              //StartRepalyCont();
+              StartRepaly();
              }
              else
              {
@@ -262,19 +263,20 @@ void SignalProcessingClass::StartRepalyCont(){
    printf("calling StartRepalyCont");
    int32_t ReplyPtr[16384]; 
    int32_t testData;
-   frp=fopen("/home/sivahari/test_222.bin","rb+");
+   frp=fopen("/home/sivahari/test_01.bin","rb+");
    if(frp==NULL){
       printf("\n FILE NOT FOUND ......") ;
    }
    delDataCnt = 0;
    rCount=0;
    ChannelID=(rCount+1);
+   fread(&testData,4,1,frp);
+      if(testData != 0)
+      printf("data : %d\n",testData);
    while(!feof(frp)){
    fread(&ReplyPtr,16384*sizeof(int32_t),1,frp);
-   fread(&testData,sizeof(int32_t),1,frp);
    for(iCount=0;iCount<16384;iCount++){
       DataPtr7=(float)ReplyPtr[iCount];
-      printf("data : %d\n",testData);
       ReplyData[iCount]=(DataPtr7/ADC_Highest_Value);
       InputData[iCount]= ReplyData[iCount];
       if(delDataCnt == 0){

@@ -66,7 +66,7 @@ public:
 
         ThresholdSettingWindow *ThresholdSet;
         TrackWindowSetting *TrackWindowSet;
-        QPushButton *SensorGroupset,*UnitButton,*SensorGroup,*POPTrackWindow,*EnergyCursorSave,*POPThresoldWindow,*messageBox1,*ReplayButton,*RecordButton,*OctaveButton, *RecChnlButton;
+        QPushButton *SensorGroupset,*UnitButton,*SensorGroup,*POPTrackWindow,*EnergyCursorSave,*POPThresoldWindow,*messageBox1,*ReplayButton,*RecordButton,*OctaveButton, *RecChnlButton, *LFreeze;
         ISSInfoClass *IssInfo;
         explicit DisplayWindow(QFrame *);
         QFrame *MainDisplayHFrame,*MaskHFrame[95],*MainDisplayVFrame,*MaskVFrame[26];

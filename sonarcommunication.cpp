@@ -23,7 +23,7 @@ extern QString ContRecFileName;
 extern int ContRecSelCh;
 
  Recording Records[REC_DATA_SEGLEN];
- int32_t *RecordsPtr;
+ long int *RecordsPtr;
  SonarDataStructure SonarData;
  extern RecordingControls RecControl;
  int16_t ReplayCompFlag;
@@ -412,13 +412,13 @@ void SonarCommunication::run()
     {
     if(ReplayStartFlag==1)
     {
-      ReplayDataFun(1);
+      ReplayDataFun(2);
     }
     else
     {
       RecordDataFun();
-      RecordDataFunCont();
-      stopRecCont();
+      //RecordDataFunCont();
+      //stopRecCont();
     }
 
     }
@@ -462,14 +462,18 @@ void SonarCommunication:: RecordDataFunCont(){
       if(RecordSetFlagCont==1){
        DataBufferCountCont=0;
        RecordSetFlagCont=0;
+      fp=fopen(ContRecFileName.toStdString().c_str(),"wb+");
       }
       if((RecordStartFlagCont==1)){
+	       int valT [] = {333,222,111};
+               fwrite(valT,3*sizeof(int),1,fp);
+	       fseek(fp,3*sizeof(int),SEEK_CUR) ;
 	 if(IsPtrSet !=1){
-            RecordsPtr = (int32_t *)malloc(16384*sizeof(int32_t));
+            RecordsPtr = (long int *)malloc(16384*4);
 	    IsPtrSet = 1;
 	 }
 	 else{
-            RecordsPtr = (int32_t *)realloc(RecordsPtr,(DataBufferCountCont+1)*16384*sizeof(int32_t));
+            RecordsPtr = (long int *)realloc(RecordsPtr,(DataBufferCountCont+1)*16384*4);
 	 }
          if(Controls[ContRecSelCh].PostRecStatus[Controls[ContRecSelCh].RearRecPointer]==true){
             for(iCount=0;iCount<16384;iCount++){
@@ -489,11 +493,11 @@ void SonarCommunication:: RecordDataFunCont(){
 
 void SonarCommunication::stopRecCont(){
    if(RecordStopFlagCont == 1){
-      fp=fopen(ContRecFileName.toStdString().c_str(),"wb+");
+      //fp=fopen(ContRecFileName.toStdString().c_str(),"wb+");
       if(fp==NULL){
          printf("\n File Creation Error") ;
       }
-      fwrite(RecordsPtr,DataBufferCountCont*16384*sizeof(int32_t),1,fp);
+      //fwrite(RecordsPtr,DataBufferCountCont*16384*sizeof(int32_t),1,fp);
       fclose(fp);
       free(RecordsPtr);
       RecordStartFlagCont=0;

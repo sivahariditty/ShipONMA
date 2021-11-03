@@ -168,6 +168,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
 
     connect(DisplayBase->OctaveButton,SIGNAL(clicked()),this,SLOT(OctaveGroupWind()));
     connect(DisplayBase->RecChnlButton,SIGNAL(clicked()),this,SLOT(shwChSelDialog()));
+    connect(DisplayBase->LFreeze,SIGNAL(clicked()),this,SLOT(freezPlot()));
     connect(DisplayBase->SensorGroup,SIGNAL(clicked()),this,SLOT(SensorGroupWind()));
     connect(DisplayBase->UnitButton,SIGNAL(clicked()),this,SLOT(SenosrUnitConv()));
 //connect(DisplayBase->IssInfo->HMI,SIGNAL(clicked()),this,SLOT(HMIChange()));
@@ -182,6 +183,35 @@ void MainWindow::DrawBasePage(QFrame *BaseFrame)
     palette->setColor(QPalette::Background,Qt::black);
     BaseFrame->setPalette(*palette);
     BaseFrame->setGeometry(QRect(0,0,1024,768));
+}
+
+void MainWindow::freezPlot(){
+   if(DisplayBase->SelectedPageID == 0){
+      if(DisplayBase->graphPlot->LofDyn == 1) {
+         DisplayBase->graphPlot->LofDyn = 0;
+	 DisplayBase->LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(255,0,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
+      }
+      else{
+         DisplayBase->graphPlot->LofDyn = 1;
+	 DisplayBase->LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
+      }
+   }
+   else if(DisplayBase->SelectedPageID == 1){
+   }
+   else if(DisplayBase->SelectedPageID == 6){
+      if(DisplayBase->graphPlot->GDyn == 1) {
+         DisplayBase->graphPlot->GDyn = 0;
+	 DisplayBase->LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(255,0,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
+      }
+      else{
+         DisplayBase->graphPlot->GDyn = 1;
+	 DisplayBase->LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
+      }
+   }
 }
 
 void MainWindow::CallStatusPage()

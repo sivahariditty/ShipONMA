@@ -56,7 +56,7 @@ public:
     int32_t IntHistroy[6][MainWaterfallPixMapSize][2048]; /**< Integrated Waterfall Histroy array used for Waterfall draw */
     int32_t IntSpecHistroy[6][MainWaterfallPixMapSize][2048]; /**< Integrated Spectrum Waterfall Histroy array used for Waterfall draw */
     int16_t RandomValue_,Max_,Min_,xCount,yCount;
-    int GDyn;
+    int GDyn, LofDyn;
 
     char NameLabel[10];
     QLabel *TrackName[NO_OF_TRACK];
@@ -84,12 +84,12 @@ public:
     QGraphicsPolygonItem *TrackS1,*TrackS2;
     float xDelFreq_val[1200], yDelAmp_val[1200], DelRawData_X_val, DelRawData_Y_val;
     int l;
-
     QGraphicsLineItem *Line1,*Line2;
     QGraphicsView *LofaraMainGraphicsView[NO_OF_TRACK],*LofaraMainThresholdGraphicsView[8];
     QGraphicsScene *LofaraMainGraphicsScene[NO_OF_TRACK],*LofaraMainThresholdGraphicsScene[8];
     QCPGraph *graph1[4];
     QCPBars *GraphBars[4];
+    
     double SampleOctaveValue;
 
      void  LofarDisplaySelect();
@@ -139,6 +139,7 @@ signals:
     
 public slots:
      void freezeDelSpecPlot(QMouseEvent*);
+     void freezeLoFarPlot(QMouseEvent* m);
 
 };
 

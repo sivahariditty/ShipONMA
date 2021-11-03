@@ -56,6 +56,7 @@ GraphPlotClass::GraphPlotClass(QWidget *parent):QWidget(parent)
    DrawOctaveEnergyBandPlot();
    SetHarmonicWaterfallCursor();
    GDyn = 1;
+   LofDyn = 1;
 }
 
 
@@ -73,6 +74,24 @@ void GraphPlotClass::LofarDisplaySelect()
     DrawGraphWidget(LofarZoomGraphLegend,30,330,420,LOFAR_yGRAPH_RANGE,0,-1);
   //DrawGraphWidget(LofarZoomGraphLegend,170,285,420,LOFAR_yGRAPH_RANGE);
     LofarGraphLegend->xAxis->setRange(0,1200);
+    LofarGraphLegend->xAxis->setVisible(true);
+    LofarGraphLegend->xAxis->setBasePen(QPen(Qt::white));
+    LofarGraphLegend->xAxis->setTickPen(QPen(Qt::white));
+    LofarGraphLegend->xAxis->setSubTickPen(QPen(Qt::white));
+    LofarGraphLegend->xAxis->setTickLabelColor(Qt::white);
+    LofarGraphLegend->xAxis->ticker()->setTickCount(10);
+    LofarGraphLegend->xAxis->setTicks(true);
+    LofarGraphLegend->xAxis->grid()->setPen(QPen(QColor(30, 30, 30)));
+    LofarGraphLegend->setBackground(Qt::black);
+    LofarGraphLegend->show();
+    LofarGraphLegend->xAxis->setTickLabelColor(Qt::white);
+    LofarGraphLegend->xAxis->setVisible(true);
+    LofarGraphLegend->xAxis->setTicks(true);
+    LofarGraphLegend->xAxis->setTickLabels(true);
+    LofarGraphLegend->setInteraction(QCP::iRangeDrag, true);
+    LofarGraphLegend->setInteraction(QCP::iRangeZoom, true);;
+    LofarGraphLegend->axisRect()->setRangeDrag(Qt::Horizontal);
+    LofarGraphLegend->axisRect()->setRangeZoom(Qt::Horizontal);
     DrawZoomMainXScale(LofarZoomGraphLegend);
     DrawZoomMainYScale(LofarZoomGraphLegend);
     DrawLofarZoomScaleLabel() ;
@@ -89,6 +108,25 @@ void GraphPlotClass::SpectrumDisplaySelect()
     SpectrumWaterFallLegend->yAxis->ticker()->setTickCount(1);
     DrawGraphWidget(SpectrumZoomGraphLegend,30,330,512,SPECTRUM_yGRAPH_RANGE,0,-1);
     SpectrumGraphLegend->xAxis->setRange(0,4000);
+    SpectrumGraphLegend->xAxis->setVisible(true);
+    SpectrumGraphLegend->xAxis->setBasePen(QPen(Qt::white));
+    SpectrumGraphLegend->xAxis->setTickPen(QPen(Qt::white));
+    SpectrumGraphLegend->xAxis->setSubTickPen(QPen(Qt::white));
+    SpectrumGraphLegend->xAxis->setTickLabelColor(Qt::white);
+    SpectrumGraphLegend->xAxis->ticker()->setTickCount(10);
+    SpectrumGraphLegend->xAxis->setTicks(true);
+    SpectrumGraphLegend->xAxis->grid()->setPen(QPen(QColor(30, 30, 30)));
+    SpectrumGraphLegend->setBackground(Qt::black);
+    SpectrumGraphLegend->show();
+    SpectrumGraphLegend->xAxis->setTickLabelColor(Qt::white);
+    SpectrumGraphLegend->xAxis->setVisible(true);
+    SpectrumGraphLegend->xAxis->setTicks(true);
+    SpectrumGraphLegend->xAxis->setTickLabels(true);
+    SpectrumGraphLegend->setInteraction(QCP::iRangeDrag, true);
+    SpectrumGraphLegend->setInteraction(QCP::iRangeZoom, true);;
+    SpectrumGraphLegend->axisRect()->setRangeDrag(Qt::Horizontal);
+    SpectrumGraphLegend->axisRect()->setRangeZoom(Qt::Horizontal);
+
     SpectrumWaterFallLegend->xAxis->setRange(0,4000);
   //DrawGraphWidget(SpectrumZoomGraphLegend,170,285,512,SPECTRUM_yGRAPH_RANGE);
     DrawSpectrumWaterFallPoints();
@@ -282,12 +320,13 @@ void GraphPlotClass::DrawMainXScale(QCustomPlot *ScaleDraw)
 {
     GraphXScaleFrame=new QFrame(ScaleDraw);
     GraphXScaleFrame->setGeometry(QRect(33,127,705,25));
-    GraphXScaleFrame->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);"));
+    GraphXScaleFrame->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
     GraphXScaleFrame->show();
+    GraphXScaleFrame->setWindowFlags(Qt::FramelessWindowHint);
     GraphXScale = new QFrame(GraphXScaleFrame);
     GraphXScale->setGeometry(QRect(6,0,697,8));
     GraphXScale->setFrameShape(QFrame::HLine);
-    GraphXScale->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);"));
+    GraphXScale->setStyleSheet(QString::fromUtf8("background-color: transparent;"));
     GraphXScale->setFrameShadow(QFrame::Sunken);
     GraphXScale->show();
     xTicks1=new QFrame(GraphXScaleFrame);
@@ -308,27 +347,27 @@ void GraphPlotClass::DrawMainXScale(QCustomPlot *ScaleDraw)
 
     Lofar_Scale_TickLabel1 = new QLabel(GraphXScaleFrame);
     Lofar_Scale_TickLabel1->setObjectName(QString::fromUtf8("label"));
-    Lofar_Scale_TickLabel1->setGeometry(QRect(4,10,40,15));
-    Lofar_Scale_TickLabel1->setText("0");
-    Lofar_Scale_TickLabel1->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
-    "color: rgb(255, 255, 255);"));
-    Lofar_Scale_TickLabel1->show();
+    //Lofar_Scale_TickLabel1->setGeometry(QRect(4,10,40,15));
+    //Lofar_Scale_TickLabel1->setText("0");
+    //Lofar_Scale_TickLabel1->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+    //"color: rgb(255, 255, 255);"));
+    //Lofar_Scale_TickLabel1->show();
 
     Lofar_Scale_TickLabel2 = new QLabel(GraphXScaleFrame);
-    Lofar_Scale_TickLabel2->setObjectName(QString::fromUtf8("label"));
-    Lofar_Scale_TickLabel2->setGeometry(QRect(337,10,40,15));
-    Lofar_Scale_TickLabel2->setText("600");
-    Lofar_Scale_TickLabel2->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
-    "color: rgb(255, 255, 255);"));
-    Lofar_Scale_TickLabel2->show();
+    //Lofar_Scale_TickLabel2->setObjectName(QString::fromUtf8("label"));
+    //Lofar_Scale_TickLabel2->setGeometry(QRect(337,10,40,15));
+    //Lofar_Scale_TickLabel2->setText("600");
+    //Lofar_Scale_TickLabel2->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+    //"color: rgb(255, 255, 255);"));
+    //Lofar_Scale_TickLabel2->show();
 
     Lofar_Scale_TickLabel3 = new QLabel(GraphXScaleFrame);
     Lofar_Scale_TickLabel3->setObjectName(QString::fromUtf8("label"));
-    Lofar_Scale_TickLabel3->setGeometry(QRect(670,10,40,15));
-    Lofar_Scale_TickLabel3->setText("1200");
-    Lofar_Scale_TickLabel3->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
-    "color: rgb(255, 255, 255);"));
-    Lofar_Scale_TickLabel3->show();
+    //Lofar_Scale_TickLabel3->setGeometry(QRect(670,10,40,15));
+    //Lofar_Scale_TickLabel3->setText("1200");
+    //Lofar_Scale_TickLabel3->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+    //"color: rgb(255, 255, 255);"));
+    //Lofar_Scale_TickLabel3->show();
 
     GraphXScaleFrame->show();
 }
@@ -1132,6 +1171,16 @@ void GraphPlotClass::freezeDelSpecPlot(QMouseEvent* m){
    }
 }
 
+void GraphPlotClass::freezeLoFarPlot(QMouseEvent* m){
+   if(LofDyn == 1) {
+      LofDyn = 0;
+   }
+   else{
+      LofDyn = 1;
+   }
+}
+
+
 void GraphPlotClass::ShowSpectrumZoomDisplay()
 {
         for (count_ = 0; count_ <1050; count_++)
@@ -1173,6 +1222,8 @@ void GraphPlotClass::ShowIntSpectrumDisplay(bool Status,int16_t CH_ID,int16_t Co
 
 void GraphPlotClass::ShowLofarDisplay(bool Status,int16_t CH_ID)
 {
+   if(LofDyn == 1){
+	
     if(Status==true)
     {
         for (count_ = 0; count_ <1100; count_++)
@@ -1201,6 +1252,7 @@ void GraphPlotClass::ShowLofarDisplay(bool Status,int16_t CH_ID)
         LofarGraphLegend->show();
         LofarPlotWaterFallPoints(0,&xFreq[0],&LofarWaterfalHisto[CH_ID-1][0],1100,1.11255);
     }
+   }
 }
 
 

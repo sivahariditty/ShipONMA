@@ -79,6 +79,7 @@ DisplayWindow::DisplayWindow(QFrame *parent)
     connect(ExportCSV_Button_1,SIGNAL(clicked()),this, SLOT (ExportDelayedSpectrum_to_CSV()));
     connect(ExportCSV_Button_2,SIGNAL(clicked()),this, SLOT (ExportRawData_to_CSV()));
     connect(graphPlot->RawDataDelSpectGraphLegend,SIGNAL(mouseDoubleClick(QMouseEvent *)),graphPlot, SLOT (freezeDelSpecPlot(QMouseEvent*)));
+    connect(graphPlot->LofarGraphLegend,SIGNAL(mouseDoubleClick(QMouseEvent *)),graphPlot, SLOT (freezeLoFarPlot(QMouseEvent*)));
 }
 
 void DisplayWindow::DisplayPageInit()
@@ -822,6 +823,17 @@ void DisplayWindow::AnnotationControls()
                                                           "color: rgb(0, 0, 0);"));
             RecChnlButton->setFont(font);
             RecChnlButton->setText("CHNL REC");
+
+	    LFreeze = new QPushButton(Annotation);
+            LFreeze->setObjectName(QString::fromUtf8(""));
+            LFreeze->setGeometry(QRect(60,320, 125, 30));
+            LFreeze->setText(QApplication::translate("Frame", "Replay", 0, QApplication::UnicodeUTF8));
+            LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
+            LFreeze->setFont(font);
+            LFreeze->setText("FREEZE");
+            LFreeze->show();
+
 
 
         UnitButton =new QPushButton(Annotation);
