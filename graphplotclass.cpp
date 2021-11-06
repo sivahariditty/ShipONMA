@@ -57,6 +57,7 @@ GraphPlotClass::GraphPlotClass(QWidget *parent):QWidget(parent)
    SetHarmonicWaterfallCursor();
    GDyn = 1;
    LofDyn = 1;
+   SpecDyn = 1;
 }
 
 
@@ -1094,6 +1095,7 @@ void GraphPlotClass::DrawZoomMainYScale(QCustomPlot *ScaleDraw)
 
 void GraphPlotClass::ShowSpectrumDisplay(bool Status,int16_t CH_ID)
 {
+    if(SpecDyn == 1){
     if(Status==true)
     {
     for (count_ = 0; count_ <1049; count_++)
@@ -1126,6 +1128,7 @@ void GraphPlotClass::ShowSpectrumDisplay(bool Status,int16_t CH_ID)
         SpectrumGraphLegend->graph(0)->setData(xFreq,yAmp);
         SpectrumGraphLegend->show();
         PlotWaterFallPoints(1,&xFreq[0],&SpectrumMainWaterfallDataPlot[CH_ID-1][0],1049,0.6620);
+    }
     }
 }
 

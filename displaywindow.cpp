@@ -2004,6 +2004,13 @@ void DisplayWindow::PageSelectFunction(int Select_ID)
              SetTrackFrame->hide();
              OctaveFrame->hide();
              RawDataFrame->hide();
+	     graphPlot->LofDyn = 1;
+             LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
+	     graphPlot->GDyn = 1;
+             LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
+
              break;
     case 1:
              SelectedPageID=1;
@@ -2015,6 +2022,12 @@ void DisplayWindow::PageSelectFunction(int Select_ID)
              SetTrackFrame->hide();
              OctaveFrame->hide();
              RawDataFrame->hide();
+	     graphPlot->LofDyn = 1;
+             LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
+	     graphPlot->GDyn = 1;
+             LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
              break;
 
     case 2:
@@ -2036,6 +2049,12 @@ void DisplayWindow::PageSelectFunction(int Select_ID)
                          MGroupSensor[1]->show();
                          MGroupSensor[2]->show();
                          MGroupSensor[3]->show();
+	     graphPlot->LofDyn = 1;
+             LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
+	     graphPlot->GDyn = 1;
+             LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
                          break;
     case 3:
                          SelectedPageID=3;
@@ -2056,6 +2075,12 @@ void DisplayWindow::PageSelectFunction(int Select_ID)
                          MGroupSensor[1]->show();
                          MGroupSensor[2]->show();
                          MGroupSensor[3]->show();
+	     graphPlot->LofDyn = 1;
+             LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
+	     graphPlot->GDyn = 1;
+             LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
                          break;
 
     case 4:
@@ -2069,6 +2094,12 @@ void DisplayWindow::PageSelectFunction(int Select_ID)
                       SpectrumFrame->hide();
                       LofarFrame->hide();
                       RawDataFrame->hide();
+	     graphPlot->LofDyn = 1;
+             LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
+	     graphPlot->GDyn = 1;
+             LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
                       break;
 
 
@@ -2082,6 +2113,12 @@ void DisplayWindow::PageSelectFunction(int Select_ID)
                       SpectrumFrame->hide();
                       LofarFrame->hide();
                       RawDataFrame->hide();
+	     graphPlot->LofDyn = 1;
+             LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
+	     graphPlot->GDyn = 1;
+             LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
                       break;
 
      case 6:         SelectedPageID = 6;
@@ -2094,6 +2131,12 @@ void DisplayWindow::PageSelectFunction(int Select_ID)
                      IntLofarFrame->hide();
                      SpectrumFrame->hide();
                      LofarFrame->hide();
+	     graphPlot->LofDyn = 1;
+             LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
+	     graphPlot->GDyn = 1;
+             LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
                      break;
 
      default: break;

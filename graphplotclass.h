@@ -56,7 +56,7 @@ public:
     int32_t IntHistroy[6][MainWaterfallPixMapSize][2048]; /**< Integrated Waterfall Histroy array used for Waterfall draw */
     int32_t IntSpecHistroy[6][MainWaterfallPixMapSize][2048]; /**< Integrated Spectrum Waterfall Histroy array used for Waterfall draw */
     int16_t RandomValue_,Max_,Min_,xCount,yCount;
-    int GDyn, LofDyn;
+    int GDyn, LofDyn,SpecDyn;
 
     char NameLabel[10];
     QLabel *TrackName[NO_OF_TRACK];

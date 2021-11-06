@@ -199,6 +199,17 @@ void MainWindow::freezPlot(){
       }
    }
    else if(DisplayBase->SelectedPageID == 1){
+     if(DisplayBase->graphPlot->SpecDyn == 1) {
+         DisplayBase->graphPlot->SpecDyn = 0;
+         DisplayBase->LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(255,0,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
+      }
+      else{
+         DisplayBase->graphPlot->SpecDyn = 1;
+         DisplayBase->LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
+      }
+
    }
    else if(DisplayBase->SelectedPageID == 6){
       if(DisplayBase->graphPlot->GDyn == 1) {
