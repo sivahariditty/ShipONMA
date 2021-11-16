@@ -22,11 +22,16 @@
 #include<unistd.h>
 #include<fcntl.h>
 #include<errno.h>
+#include <iostream>
+#include <fstream>
+using namespace std;
 
 class SonarCommunication : public QThread
 {
     Q_OBJECT
 public:
+     ofstream RecFile;
+     ifstream RepFile;
      SonarCommunication();
      void run();            /**< SonarInterface Thread Automatic Function */
      void NavDataControl();
