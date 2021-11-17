@@ -16,6 +16,9 @@
 #define DELFACT_I 23
 
 #define ADC_Highest_Value 8388607
+#include <iostream>
+#include <fstream>
+using namespace std;
 
 class SignalProcessingClass : public QThread
 {
@@ -24,7 +27,7 @@ class SignalProcessingClass : public QThread
 public:
 
      SignalProcessingClass();
-
+     ifstream RepFile; 
      int16_t LftZoomValue,SpectrumZoomValue,iCount,yCount,zCount,rCount,kCount,jCount,xCount,ChannelID,datalength_,ChannelIndex[61],SpectrumZoomChannelIndex,LofarZoomChannelIndex,LofarChannelIndex[61];
      int16_t StartPos,EndPos,SampleLen,TrackFreqData,ThresholdAmpData,ThresholdFreqData,TrackAmpData,TrackStartBin,TrackEndBin,ThresholdStartBin,ThresholdEndBin;
      float fCount,aCount,ftCount,atCount,EngQuantisationValue;

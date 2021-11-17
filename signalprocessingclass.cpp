@@ -263,7 +263,7 @@ void SignalProcessingClass::StartRepalyCont(){
    printf("calling StartRepalyCont");
    int32_t ReplyPtr[16384]; 
    int32_t testData;
-   frp=fopen("/home/sivahari/test_01.bin","rb+");
+   RepFile.open("/home/sivahari/firsttextfile.txt");
    if(frp==NULL){
       printf("\n FILE NOT FOUND ......") ;
    }

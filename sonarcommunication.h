@@ -31,7 +31,6 @@ class SonarCommunication : public QThread
     Q_OBJECT
 public:
      ofstream RecFile;
-     ifstream RepFile;
      SonarCommunication();
      void run();            /**< SonarInterface Thread Automatic Function */
      void NavDataControl();

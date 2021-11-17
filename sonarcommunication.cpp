@@ -416,8 +416,8 @@ void SonarCommunication::run()
     }
     else
     {
-      RecordDataFun();
-      //RecordDataFunCont();
+      //RecordDataFun();
+      RecordDataFunCont();
       //stopRecCont();
     }
 
@@ -462,28 +462,17 @@ void SonarCommunication:: RecordDataFunCont(){
       if(RecordSetFlagCont==1){
        DataBufferCountCont=0;
        RecordSetFlagCont=0;
-      fp=fopen(ContRecFileName.toStdString().c_str(),"wb+");
+      //fp=fopen(ContRecFileName.toStdString().c_str(),"wb+");
+      RecFile.open(ContRecFileName.toStdString().c_str());
       }
       if((RecordStartFlagCont==1)){
-	       int valT [] = {333,222,111};
-               fwrite(valT,3*sizeof(int),1,fp);
-	       fseek(fp,3*sizeof(int),SEEK_CUR) ;
-	 if(IsPtrSet !=1){
-            RecordsPtr = (long int *)malloc(16384*4);
-	    IsPtrSet = 1;
-	 }
-	 else{
-            RecordsPtr = (long int *)realloc(RecordsPtr,(DataBufferCountCont+1)*16384*4);
-	 }
          if(Controls[ContRecSelCh].PostRecStatus[Controls[ContRecSelCh].RearRecPointer]==true){
             for(iCount=0;iCount<16384;iCount++){
                DataPtr2=(Controls[ContRecSelCh].RawDataIntBuffer[Controls[ContRecSelCh].RearRecPointer][iCount]);
-               RecordsPtr[DataBufferCountCont] = DataPtr2;
-               RecordsPtr[DataBufferCountCont] = 222;
+	       RecFile << DataPtr2 <<"\n";
             }
             Controls[ContRecSelCh].PostRecStatus[Controls[ContRecSelCh].RearRecPointer]=false;
             Controls[ContRecSelCh].RearRecPointer=(Controls[ContRecSelCh].RearRecPointer+1)%RawDataBufferSize;
-	    printf("DataBufferCountCont : %d\n",DataBufferCountCont);
             DataBufferCountCont=(DataBufferCountCont+1);
          }
       }
@@ -498,8 +487,7 @@ void SonarCommunication::stopRecCont(){
          printf("\n File Creation Error") ;
       }
       //fwrite(RecordsPtr,DataBufferCountCont*16384*sizeof(int32_t),1,fp);
-      fclose(fp);
-      free(RecordsPtr);
+      RecFile.close();
       RecordStartFlagCont=0;
       RecordCompFlagCont=0;
       DataBufferCountCont=0;
