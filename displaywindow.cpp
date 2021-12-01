@@ -824,6 +824,16 @@ void DisplayWindow::AnnotationControls()
             RecChnlButton->setFont(font);
             RecChnlButton->setText("CHNL REC");
 
+	    RecChnlButton =new QPushButton(Annotation);
+            RecChnlButton->setObjectName(QString::fromUtf8("CHNL REC"));
+            RecChnlButton->setGeometry(QRect(60,280, 125, 30));
+            RecChnlButton->setText(QApplication::translate("Frame", "Replay", 0, QApplication::UnicodeUTF8));
+            RecChnlButton->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
+                                                          "color: rgb(0, 0, 0);"));
+            RecChnlButton->setFont(font);
+            RecChnlButton->setText("CHNL REC");
+
+
 	    LFreeze = new QPushButton(Annotation);
             LFreeze->setObjectName(QString::fromUtf8(""));
             LFreeze->setGeometry(QRect(60,320, 125, 30));

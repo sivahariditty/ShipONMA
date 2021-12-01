@@ -48,7 +48,7 @@ SonarCommunication::SonarCommunication()
     SonarAddr.setAddress("10.7.21.27");
     QHostAddress BrodcastRecpAddr;
     BrodcastRecpAddr.setAddress("10.7.21.255");
-    socket2=new QUdpSocket(this);
+    /*socket2=new QUdpSocket(this);
     Sonarsocket=new QUdpSocket(this);
     Recsocket=new QUdpSocket(this);
 
@@ -68,7 +68,7 @@ SonarCommunication::SonarCommunication()
     else
     {
         printf(" \n Adding SONAR Communication ESI multicast group succuss \n");
-    }
+    }*/ //commented by sivahari on 30-11-2021 due to segmentation fault
 
 }
 
