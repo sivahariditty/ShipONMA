@@ -764,7 +764,7 @@ void DisplayWindow::AnnotationControls()
             EnergyCursorSave->setText(" Histogram Update");
 
             POPThresoldWindow = new QPushButton(Annotation);
-            POPThresoldWindow->setGeometry(QRect(60, 40,125,30));
+            POPThresoldWindow->setGeometry(QRect(60, 10,125,30));
             POPThresoldWindow->setDefault(true);
             POPThresoldWindow->setFlat(false);
             POPThresoldWindow->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
@@ -773,7 +773,7 @@ void DisplayWindow::AnnotationControls()
             POPThresoldWindow->setText("Threshold Set");
 
             POPTrackWindow = new QPushButton(Annotation);
-            POPTrackWindow->setGeometry(QRect(60, 80, 125, 30));
+            POPTrackWindow->setGeometry(QRect(60, 50, 125, 30));
             POPTrackWindow->setDefault(true);
             POPTrackWindow->setFlat(false);
             POPTrackWindow->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
@@ -783,7 +783,7 @@ void DisplayWindow::AnnotationControls()
 
             RecordButton =new QPushButton(Annotation);
             RecordButton->setObjectName(QString::fromUtf8("RECORD"));
-            RecordButton->setGeometry(QRect(60, 120, 125, 30));
+            RecordButton->setGeometry(QRect(60, 90, 125, 30));
             RecordButton->setText(QApplication::translate("Frame", "Record", 0, QApplication::UnicodeUTF8));
             RecordButton->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
                                                           "color: rgb(0, 0, 0);"));
@@ -791,7 +791,7 @@ void DisplayWindow::AnnotationControls()
 
             ReplayButton =new QPushButton(Annotation);
             ReplayButton->setObjectName(QString::fromUtf8("REPLAY"));
-            ReplayButton->setGeometry(QRect(60, 160, 125, 30));
+            ReplayButton->setGeometry(QRect(60, 130, 125, 30));
             ReplayButton->setText(QApplication::translate("Frame", "Replay", 0, QApplication::UnicodeUTF8));
             ReplayButton->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
                                                           "color: rgb(0, 0, 0);"));
@@ -799,7 +799,7 @@ void DisplayWindow::AnnotationControls()
 
             SensorGroup =new QPushButton(Annotation);
             SensorGroup->setObjectName(QString::fromUtf8("REPLAY"));
-            SensorGroup->setGeometry(QRect(60, 200, 125, 30));
+            SensorGroup->setGeometry(QRect(60, 170, 125, 30));
             SensorGroup->setText(QApplication::translate("Frame", "Replay", 0, QApplication::UnicodeUTF8));
             SensorGroup->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
                                                           "color: rgb(0, 0, 0);"));
@@ -808,7 +808,7 @@ void DisplayWindow::AnnotationControls()
 
             OctaveButton =new QPushButton(Annotation);
             OctaveButton->setObjectName(QString::fromUtf8("1/3 OCTAVE"));
-            OctaveButton->setGeometry(QRect(60,240, 125, 30));
+            OctaveButton->setGeometry(QRect(60,210, 125, 30));
             OctaveButton->setText(QApplication::translate("Frame", "Replay", 0, QApplication::UnicodeUTF8));
             OctaveButton->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
                                                           "color: rgb(0, 0, 0);"));
@@ -817,32 +817,31 @@ void DisplayWindow::AnnotationControls()
 
 	    RecChnlButton =new QPushButton(Annotation);
             RecChnlButton->setObjectName(QString::fromUtf8("CHNL REC"));
-            RecChnlButton->setGeometry(QRect(60,280, 125, 30));
+            RecChnlButton->setGeometry(QRect(60,250, 125, 30));
             RecChnlButton->setText(QApplication::translate("Frame", "Replay", 0, QApplication::UnicodeUTF8));
             RecChnlButton->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
                                                           "color: rgb(0, 0, 0);"));
             RecChnlButton->setFont(font);
             RecChnlButton->setText("CHNL REC");
-
-	    RecChnlButton =new QPushButton(Annotation);
-            RecChnlButton->setObjectName(QString::fromUtf8("CHNL REC"));
-            RecChnlButton->setGeometry(QRect(60,280, 125, 30));
-            RecChnlButton->setText(QApplication::translate("Frame", "Replay", 0, QApplication::UnicodeUTF8));
-            RecChnlButton->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
-                                                          "color: rgb(0, 0, 0);"));
-            RecChnlButton->setFont(font);
-            RecChnlButton->setText("CHNL REC");
-
 
 	    LFreeze = new QPushButton(Annotation);
             LFreeze->setObjectName(QString::fromUtf8(""));
-            LFreeze->setGeometry(QRect(60,320, 125, 30));
+            LFreeze->setGeometry(QRect(60,290, 125, 30));
             LFreeze->setText(QApplication::translate("Frame", "Replay", 0, QApplication::UnicodeUTF8));
             LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
                                                           "color: rgb(0, 0, 0);"));
             LFreeze->setFont(font);
             LFreeze->setText("FREEZE");
             LFreeze->show();
+
+	    ReplayButtonCont =new QPushButton(Annotation);
+            ReplayButtonCont->setObjectName(QString::fromUtf8("CHNL REC"));
+            ReplayButtonCont->setGeometry(QRect(60,330, 125, 30));
+            ReplayButtonCont->setText(QApplication::translate("Frame", "Replay", 0, QApplication::UnicodeUTF8));
+            ReplayButtonCont->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
+                                                          "color: rgb(0, 0, 0);"));
+            ReplayButtonCont->setFont(font);
+            ReplayButtonCont->setText("NW REPLAY");
 
 
 
