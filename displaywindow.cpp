@@ -16,6 +16,7 @@ extern int16_t RecordCompFlag;
 int16_t ReplayProgressBar;
 int16_t RecordProgressBar;
 extern int16_t ReplayCompFlag;
+extern int ReplayContFlag;
 
 int32_t DelayMaking;
 Host_Control_pkt_t control_object;
@@ -80,6 +81,7 @@ DisplayWindow::DisplayWindow(QFrame *parent)
     connect(ExportCSV_Button_2,SIGNAL(clicked()),this, SLOT (ExportRawData_to_CSV()));
     connect(graphPlot->RawDataDelSpectGraphLegend,SIGNAL(mouseDoubleClick(QMouseEvent *)),graphPlot, SLOT (freezeDelSpecPlot(QMouseEvent*)));
     connect(graphPlot->LofarGraphLegend,SIGNAL(mouseDoubleClick(QMouseEvent *)),graphPlot, SLOT (freezeLoFarPlot(QMouseEvent*)));
+    connect(ReplayButtonCont,SIGNAL(clicked()),this, SLOT (setReplayCntFlag()));
 }
 
 void DisplayWindow::DisplayPageInit()
@@ -5233,4 +5235,12 @@ void DisplayWindow::ScaleCalculation(float xFreq,float yAmp,int16_t Page_ID, int
     }
     }
 
+}
+
+void DisplayWindow::setReplayCntFlag(){
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::DirectoryOnly);
+    dialog.setStyleSheet("background-color:white");
+    //QString strRepFileName = dialog.getOpenFileName(this,tr("Select Replay File"),ReplayPathSet, tr("All Files (*.*)")); 
+    ReplayContFlag = 1;
 }

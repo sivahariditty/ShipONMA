@@ -13,6 +13,7 @@ extern ChannelThreshold Threshold;
 extern int16_t ReplayCompFlag;
 extern int32_t DelayMaking;
 extern int16_t ReplayProgressBar;
+int ReplayContFlag;
 
 extern Recording Records[REC_DATA_SEGLEN];
 extern bool StartProcessing;
@@ -88,6 +89,7 @@ SignalProcessingClass::SignalProcessingClass()
     }
     delDataCnt = 0;
     IsDelData = 0;
+    ReplayContFlag = 0;
 }
 
 void SignalProcessingClass::run()
@@ -112,6 +114,9 @@ void SignalProcessingClass::run()
               //StartRepalyCont();
               StartRepaly();
              }
+	     else if(ReplayContFlag==1){
+	        StartRepalyCont();
+	     }
              else
              {
                StartInitProcessing();
@@ -174,7 +179,8 @@ void SignalProcessingClass::StartInitProcessing()
              LofarProcessing(kCount);
              delDataCnt++;
              if(delDataCnt == DELFACT_I){
-                delSpectrumProcessing(kCount);
+                //delSpectrumProcessing(kCount);
+		SpectrumProcessingInd(kCount,&delDataFIR[0],&DelSpectrumMainDataPlot[kCount-1][0]);
                 memcpy(RawDataMainDataPlot,delDataFIR,16384);
                 IsDelData = 1;
                 delDataCnt = 0;
@@ -260,23 +266,19 @@ void SignalProcessingClass::StartRepaly()
 }
 
 void SignalProcessingClass::StartRepalyCont(){
-   printf("calling StartRepalyCont");
    int32_t ReplyPtr[16384]; 
    int32_t testData;
-   RepFile.open("/home/sivahari/firsttextfile.txt");
-   if(frp==NULL){
-      printf("\n FILE NOT FOUND ......") ;
-   }
+   float tmpFrmFil;
+   if(!RepFile.is_open())
+      RepFile.open("/home/sivahari/firsttextfile.txt");
    delDataCnt = 0;
    rCount=0;
    ChannelID=(rCount+1);
-   fread(&testData,4,1,frp);
-      if(testData != 0)
-      printf("data : %d\n",testData);
-   while(!feof(frp)){
-   fread(&ReplyPtr,16384*sizeof(int32_t),1,frp);
    for(iCount=0;iCount<16384;iCount++){
-      DataPtr7=(float)ReplyPtr[iCount];
+      if(RepFile.peek() != EOF){
+      RepFile >> tmpFrmFil;
+      DataPtr7=(float)tmpFrmFil;
+      printf("%f\n",DataPtr7);
       ReplyData[iCount]=(DataPtr7/ADC_Highest_Value);
       InputData[iCount]= ReplyData[iCount];
       if(delDataCnt == 0){
@@ -284,6 +286,11 @@ void SignalProcessingClass::StartRepalyCont(){
       }
       else{
          delData[iCount] += (float)((DataPtr7/ADC_Highest_Value));
+      }
+      }
+      if(RepFile.eof()){
+         RepFile.close();
+         ReplayCompFlag=0;
       }
    }
    FIRFilter(&GenralFIR1[0],72,&ReplyData[0],&BaseInputData[0],16384);
@@ -313,10 +320,6 @@ void SignalProcessingClass::StartRepalyCont(){
        // StartRecordProcessing(kCount,RecEnable,&RecordBuffering[0]);
         }
         usleep(DelayMaking);
-      fseek(frp,16384*sizeof(int32_t),SEEK_CUR);
-   }
-    fclose(frp);
-    ReplayCompFlag=0;
 }
 
 void SignalProcessingClass::StartRecordProcessing(int16_t CH_ID,int16_t Enable,int32_t *DataBuffer)
@@ -370,8 +373,22 @@ void SignalProcessingClass::delSpectrumProcessing(int16_t CH_ID)
     }
 }
 
-
-
+void SignalProcessingClass::SpectrumProcessingInd(int16_t CH_ID,float *BaseInputDataInd,double *SpecOutDataInd)
+{
+    ComplexFunction(&BaseInputDataInd[0],&SpectrumFilterRealOutput[0],&SpectrumFilterImagOutput[0],16384);
+    FFT_Funtion(&SpectrumFilterRealOutput[0],&SpectrumFilterImagOutput[0],8192,8192,false);
+    FFTMagnitudeExtraction(&SpectrumFilterRealOutput[0],&SpectrumFilterImagOutput[0],&SpectrumMagnitudeOutput[0],4096,3);
+    Exponential_Average(&SpectrumMagnitudeOutput[0],&SpectrumExpAvgOutput[CH_ID][0],4096,0.40);
+    SpectrumExpAvgCount[CH_ID]=((SpectrumExpAvgCount[CH_ID]+1)%SPEC_AVG_FACTOR);
+    if(SpectrumExpAvgCount[CH_ID]==0){
+       PeakQunatize(&SpectrumExpAvgOutput[CH_ID][0],&Spectrum50HzEleiminateBuffer[0],1,4096)  ;
+       Requantisation(CH_ID,1,&Spectrum50HzEleiminateBuffer[0],&SpectrumQuantisedOutput[0],&SpectrumQuantisationTable[0],1200,1,SpectrumAmplitudeRes);
+       for(iCount=0;iCount<1100;iCount++){
+          SpectrumMainDataPlotInd[iCount] = (double)sqrt(pow(SpectrumQuantisedOutput[iCount],2));
+       }
+    }
+    memcpy(SpecOutDataInd,SpectrumQuantisedOutput,1100);
+}
 
 void SignalProcessingClass::OctaveProcessing(int16_t CH_ID)
 {

@@ -213,6 +213,7 @@ public slots:
       void Export_to_Format_Button();
       void ExportDelayedSpectrum_to_CSV();
       void ExportRawData_to_CSV();
+      void setReplayCntFlag();
 };
 
 

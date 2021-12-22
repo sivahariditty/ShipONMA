@@ -22,7 +22,7 @@ static const uint qt_meta_data_DisplayWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      27,   14, // methods
+      28,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -59,6 +59,7 @@ static const uint qt_meta_data_DisplayWindow[] = {
      552,   14,   14,   14, 0x0a,
      578,   14,   14,   14, 0x0a,
      609,   14,   14,   14, 0x0a,
+     632,   14,   14,   14, 0x0a,
 
        0        // eod
 };
@@ -81,7 +82,7 @@ static const char qt_meta_stringdata_DisplayWindow[] = {
     "on_Formatcombobox_currentIndexChanged()\0"
     "Export_to_Format_Button()\0"
     "ExportDelayedSpectrum_to_CSV()\0"
-    "ExportRawData_to_CSV()\0"
+    "ExportRawData_to_CSV()\0setReplayCntFlag()\0"
 };
 
 void DisplayWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -117,6 +118,7 @@ void DisplayWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 24: _t->Export_to_Format_Button(); break;
         case 25: _t->ExportDelayedSpectrum_to_CSV(); break;
         case 26: _t->ExportRawData_to_CSV(); break;
+        case 27: _t->setReplayCntFlag(); break;
         default: ;
         }
     }
@@ -154,9 +156,9 @@ int DisplayWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 27)
+        if (_id < 28)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 27;
+        _id -= 28;
     }
     return _id;
 }

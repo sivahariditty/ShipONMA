@@ -88,8 +88,9 @@ public:
 
      void CaluclateTrack(int16_t*,int16_t,int16_t,int16_t);
      void CaluclateThreshold(int16_t*,int16_t,int16_t,int16_t);
-
-      bool TrackStatusFlag,ThresholdFlag;
+     void SpectrumProcessingInd(int16_t CH_ID,float *BaseInputDataInd,double *SpecOutDataInd);
+     double SpectrumMainDataPlotInd[1200];
+     bool TrackStatusFlag,ThresholdFlag;
      float SpectrumIntermediate_;
      float EnergyQ,EnergyLogValue,EnergyAvgVal,EnergyExpAvg,EnergyData[HYDROPHONE_SENSOR];
      float BaseInputData[16384];
