@@ -76,8 +76,16 @@ public:
         QFrame *DisplayBaseFrame,*DisplaySubmarineLayoutFrame,*DisplayProcesingFrame;
         QFrame *HistogramFrame,*DisplayAnnotationFrame,*DisplayThresholdWarningFrame,*DisplayObservationFrame;
         QToolBox *ToolBoxWidget;
-        QFrame *Annotation,*Configuration,*HydrophoneEng,*LofarFrame,*SpectrumFrame,*IntLofarFrame,*OctaveFrame,*IntSpectrumFrame,*DemonFrame,*SetTrackFrame;       
+        QFrame *Annotation,*Configuration,*HydrophoneEng,*LofarFrame,*SpectrumFrame,*IntLofarFrame,*OctaveFrame,*IntSpectrumFrame,*DemonFrame,*SetTrackFrame,*Spec_Comp_Frame;       
         QFrame *RawDataFrame;
+        QFrame *ZoomWindow;//ZoomWindow
+	QLabel *Xmaxalert, *Ymaxalert, *Xmin,*Xmax, *Ymin,*Ymax ;//ZoomWindow
+        QLabel *Alert;
+	QPushButton *ZoomButton,*ZoomResetButton;//ZoomWindow
+        QComboBox *Xmin_Combobox,*Xmax_Combobox,*Ymin_Combobox, *Ymax_Combobox;//ZoomWindow
+        QDialog *XmaxAlert, *YmaxAlert;//ZoomWindow
+	QPushButton *ZoomXAlertOK, *ZoomYAlertOK;
+
         QTextEdit *RawTextData;
         QPushButton *ExportCSV_Button_1,*ExportCSV_Button_2,*Export_Button;
         QLabel *RawSignal,*DelTimeAvgSpec,*Export_Document,*Select_Format;
@@ -117,6 +125,7 @@ public:
         void DrawObservaionFrame();
         void AnnotationControls();
         void DrawLOFARFrame();
+	void DrawSPECTRUMCOMPARISONFrame();
 
         void  DrawRawDataFrame(); //---RAW DATA---//
         void  DrawSpectrumFrame();
@@ -214,6 +223,14 @@ public slots:
       void ExportDelayedSpectrum_to_CSV();
       void ExportRawData_to_CSV();
       void setReplayCntFlag();
+
+      //ZoomWindow
+       void Xmax_dialogmsg();
+      void Ymax_dialogmsg();
+      void Zoom_XmaxAlertOK();
+      void Zoom_YmaxAlertOK();
+      void ZoomSet();
+      void ResetSet();
 };
 
 

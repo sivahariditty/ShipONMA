@@ -22,7 +22,7 @@ static const uint qt_meta_data_DisplayWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      28,   14, // methods
+      34,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -60,6 +60,12 @@ static const uint qt_meta_data_DisplayWindow[] = {
      578,   14,   14,   14, 0x0a,
      609,   14,   14,   14, 0x0a,
      632,   14,   14,   14, 0x0a,
+     651,   14,   14,   14, 0x0a,
+     668,   14,   14,   14, 0x0a,
+     685,   14,   14,   14, 0x0a,
+     704,   14,   14,   14, 0x0a,
+     723,   14,   14,   14, 0x0a,
+     733,   14,   14,   14, 0x0a,
 
        0        // eod
 };
@@ -83,6 +89,9 @@ static const char qt_meta_stringdata_DisplayWindow[] = {
     "Export_to_Format_Button()\0"
     "ExportDelayedSpectrum_to_CSV()\0"
     "ExportRawData_to_CSV()\0setReplayCntFlag()\0"
+    "Xmax_dialogmsg()\0Ymax_dialogmsg()\0"
+    "Zoom_XmaxAlertOK()\0Zoom_YmaxAlertOK()\0"
+    "ZoomSet()\0ResetSet()\0"
 };
 
 void DisplayWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -119,6 +128,12 @@ void DisplayWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 25: _t->ExportDelayedSpectrum_to_CSV(); break;
         case 26: _t->ExportRawData_to_CSV(); break;
         case 27: _t->setReplayCntFlag(); break;
+        case 28: _t->Xmax_dialogmsg(); break;
+        case 29: _t->Ymax_dialogmsg(); break;
+        case 30: _t->Zoom_XmaxAlertOK(); break;
+        case 31: _t->Zoom_YmaxAlertOK(); break;
+        case 32: _t->ZoomSet(); break;
+        case 33: _t->ResetSet(); break;
         default: ;
         }
     }
@@ -156,9 +171,9 @@ int DisplayWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 28)
+        if (_id < 34)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 28;
+        _id -= 34;
     }
     return _id;
 }

@@ -82,6 +82,19 @@ DisplayWindow::DisplayWindow(QFrame *parent)
     connect(graphPlot->RawDataDelSpectGraphLegend,SIGNAL(mouseDoubleClick(QMouseEvent *)),graphPlot, SLOT (freezeDelSpecPlot(QMouseEvent*)));
     connect(graphPlot->LofarGraphLegend,SIGNAL(mouseDoubleClick(QMouseEvent *)),graphPlot, SLOT (freezeLoFarPlot(QMouseEvent*)));
     connect(ReplayButtonCont,SIGNAL(clicked()),this, SLOT (setReplayCntFlag()));
+    connect(graphPlot->SpectrumGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showSpectrumValue(QMouseEvent*)));
+    connect(graphPlot->SpectrumGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showSpectrumRightWidgetVal(QMouseEvent*)));
+    connect(graphPlot->ButtonExportCSV_Spectrum,SIGNAL(clicked()),graphPlot, SLOT (ExportSpectrumData_to_CSV()));
+    connect(graphPlot->ButtonExportJPG_Spectrum,SIGNAL(clicked()),graphPlot,SLOT (ExportSpectrumData_to_JPG()));
+    connect(graphPlot-> RawDataDelSpectGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showRawDataValue(QMouseEvent*)));
+    connect(graphPlot->RawDataDelSpectGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showRawDataRightWidgetVal(QMouseEvent*)));
+    connect(graphPlot->ButtonExportCSV_RawData,SIGNAL(clicked()),graphPlot, SLOT (ExportRawData_to_CSV()));
+    connect(graphPlot->ButtonExportJPG_RawData,SIGNAL(clicked()),graphPlot,SLOT (ExportRawData_to_JPG()));
+    connect(graphPlot->SpectrumComparisonGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showSpectCompDataValue(QMouseEvent*)));
+    connect(graphPlot->SpectrumComparisonGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showSpectCompDataRightWidgetVal(QMouseEvent*)));
+    connect(graphPlot->ButtonExportCSV_SpecCompData,SIGNAL(clicked()),graphPlot, SLOT (ExportSpecCompData_to_CSV()));
+    connect(graphPlot->ButtonExportJPG_SpecCompData,SIGNAL(clicked()),graphPlot,SLOT (ExportSpecCompData_to_JPG()));
+
 }
 
 void DisplayWindow::DisplayPageInit()
@@ -229,6 +242,8 @@ void DisplayWindow::DrawProcessingFrame()
     OctaveBandFrame();
     DrawTrackFrame();
     DrawRawDataFrame();
+    DrawSPECTRUMCOMPARISONFrame();
+
 
     graphPlot->LofarGraphLegend->setParent(LofarFrame);
     graphPlot->LofarWaterFallLegend->setParent(LofarFrame);
@@ -241,6 +256,10 @@ void DisplayWindow::DrawProcessingFrame()
     graphPlot->RawDataDelSpectGraphLegend->setParent(RawDataFrame);
     graphPlot->RawDataGraphLegend->setParent(RawDataFrame);
                 //---RAW DATA---//
+              //----SPECTRUM COMPARISON---//
+    graphPlot-> SpectrumComparisonGraphLegend->setParent(Spec_Comp_Frame);
+               //----SPECTRUM COMPARISON---//
+
     for(iCount=0;iCount<MAX_SENSOR_GROUP;iCount++)
     {
  //graphPlot->LFTINTWaterFallview[iCount]->setParent(IntLofarFrame);
@@ -723,14 +742,15 @@ void DisplayWindow::AnnotationControls()
             PageSelection->clear();
             PageSelection->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
                                                            "color: rgb(0, 0, 0);"));
-            PageSelection->addItem("LOFAR PAGE");
-            PageSelection->addItem("SPECTRUM PAGE");
-            PageSelection->addItem("INTEGRATED LOFAR  PAGE");
-            PageSelection->addItem("INTEGRATED SPECTRUM PAGE");
-            PageSelection->addItem("1/3 OCTAVE BANDS");
-            PageSelection->addItem("TRACK PAGE");
-            PageSelection->addItem("RAW DATA PAGE");
-            PageSelection->addItem("HMI EXIT");
+            //PageSelection->addItem("LOFAR PAGE");
+	    PageSelection->addItem("SPECTRUM PAGE",1);
+            PageSelection->addItem("INTEGRATED LOFAR  PAGE",2);
+            PageSelection->addItem("INTEGRATED SPECTRUM PAGE",3);
+            PageSelection->addItem("1/3 OCTAVE BANDS",4);
+            PageSelection->addItem("TRACK PAGE",5);
+            PageSelection->addItem("RAW DATA PAGE",6);
+	    PageSelection->addItem("SPECTRUM COMPARISON PAGE",7);
+            PageSelection->addItem("HMI EXIT",8);
 
             ToolBoxWidget= new QToolBox(DisplayAnnotationFrame);
             ToolBoxWidget->setObjectName(QString::fromUtf8("toolBox"));
@@ -750,9 +770,14 @@ void DisplayWindow::AnnotationControls()
             HydrophoneEng= new QFrame();
             HydrophoneEng->setObjectName(QString::fromUtf8("page_2"));
             HydrophoneEng->setGeometry(QRect(0, 0, 201, 79));
+	    
+	    ZoomWindow= new QFrame();
+            ZoomWindow->setObjectName(QString::fromUtf8("page_3"));
+            ZoomWindow->setGeometry(QRect(0, 0, 201, 79));
             ToolBoxWidget->addItem( Annotation, QString::fromUtf8("                 Annotation       "));
             ToolBoxWidget->addItem(Configuration, QString::fromUtf8("           Process Configuration    "));
             ToolBoxWidget->addItem(HydrophoneEng, QString::fromUtf8("             Hydrophone Energy    "));
+	    ToolBoxWidget->addItem(ZoomWindow, QString::fromUtf8("                  Zoom    "));
             ToolBoxWidget->setCurrentIndex(0);
 
             HistogramFrame->setParent(HydrophoneEng);
@@ -1232,6 +1257,167 @@ void DisplayWindow::AnnotationControls()
                 progressbar->setStyleSheet(QString::fromUtf8("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 178, 102, 255), stop:0.55 rgba(235, 148, 61, 255), stop:0.98 rgba(0, 0, 0, 170), stop:1 rgba(0, 0, 0, 0));\n"
                 "background-color: rgb(0, 255, 0);"));
 
+
+		//ZoomWindow
+       Xmin =new QLabel(ZoomWindow);
+       Xmin->setObjectName(QString::fromUtf8("label"));
+       Xmin->setGeometry(QRect(40,40,50,30));
+       Xmin->setText("Xmin");
+       Xmin->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+                                                              "color: rgb(0,255,0);"));
+       Xmin->setFont(font);
+
+       Xmax =new QLabel(ZoomWindow);
+       Xmax->setObjectName(QString::fromUtf8("label"));
+       Xmax->setGeometry(QRect(40,70,50,30));
+       Xmax->setText("Xmax");
+       Xmax->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+                                                              "color: rgb(0,255,0);"));
+       Xmax->setFont(font);
+
+       Ymin =new QLabel(ZoomWindow);
+       Ymin->setObjectName(QString::fromUtf8("label"));
+       Ymin->setGeometry(QRect(40,100,50,30));
+       Ymin->setText("Ymin");
+       Ymin->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+                                                              "color: rgb(0,255,0);"));
+       Ymin->setFont(font);
+
+       Ymax =new QLabel(ZoomWindow);
+       Ymax->setObjectName(QString::fromUtf8("label"));
+       Ymax->setGeometry(QRect(40,130,50,30));
+       Ymax->setText("Ymax");
+       Ymax->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+                                                              "color: rgb(0,255,0);"));
+       Ymax->setFont(font);
+     /*if(SelectedPageID==2)
+     {
+       Alert =new QLabel(ZoomWindow);
+       Alert->setObjectName(QString::fromUtf8("alert_label"));
+       Alert->setGeometry(QRect(0,290,300,30));
+       Alert->setText("Zoom/ResetZoom is not applicable for this page !!");
+       Alert->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
+                                                              "color: rgb(0,255,0);"));
+       Alert->setFont(font);
+       Alert->show();
+
+     }
+	else
+	{
+	Alert->hide();
+	}
+
+     */
+     ZoomButton =new QPushButton(ZoomWindow);
+       ZoomButton->setObjectName(QString::fromUtf8("Zoonbutton"));
+       ZoomButton->setGeometry(QRect(70, 230, 100, 30));
+       ZoomButton->setText("ZOOM");
+       ZoomButton->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
+                                                          "color: rgb(0, 0, 0);"));
+       ZoomButton->setFont(font);
+
+       ZoomResetButton =new QPushButton(ZoomWindow);
+       ZoomResetButton->setObjectName(QString::fromUtf8("ZoomReset"));
+       ZoomResetButton->setGeometry(QRect(70, 260, 100, 30));
+       ZoomResetButton->setText("RESET ZOOM");
+       ZoomResetButton->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
+                                                          "color: rgb(0, 0, 0);"));
+       ZoomResetButton->setFont(font);
+
+      /* Xmin_lineedit = new QLineEdit(ZoomWindow);
+       Xmin_lineedit->setObjectName(QString::fromUtf8("Xmin_lineEdit"));
+       Xmin_lineedit->move(90, 40);
+       Xmin_lineedit->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
+                                                          "color: rgb(0, 0, 0);"));*/
+        Xmin_Combobox=new QComboBox(ZoomWindow);
+        Xmin_Combobox->setGeometry(QRect(90,40,120,30));
+        Xmin_Combobox->clear();
+        Xmin_Combobox->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
+                                                       "color: rgb(0, 0, 0);"));
+        Xmin_Combobox->addItem("0");
+	Xmin_Combobox->addItem("50");
+        Xmin_Combobox->addItem("100");
+        Xmin_Combobox->addItem("150");
+        Xmin_Combobox->addItem("200");
+        Xmin_Combobox->addItem("250");
+        Xmin_Combobox->addItem("300");
+        Xmin_Combobox->addItem("350");
+        Xmin_Combobox->addItem("400");
+        Xmin_Combobox->addItem("450");
+        Xmin_Combobox->addItem("500");
+        Xmin_Combobox->addItem("550");
+        Xmin_Combobox->addItem("1000");
+        Xmin_Combobox->addItem("1050");
+        Xmin_Combobox->addItem("2000");
+        Xmin_Combobox->addItem("2050");
+        Xmin_Combobox->addItem("3000");
+        Xmin_Combobox->addItem("3050");
+
+/*
+       Xmax_lineedit = new QLineEdit(ZoomWindow);
+       Xmax_lineedit->setObjectName(QString::fromUtf8("Xmax_lineEdit"));
+       Xmax_lineedit->move(90, 70);
+       Xmax_lineedit->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
+                                                          "color: rgb(0, 0, 0);"));*/
+	Xmax_Combobox=new QComboBox(ZoomWindow);
+        Xmax_Combobox->setGeometry(QRect(90,70,120,30));
+        Xmax_Combobox->clear();
+        Xmax_Combobox->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
+                                                       "color: rgb(0, 0, 0);"));
+        Xmax_Combobox->addItem("100");
+        Xmax_Combobox->addItem("150");
+        Xmax_Combobox->addItem("200");
+        Xmax_Combobox->addItem("250");
+        Xmax_Combobox->addItem("300");
+        Xmax_Combobox->addItem("350");
+        Xmax_Combobox->addItem("400");
+        Xmax_Combobox->addItem("450");
+        Xmax_Combobox->addItem("500");
+        Xmax_Combobox->addItem("550");
+        Xmax_Combobox->addItem("1000");
+        Xmax_Combobox->addItem("1050");
+        Xmax_Combobox->addItem("2000");
+        Xmax_Combobox->addItem("2050");
+        Xmax_Combobox->addItem("3000");
+        Xmax_Combobox->addItem("3050");
+        Xmax_Combobox->addItem("4000");
+
+
+/*       Ymin_lineedit = new QLineEdit(ZoomWindow);
+       Ymin_lineedit->setObjectName(QString::fromUtf8("Ymin_lineEdit"));
+       Ymin_lineedit->move(90, 100);
+       Ymin_lineedit->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
+                                                          "color: rgb(0, 0, 0);"));*/
+	Ymin_Combobox=new QComboBox(ZoomWindow);
+        Ymin_Combobox->setGeometry(QRect(90,100,120,30));
+        Ymin_Combobox->clear();
+        Ymin_Combobox->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
+                                                       "color: rgb(0, 0, 0);"));
+        Ymin_Combobox->addItem("0");
+        Ymin_Combobox->addItem("50");
+        Ymin_Combobox->addItem("100");
+        Ymin_Combobox->addItem("150");
+	Ymin_Combobox->addItem("200");
+        Ymin_Combobox->addItem("250");
+
+
+       /*Ymax_lineedit = new QLineEdit(ZoomWindow);
+       Ymax_lineedit->setObjectName(QString::fromUtf8("Ymin_lineEdit"));
+       Ymax_lineedit->move(90, 130);
+       Ymax_lineedit->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
+                                                          "color: rgb(0, 0, 0);"));*/
+        Ymax_Combobox=new QComboBox(ZoomWindow);
+        Ymax_Combobox->setGeometry(QRect(90,130,120,30));
+        Ymax_Combobox->clear();
+        Ymax_Combobox->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
+                                                       "color: rgb(0, 0, 0);"));
+        Ymax_Combobox->addItem("50");
+        Ymax_Combobox->addItem("100");
+        Ymax_Combobox->addItem("150");
+        Ymax_Combobox->addItem("200");
+	Ymax_Combobox->addItem("250");
+        Ymax_Combobox->addItem("300");
+
        connect(HydrophoneSel,SIGNAL(activated(int)),this,SLOT(HydrophoneSelect(int)));
        connect(AccelerometerSel,SIGNAL(activated(int)),this,SLOT(AccelerometerSelect(int)));
      //connect(GroupSelection,SIGNAL(activated(int)),this,SLOT(SensorGroupSelection(int)));
@@ -1240,7 +1426,199 @@ void DisplayWindow::AnnotationControls()
        connect(TimeAdjust,SIGNAL(activated(int)),this,SLOT(ReplayTime(int)));
      //connect(Scaleadjust,SIGNAL(activated(int)),this,SLOT(SclaeAdujustment(int)));
        connect(Tc,SIGNAL(activated(int)),this,SLOT(SetTimeConstant(int)));
+       connect(Xmax_Combobox,SIGNAL(activated(int)),this,SLOT(Xmax_dialogmsg()));
+       connect(Ymax_Combobox,SIGNAL(activated(int)),this,SLOT(Ymax_dialogmsg()));
+       connect(ZoomButton,SIGNAL(clicked()),this,SLOT(ZoomSet()));//ZoomWindow_ZOOM button
+       connect(ZoomResetButton,SIGNAL(clicked()),this,SLOT(ResetSet()));//ZoomWindow_RESET button
 }
+
+
+void DisplayWindow::Zoom_XmaxAlertOK(){
+
+	XmaxAlert->accept();
+
+}
+
+void DisplayWindow::Zoom_YmaxAlertOK(){
+
+	YmaxAlert->accept();
+
+}
+
+
+void DisplayWindow::Xmax_dialogmsg(){
+
+
+     QString Xmin,Xmax,Ymin,Ymax ;
+     unsigned int xmin,xmax,ymin,ymax;
+     Xmin =Xmin_Combobox->currentText();
+     Xmax =Xmax_Combobox->currentText();
+     Ymin =Ymin_Combobox->currentText();
+     Ymax =Ymax_Combobox->currentText();
+
+     xmin=Xmin.toDouble();
+     xmax=Xmax.toDouble();
+     ymin=Ymin.toDouble();
+     ymax=Ymax.toDouble();
+
+     if(xmax<=xmin)
+   {
+
+       XmaxAlert =new QDialog(ZoomWindow);
+       XmaxAlert->setWindowTitle(QString::fromUtf8("Alert"));
+       XmaxAlert->setGeometry(QRect(150,250,300,80));
+       XmaxAlert->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
+                                               		       "color: rgb(0,0,0);"));
+
+       QFont font;
+       font.setFamily(QString::fromUtf8("SansSerif"));
+       font.setPointSize(11);
+       font.setBold(false);
+       Xmaxalert = new QLabel(XmaxAlert);
+       Xmaxalert->setGeometry(QRect(20,1,300,70));
+       Xmaxalert->setObjectName(QString::fromUtf8("Alert_Xmax"));
+       Xmaxalert->setFont(font);
+       Xmaxalert->setText("Xmax should be greater than Xmin ");
+
+       ZoomXAlertOK= new QPushButton(XmaxAlert);
+       ZoomXAlertOK->setStyleSheet(QString::fromUtf8("background-color:rgb(0,0,255;\n"
+                                                               "color: rgb(0,0,0);"));
+       ZoomXAlertOK->setText("OK");
+       ZoomXAlertOK->setGeometry(QRect(90,50,80,28));
+
+       XmaxAlert->show();
+   }
+
+}
+
+
+void DisplayWindow::Ymax_dialogmsg(){
+
+
+     QString Xmin,Xmax,Ymin,Ymax ;
+     unsigned int xmin,xmax,ymin,ymax;
+     Xmin =Xmin_Combobox->currentText();
+     Xmax =Xmax_Combobox->currentText();
+     Ymin =Ymin_Combobox->currentText();
+     Ymax =Ymax_Combobox->currentText();
+
+     xmin=Xmin.toDouble();
+     xmax=Xmax.toDouble();
+     ymin=Ymin.toDouble();
+     ymax=Ymax.toDouble();
+
+   if(ymax<=ymin)
+   {
+       YmaxAlert =new QDialog(ZoomWindow);
+       YmaxAlert->setWindowTitle(QString::fromUtf8("Alert"));
+       YmaxAlert->setGeometry(QRect(150,200,300,80));
+       YmaxAlert->setStyleSheet(QString::fromUtf8("background-color: rgb(255,255,255);\n"
+                                                               "color: rgb(0,0,0);"));
+       QFont font;
+       font.setFamily(QString::fromUtf8("SansSerif"));
+       font.setPointSize(11);
+       font.setBold(false);
+       Ymaxalert = new QLabel(YmaxAlert);
+       Ymaxalert->setGeometry(QRect(20,1,300,70));
+       Ymaxalert->setObjectName(QString::fromUtf8("Alert_Ymax"));
+       Ymaxalert->setFont(font);
+       Ymaxalert->setText("Ymax should be greater than Ymin ");
+
+       ZoomYAlertOK= new QPushButton(YmaxAlert);
+       ZoomYAlertOK->setStyleSheet(QString::fromUtf8("background-color:rgb(0,0,255;\n"
+                                                               "color: rgb(0,0,0);"));
+       ZoomYAlertOK->setText("OK");
+       ZoomYAlertOK->setGeometry(QRect(90,50,80,28));
+
+       YmaxAlert->show();
+   }
+
+}
+
+
+
+void DisplayWindow::ZoomSet()
+{
+     QString Xmin,Xmax,Ymin,Ymax ;
+     unsigned int xmin,xmax,ymin,ymax;
+     Xmin =Xmin_Combobox->currentText();
+     Xmax =Xmax_Combobox->currentText();
+     Ymin =Ymin_Combobox->currentText();
+     Ymax =Ymax_Combobox->currentText();
+
+     xmin=Xmin.toDouble();
+     xmax=Xmax.toDouble();
+     ymin=Ymin.toDouble();
+     ymax=Ymax.toDouble();
+
+     printf("\n xmin=%d,xmax=%d,ymin=%d,ymax=%d \n",xmin,xmax,ymin,ymax);
+     printf("\n Selected=%d \n",SelectedPageID);
+   if(SelectedPageID==0)
+     {
+
+	    graphPlot->LofarGraphLegend->xAxis->setRange(xmin,xmax);
+            graphPlot->LofarGraphLegend->yAxis->setRange(ymin,ymax);
+     }
+   else if(SelectedPageID==1)
+     {
+
+            graphPlot->SpectrumGraphLegend->xAxis->setRange(xmin,xmax);
+            graphPlot->SpectrumGraphLegend->yAxis->setRange(ymin,ymax);
+     }
+   else if(SelectedPageID==6)
+     {
+
+            graphPlot->RawDataDelSpectGraphLegend->xAxis->setRange(xmin,xmax);
+            graphPlot->RawDataDelSpectGraphLegend->yAxis->setRange(ymin,ymax);
+     }
+   else if(SelectedPageID==7)
+     {
+
+            graphPlot->SpectrumComparisonGraphLegend->xAxis->setRange(xmin,xmax);
+            graphPlot->SpectrumComparisonGraphLegend->yAxis->setRange(ymin,ymax);
+     }
+
+
+}
+
+void DisplayWindow::ResetSet()
+{
+
+	if(SelectedPageID==0)
+     {
+            graphPlot->LofarGraphLegend->xAxis->setRange(20,4000);
+            graphPlot->LofarGraphLegend->yAxis->setRange(0,300);
+
+     }
+
+     else if (SelectedPageID==1)
+     {
+            graphPlot->SpectrumGraphLegend->xAxis->setRange(20,4000);
+            graphPlot->SpectrumGraphLegend->yAxis->setRange(0,300);
+
+     }
+
+     else if (SelectedPageID==6)
+     {
+            graphPlot->RawDataDelSpectGraphLegend->xAxis->setRange(20,4000);
+            graphPlot->RawDataDelSpectGraphLegend->yAxis->setRange(0,300);
+
+     }
+     else if (SelectedPageID==7)
+     {
+            graphPlot->SpectrumComparisonGraphLegend->xAxis->setRange(20,4000);
+            graphPlot->SpectrumComparisonGraphLegend->yAxis->setRange(0,300);
+
+     }
+
+
+
+
+
+}
+
+
+
 
 void DisplayWindow::DrawLOFARFrame()
 {
@@ -1254,8 +1632,29 @@ void DisplayWindow::DrawLOFARFrame()
     DrawMainVLine();
     DrawZoomMainHLine();
     DrawZoomMainVLine();
-    LofarFrame->show();
+    LofarFrame->hide();
  //printf("\n Spectrum Page is selected---");
+}
+
+   void DisplayWindow::DrawSPECTRUMCOMPARISONFrame()
+{
+    Spec_Comp_Frame = new QFrame(DisplayProcesingFrame);
+    Spec_Comp_Frame->setMouseTracking(true);
+    Spec_Comp_Frame->setGeometry(QRect(0,0,790,500));
+    Spec_Comp_Frame->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0, 0);"));
+    Spec_Comp_Frame->setFrameShape(QFrame::StyledPanel);
+    Spec_Comp_Frame->setFrameShadow(QFrame::Raised);
+    Spec_Comp_Frame->hide();
+
+ /*   Replay_Button_Spec_comp = new QPushButton(Spec_Comp_Frame);
+    Replay_Button_Spec_comp->setObjectName(QString::fromUtf8("Replay_Button_Spec_comp"));
+    Replay_Button_Spec_comp->setStyleSheet(QString::fromUtf8("background-color:white;\n" "color: black;"
+     "border-style: outset;" "border-width: 2px;" "border-radius: 10px;"" font: bold 14px;""min-width: 10em;"));
+    Replay_Button_Spec_comp->setText("REPLAY");
+    Replay_Button_Spec_comp->setGeometry(350,450,120,30);
+    Replay_Button_Spec_comp->show();*/
+    
+    printf("\n Spectrum Comparison Page is selected---");
 }
 
 void DisplayWindow::DrawRawDataFrame()
@@ -1741,7 +2140,7 @@ void DisplayWindow::DrawSpectrumFrame()
     SpectrumFrame->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 0, 0);"));
     SpectrumFrame->setFrameShape(QFrame::StyledPanel);
     SpectrumFrame->setFrameShadow(QFrame::Raised);
-    SpectrumFrame->hide();
+    SpectrumFrame->show();
   //printf("\n Spectrum Page is selected---");
 }
 
@@ -2015,6 +2414,7 @@ void DisplayWindow::PageSelectFunction(int Select_ID)
              SetTrackFrame->hide();
              OctaveFrame->hide();
              RawDataFrame->hide();
+	     Spec_Comp_Frame->hide();
 	     graphPlot->LofDyn = 1;
              LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
                                                           "color: rgb(0, 0, 0);"));
@@ -2033,6 +2433,7 @@ void DisplayWindow::PageSelectFunction(int Select_ID)
              SetTrackFrame->hide();
              OctaveFrame->hide();
              RawDataFrame->hide();
+	     Spec_Comp_Frame->hide();
 	     graphPlot->LofDyn = 1;
              LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
                                                           "color: rgb(0, 0, 0);"));
@@ -2051,6 +2452,7 @@ void DisplayWindow::PageSelectFunction(int Select_ID)
                          SetTrackFrame->hide();
                          OctaveFrame->hide();
                          RawDataFrame->hide();
+			 Spec_Comp_Frame->hide();
                          ChangeDisplayPageConfiguration(2);       // Track Page
                          MGroupSensor[0]->setParent(IntLofarFrame);
                          MGroupSensor[1]->setParent(IntLofarFrame);
@@ -2077,6 +2479,7 @@ void DisplayWindow::PageSelectFunction(int Select_ID)
                          SetTrackFrame->hide();
                          OctaveFrame->hide();
                          RawDataFrame->hide();
+			 Spec_Comp_Frame->hide();
                          ChangeDisplayPageConfiguration(3);
                          MGroupSensor[0]->setParent(IntSpectrumFrame);
                          MGroupSensor[1]->setParent(IntSpectrumFrame);
@@ -2105,6 +2508,7 @@ void DisplayWindow::PageSelectFunction(int Select_ID)
                       SpectrumFrame->hide();
                       LofarFrame->hide();
                       RawDataFrame->hide();
+		      Spec_Comp_Frame->hide();
 	     graphPlot->LofDyn = 1;
              LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
                                                           "color: rgb(0, 0, 0);"));
@@ -2124,6 +2528,7 @@ void DisplayWindow::PageSelectFunction(int Select_ID)
                       SpectrumFrame->hide();
                       LofarFrame->hide();
                       RawDataFrame->hide();
+		      Spec_Comp_Frame->hide();
 	     graphPlot->LofDyn = 1;
              LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
                                                           "color: rgb(0, 0, 0);"));
@@ -2142,6 +2547,7 @@ void DisplayWindow::PageSelectFunction(int Select_ID)
                      IntLofarFrame->hide();
                      SpectrumFrame->hide();
                      LofarFrame->hide();
+		     Spec_Comp_Frame->hide();
 	     graphPlot->LofDyn = 1;
              LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
                                                           "color: rgb(0, 0, 0);"));
@@ -2149,6 +2555,21 @@ void DisplayWindow::PageSelectFunction(int Select_ID)
              LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
                                                           "color: rgb(0, 0, 0);"));
                      break;
+
+     case 7:
+             SelectedPageID=7;
+             SelectedChannel=CurrentChannelSel;
+             ChangeDisplayPageConfiguration(7); 
+             Spec_Comp_Frame->show();
+	     RawDataFrame->hide();
+             SetTrackFrame->hide();
+             OctaveFrame->hide();
+             IntSpectrumFrame->hide();
+             IntLofarFrame->hide();
+             SpectrumFrame->hide();
+             LofarFrame->hide();
+
+	           break;
 
      default: break;
 
@@ -2250,21 +2671,21 @@ void DisplayWindow::ChangeDisplayPageConfiguration(int16_t x)
               graphPlot->HarmonicCursorFrame->setParent(graphPlot->SpectrumWaterFallLegend);
               graphPlot->HarmonicCursorFrame->hide();
               graphPlot->SpectrumGraphLegend->show();
-              graphPlot->SpectrumWaterFallLegend->show();
-              graphPlot->SpectrumZoomGraphLegend->show();
-              MainDisplayVFrame->show();
-              MainDisplayHFrame->show();
+              graphPlot->SpectrumWaterFallLegend->hide();
+              graphPlot->SpectrumZoomGraphLegend->hide();
+              MainDisplayVFrame->hide();
+              MainDisplayHFrame->hide();
               ZoomDisplayHFrame->show();
               ZoomDisplayVFrame->show();
-              ZoomCursourHLine->show();
-              ZoomCursorVLine1->show();
-              ZoomCursorVLine2->show();
-              ZoomCursorVLine3->show();
+              ZoomCursourHLine->hide();//Yellow cursor zoom
+              ZoomCursorVLine1->hide();
+              ZoomCursorVLine2->hide();
+              ZoomCursorVLine3->hide();
               graphPlot->Lofar_Scale_TickLabel1->show();
               graphPlot->Lofar_Scale_TickLabel2->show();
               graphPlot->Lofar_Scale_TickLabel3->show();
               graphPlot->GraphXScaleFrame->show();
-              graphPlot->GraphYScaleFrame->show();
+              graphPlot->GraphYScaleFrame->hide();
               graphPlot->zoomGraphXScaleFrame->show();
               graphPlot->zoomGraphYScaleFrame->show();
               break;
@@ -2320,6 +2741,10 @@ void DisplayWindow::ChangeDisplayPageConfiguration(int16_t x)
               //SetZoomCursorPosition();
                 graphPlot->HarmonicCursorFrame->setParent(graphPlot->RawDataDelSpectGraphLegend);
                 graphPlot->HarmonicCursorFrame->hide();
+
+            break;
+     case 7: SenserRefresh = true;
+           // graphPlot->LofarGraphLegend->show();
 
             break;
             default :break;
@@ -3410,10 +3835,10 @@ void DisplayWindow::SetZoomCursorPosition()
      default: break;
      };
 
-     ZoomCursourHLine->show();
-     ZoomCursorVLine1->show();
-     ZoomCursorVLine2->show();
-     ZoomCursorVLine3->show();
+     ZoomCursourHLine->hide();
+     ZoomCursorVLine1->hide();
+     ZoomCursorVLine2->hide();
+     ZoomCursorVLine3->hide();
 }
 
 

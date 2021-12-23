@@ -270,7 +270,7 @@ void SignalProcessingClass::StartRepalyCont(){
    int32_t testData;
    float tmpFrmFil;
    if(!RepFile.is_open())
-      RepFile.open("/home/sivahari/firsttextfile.txt");
+      RepFile.open("/home/neena/Text_float_data/800Hz.txt");
    delDataCnt = 0;
    rCount=0;
    ChannelID=(rCount+1);

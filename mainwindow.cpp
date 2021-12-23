@@ -174,6 +174,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
 //connect(DisplayBase->IssInfo->HMI,SIGNAL(clicked()),this,SLOT(HMIChange()));
     connect(DisplayBase->messageBox1,SIGNAL(clicked()),this,SLOT(SetMGroupEnable()));
     connect(StRecBtn,SIGNAL(clicked()),this,SLOT(recChanlData()));
+    PageSelect(0);
 }
 
 void MainWindow::DrawBasePage(QFrame *BaseFrame)
@@ -1678,6 +1679,8 @@ void MainWindow::GroupCHSel4(int ID)
 }
 void MainWindow::PageSelect(int ID)
 {
+
+    ID = DisplayBase->PageSelection->itemData(ID).toInt();
     switch(ID)
     {
 
@@ -1700,7 +1703,9 @@ void MainWindow::PageSelect(int ID)
 
     case 6: DisplayBase->PageSelectFunction(6);
             break;
-    case 7:
+    case 7: DisplayBase->PageSelectFunction(7);
+	    break;
+    case 8:
              RecordDialog->hide();
              ReplayDialog->hide();
              this->close();

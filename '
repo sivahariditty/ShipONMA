@@ -79,18 +79,15 @@ public:
     QGraphicsView *SpectrumWaterFallview,*WaterFallview,*DemonWaterfall;
     QGraphicsScene *SpectrumWaterFallScene,*WaterFallscene,*LFTINTWaterFallscene[6],*LFTINTSpecWaterFallscene[6],*DemonWaterfallScene;
     QFrame *HarmonicCursorFrame,*LofarFrame,*OctaveGraphXScale,*GraphXScale,*zoomGraphXScale,*GraphYScale,*OctaveGraphXScaleFrame,*GraphXScaleFrame,*zoomGraphXScaleFrame,*GraphYScaleFrame,*zoomGraphYScaleFrame,*xTicks3,*xTicks2,*xTicks1,*xOctaveTicks3,*xOctaveTicks2,*xOctaveTicks1,*ZoomxTicks3,*ZoomxTicks2,*ZoomxTicks1,*MainVLine,*MainHLine3,*MainHLine2,*MainHLine1,*zoomMainVLine,*zoomMainHLine3,*zoomMainHLine2,*zoomMainHLine1;
-  //SpectrumPage  
+    
     QFrame *showValuesSpectrumplot, *showSpectrumRightClickWid;
     QLabel *showSpectrumVal;
     QPushButton *ButtonExportCSV_Spectrum,*ButtonExportJPG_Spectrum;
-  //RawDataPage
+
    QFrame *showValuesRawDataplot,*showRawDataRightClickWid;
    QLabel *showRawDataVal;
    QPushButton *ButtonExportCSV_RawData, *ButtonExportJPG_RawData;
-   //SpectrumComparisonPage
-   QFrame *showValuesSpectCompDataplot, *showSpectCompDataRightClickWid;
-   QLabel *showSpecCompDataVal;
-   QPushButton *ButtonExportCSV_SpecCompData ,*ButtonExportJPG_SpecCompData;
+
 
     QFrame *DelSpectrumXScaleFrame,*DelSpectrumYScaleFrame;
     QMenu *HarmonicCursormenu;
@@ -169,9 +166,9 @@ public slots:
      void ExportRawData_to_JPG();
      //SpectrumComparisonPage
      void showSpectCompDataValue(QMouseEvent*);
-     void showSpectCompDataRightWidgetVal(QMouseEvent*);
-     void ExportSpecCompData_to_CSV();
-     void ExportSpecCompData_to_JPG();
+     void
+     void
+     void
 
 
 };
