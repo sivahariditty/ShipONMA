@@ -215,8 +215,8 @@ void GraphPlotClass::RawDataDisplaySelect()
   RawDataDelSpectGraphLegend->xAxis->setTickLabels(true);
   RawDataDelSpectGraphLegend->setInteraction(QCP::iRangeDrag, true);
   RawDataDelSpectGraphLegend->setInteraction(QCP::iRangeZoom, true);;
-  RawDataDelSpectGraphLegend->axisRect()->setRangeDrag(Qt::Horizontal);
-  RawDataDelSpectGraphLegend->axisRect()->setRangeZoom(Qt::Horizontal);
+  RawDataDelSpectGraphLegend->axisRect()->setRangeDrag(Qt::Horizontal|Qt::Vertical);
+  RawDataDelSpectGraphLegend->axisRect()->setRangeZoom(Qt::Horizontal|Qt::Vertical);
   RawDataGraphLegend->hide();
 
   showValuesRawDataplot= new QFrame(RawDataDelSpectGraphLegend);
@@ -270,6 +270,11 @@ void GraphPlotClass::SpectrumComparisonDisplaySelect()
   SpectrumComparisonGraphLegend->yAxis->setSubTicks(true);
   SpectrumComparisonGraphLegend->yAxis->setTicks(true);
   SpectrumComparisonGraphLegend->yAxis->grid()->setPen(QPen(QColor(30, 30, 30)));
+  SpectrumComparisonGraphLegend->setInteraction(QCP::iRangeDrag, true);
+  SpectrumComparisonGraphLegend->setInteraction(QCP::iRangeZoom, true);;
+  SpectrumComparisonGraphLegend->axisRect()->setRangeDrag(Qt::Horizontal|Qt::Vertical);
+  SpectrumComparisonGraphLegend->axisRect()->setRangeZoom(Qt::Horizontal|Qt::Vertical);
+
 
   SpectrumComparisonGraphLegend->xAxis->setRange(20,4000);
   SpectrumComparisonGraphLegend->yAxis->setRange(0,600);

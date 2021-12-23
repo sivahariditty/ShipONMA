@@ -34,6 +34,11 @@
 #include <QStringList>
 #include <QDir>
 #include <QDebug>
+#include <QUrl>
+#include <QVariant>
+#include <fstream>
+using namespace std;
+
 
 //#include "qtcsv/stringdata.h"
 //#include "qtcsv/reader.h"

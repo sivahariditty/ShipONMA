@@ -748,7 +748,7 @@ void DisplayWindow::AnnotationControls()
             PageSelection->addItem("INTEGRATED SPECTRUM PAGE",3);
             PageSelection->addItem("1/3 OCTAVE BANDS",4);
             PageSelection->addItem("TRACK PAGE",5);
-            PageSelection->addItem("RAW DATA PAGE",6);
+            PageSelection->addItem("TIME AVERAGED SPECTRUM",6);
 	    PageSelection->addItem("SPECTRUM COMPARISON PAGE",7);
             PageSelection->addItem("HMI EXIT",8);
 
@@ -1399,6 +1399,13 @@ void DisplayWindow::AnnotationControls()
         Ymin_Combobox->addItem("150");
 	Ymin_Combobox->addItem("200");
         Ymin_Combobox->addItem("250");
+	Ymin_Combobox->addItem("300");
+        Ymin_Combobox->addItem("350");
+        Ymin_Combobox->addItem("450");
+        Ymin_Combobox->addItem("500");
+        Ymin_Combobox->addItem("550");
+        
+
 
 
        /*Ymax_lineedit = new QLineEdit(ZoomWindow);
@@ -1417,6 +1424,13 @@ void DisplayWindow::AnnotationControls()
         Ymax_Combobox->addItem("200");
 	Ymax_Combobox->addItem("250");
         Ymax_Combobox->addItem("300");
+	Ymax_Combobox->addItem("350");
+        Ymax_Combobox->addItem("400");
+        Ymax_Combobox->addItem("450");
+        Ymax_Combobox->addItem("500");
+        Ymax_Combobox->addItem("550");
+        Ymax_Combobox->addItem("600");
+
 
        connect(HydrophoneSel,SIGNAL(activated(int)),this,SLOT(HydrophoneSelect(int)));
        connect(AccelerometerSel,SIGNAL(activated(int)),this,SLOT(AccelerometerSelect(int)));
@@ -1576,6 +1590,7 @@ void DisplayWindow::ZoomSet()
 
             graphPlot->SpectrumComparisonGraphLegend->xAxis->setRange(xmin,xmax);
             graphPlot->SpectrumComparisonGraphLegend->yAxis->setRange(ymin,ymax);
+	    graphPlot->SpectrumComparisonGraphLegend->replot();
      }
 
 
@@ -1587,27 +1602,27 @@ void DisplayWindow::ResetSet()
 	if(SelectedPageID==0)
      {
             graphPlot->LofarGraphLegend->xAxis->setRange(20,4000);
-            graphPlot->LofarGraphLegend->yAxis->setRange(0,300);
+            graphPlot->LofarGraphLegend->yAxis->setRange(0,600);
 
      }
 
      else if (SelectedPageID==1)
      {
             graphPlot->SpectrumGraphLegend->xAxis->setRange(20,4000);
-            graphPlot->SpectrumGraphLegend->yAxis->setRange(0,300);
+            graphPlot->SpectrumGraphLegend->yAxis->setRange(0,600);
 
      }
 
      else if (SelectedPageID==6)
      {
             graphPlot->RawDataDelSpectGraphLegend->xAxis->setRange(20,4000);
-            graphPlot->RawDataDelSpectGraphLegend->yAxis->setRange(0,300);
+            graphPlot->RawDataDelSpectGraphLegend->yAxis->setRange(0,600);
 
      }
      else if (SelectedPageID==7)
      {
             graphPlot->SpectrumComparisonGraphLegend->xAxis->setRange(20,4000);
-            graphPlot->SpectrumComparisonGraphLegend->yAxis->setRange(0,300);
+            graphPlot->SpectrumComparisonGraphLegend->yAxis->setRange(0,600);
 
      }
 
@@ -1672,14 +1687,14 @@ void DisplayWindow::DrawRawDataFrame()
     DelTimeAvgSpec->setStyleSheet(QString::fromUtf8("background-color:rgb(0,0,0);\n"
         "color: white;""font: bold 13px;"));
     DelTimeAvgSpec->setText("Delayed Time Average Spectrum");
-    DelTimeAvgSpec->show();
+    DelTimeAvgSpec->hide();
 
     ExportCSV_Button_1 = new QPushButton(RawDataFrame);
     ExportCSV_Button_1->setObjectName(QString::fromUtf8("export2"));
     ExportCSV_Button_1->setStyleSheet(QString::fromUtf8("background-color:white;\n" "color: black;"
 "border-style: outset;" "border-width: 2px;" "border-radius: 10px;"" font: bold 14px;""min-width: 10em;"));
     ExportCSV_Button_1->setText("Export to CSV");
-    ExportCSV_Button_1->show();
+    ExportCSV_Button_1->hide();
 
     //connect
 
@@ -1779,12 +1794,12 @@ void DisplayWindow::Export_to_Format_Button()
     if(format_combo_value == "ODT")
     {
        qDebug() << format_combo_value;
-       graphPlot->RawDataDelSpectGraphLegend->saveJpg(QString("a.jpg"),graphPlot->RawDataDelSpectGraphLegend->width(),graphPlot->RawDataDelSpectGraphLegend->height());
-       graphPlot->RawDataGraphLegend->saveJpg(QString("b.jpg"),graphPlot->RawDataGraphLegend->width(),graphPlot->RawDataGraphLegend->height());
+       graphPlot->RawDataDelSpectGraphLegend->saveJpg(QString("a.jpg"),600,300);
+      // graphPlot->RawDataGraphLegend->saveJpg(QString("b.jpg"),graphPlot->RawDataGraphLegend->width(),graphPlot->RawDataGraphLegend->height());
        QString text = RawTextData->toPlainText();
        editor->setDocument(document);
        editor->append("<img src=\"a.jpg\"/>" "    ");
-       editor->append("<img src=\"b.jpg\"/>" "    ");
+       //editor->append("<img src=\"b.jpg\"/>" "    ");
        editor->append(text);
        editor->setWindowTitle(QObject::tr("Export to docx"));
        editor->resize(1000,750);
@@ -1796,7 +1811,7 @@ void DisplayWindow::Export_to_Format_Button()
     }
 
     else if(format_combo_value == "PDF"){
-       QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Export PDF", QString(), "*.pdf");
+       /*QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Export PDF", QString(), "*.pdf");
        if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
           QPrinter printer(QPrinter::PrinterResolution);
           printer.setOutputFormat(QPrinter::PdfFormat);
@@ -1842,7 +1857,39 @@ void DisplayWindow::Export_to_Format_Button()
             painter.drawText(10,190,"Raw Signal");   //---Original code---//
             painter.drawImage(QRect(10, 230, 500, 235),QImage("b.jpg")); //---Original code---//
             painter.drawText(10,350,text); //---Original code---//
-            doc.print(&printer);
+            doc.print(&printer);*/
+
+	QString fileName = QFileDialog::getSaveFileName((QWidget* )0, "Export PDF", QString(), "*.pdf");
+       if (QFileInfo(fileName).suffix().isEmpty()) { fileName.append(".pdf"); }
+
+       QPrinter printer(QPrinter::PrinterResolution);
+       printer.setOutputFormat(QPrinter::PdfFormat);
+       printer.setPaperSize(QPrinter::A4);
+       printer.setOutputFileName(fileName);
+
+       QFont headerFont("Times New Roman", 14);
+       QTextCharFormat txtformat = QTextCharFormat();
+
+       QTextDocument doc;
+       doc.setPageSize(printer.pageRect().size());
+
+       QTextCursor* cursor = new QTextCursor(&doc);
+       cursor->insertText("Delayed Time Average Spectrum:", txtformat);
+       graphPlot->RawDataDelSpectGraphLegend->saveJpg("temp_pdf_img.jpg",600,300);
+       QImage pictureImage("temp_pdf_img.jpg");
+       QString pictureUrl = QString("./");
+       doc.addResource(QTextDocument::ImageResource, QUrl(pictureUrl), QVariant(pictureImage));
+
+      // insert the picture in the document
+      cursor->insertBlock();
+      QTextImageFormat pictureFormat;
+      pictureFormat.setName(pictureUrl);
+      pictureFormat.setWidth(pictureImage.width()); // 150 pixelfor picture.png
+      cursor->insertImage(pictureFormat);
+     // insert the text in the document
+      QString text = RawTextData->toPlainText();
+      cursor->insertText(text, txtformat);
+      doc.print(&printer);
 
     }
 }
