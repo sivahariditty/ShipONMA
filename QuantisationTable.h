@@ -11,6 +11,7 @@ float EnergyQuantisationTable[100]={70,70,70,70,70,71,71,71,71,71,71,71,72,72,72
                               };
 float SpectrumQuantisationTable[256]={ };
 float DelSpectrumQuantisationTable[256]={ };
+float CompSpectrumQuantisationTable[256]={ };
 
 int16_t SpectrumQuantisationTable2[500]={33,
                                          66,

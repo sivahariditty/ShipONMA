@@ -8,6 +8,8 @@
 #include"DataTypes.h"
 extern RecordingControls RecControl;
 extern char RecorderPathSet[400];
+SignalProcessingClass *ProcessingThread;
+
 
 int main(int argc, char *argv[])
 {
@@ -31,7 +33,7 @@ int main(int argc, char *argv[])
     NetworkClass *NetwokThread;
     NetwokThread=new NetworkClass();
     NetwokThread->start(QThread::HighestPriority);
-    SignalProcessingClass *ProcessingThread;
+//    SignalProcessingClass *ProcessingThread;
     ProcessingThread=new SignalProcessingClass();
     ProcessingThread->start(QThread::NormalPriority);
     SonarCommunication *SonarInterfaceThread;

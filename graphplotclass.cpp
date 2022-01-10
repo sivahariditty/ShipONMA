@@ -8,17 +8,23 @@
 using namespace std;
 extern ControlData Controls[NO_OF_SENSOR];
 extern DelayedSpectrum_Data Del_Controls[NO_OF_SENSOR];
+extern double CompSpectrumOut[3][1100];
+extern int isCompSpecRdy;
+extern int CompFlagInd[3];
 
 double SpectrumMainDataPlot[NO_OF_SENSOR][1200];
 double DelSpectrumMainDataPlot[NO_OF_SENSOR][1200];
+double CompSpectrumMainDataPlot[3][1200];
 double SpectrumMainWaterfallDataPlot[NO_OF_SENSOR][1100];
 int IsDelData;
+int IsCompData;
 double LofarWaterfalHisto[NO_OF_SENSOR][1100];
 double OctaveMainDataPlot[NO_OF_SENSOR][40];
 
 double LofarMainDataPlot[NO_OF_SENSOR][1100];
 double LofarHisto[NO_OF_SENSOR][1100];
 double DelLofarHisto[NO_OF_SENSOR][1100];
+double SpecCompLofarHisto[3][1100] ={0};
 double OctaveHisto[NO_OF_SENSOR][40];
 double LofarINTHisto[NO_OF_SENSOR][1200];
 
@@ -37,8 +43,12 @@ double RawDataHisto[NO_OF_SENSOR][1100];
 double RawDataWaterfalHisto[NO_OF_SENSOR][1100];
 //-------RAW DATA DELAYED SPECTRUM------//
 
+//void ClearSpecCompDisplay();
 class QCustomPlot;
 QVector<double> xFreq(2048),yAmp(2048);
+QVector<double> xFreq_1(2048,0),yAmp_1(2048,0);
+QVector<double> xFreq_2(2048,0),yAmp_2(2048,0);
+QVector<double> xFreq_3(2048,0),yAmp_3(2048,0);
 QVector<double> xDelFreq(2048),yDelAmp(2048);
 QVector<double> DelRawData_X(16384),DelRawData_Y(16384);
 
@@ -66,6 +76,7 @@ GraphPlotClass::GraphPlotClass(QWidget *parent):QWidget(parent)
    GDyn = 1;
    LofDyn = 1;
    SpecDyn = 1;
+   CompDyn = 1;
 }
 
 
@@ -1263,6 +1274,77 @@ void GraphPlotClass::ShowSpectrumDisplay(bool Status,int16_t CH_ID)
     }
 }
 
+
+void GraphPlotClass::ShowSpecCompDisplay(){
+    if(isCompSpecRdy == 1 && CompDyn == 1){
+	//printf("flag values %d : %d : %d\n",CompFlagInd[0],CompFlagInd[1],CompFlagInd[2]);
+        for (count_ = 0; count_ <1050; count_++)
+        {
+	   if(CompFlagInd[0] == 1){
+               xFreq_1[count_] = round(3.814*count_);
+               yAmp_1[count_] =((CompSpectrumMainDataPlot[0][count_]*0.40)+((SpecCompLofarHisto[0][count_]*0.60)));
+               SpecCompLofarHisto[0][count_]=yAmp_1[count_];
+	   }
+	   else{
+               xFreq_1[count_] = 0.00;
+               yAmp_1[count_] = 0.00;
+               SpecCompLofarHisto[0][count_]=0.00;
+	       printf("in else 1\n");
+	   }
+	   if(CompFlagInd[1] == 1){
+              xFreq_2[count_] = round(3.814*count_);
+              yAmp_2[count_] =((CompSpectrumMainDataPlot[1][count_]*0.40)+((SpecCompLofarHisto[1][count_]*0.60)));
+              SpecCompLofarHisto[1][count_]=yAmp_2[count_];
+	   }
+	   else{
+               xFreq_2[count_] = 0.00;
+               yAmp_2[count_] = 0.00;
+               SpecCompLofarHisto[1][count_]=0.00;
+	       printf("in else 2\n");
+	   }
+	   if(CompFlagInd[2] == 1){
+	      xFreq_3[count_] = round(3.814*count_);
+              yAmp_3[count_] =((CompSpectrumMainDataPlot[2][count_]*0.40)+((SpecCompLofarHisto[2][count_]*0.60)));
+              SpecCompLofarHisto[2][count_]=yAmp_3[count_];
+	   }
+	   else{
+               xFreq_3[count_] = 0.00;
+               yAmp_3[count_] = 0.00;
+               SpecCompLofarHisto[2][count_]=0.00;
+	       printf("in else 3\n");
+	   }
+        }
+        SpectrumComparisonGraphLegend->graph(0)->setData(xFreq_1,yAmp_1);
+        SpectrumComparisonGraphLegend->graph(1)->setData(xFreq_2,yAmp_2);
+	SpectrumComparisonGraphLegend->graph(2)->setData(xFreq_3,yAmp_3);
+        SpectrumComparisonGraphLegend->show();
+        SpectrumComparisonGraphLegend->replot();
+	isCompSpecRdy = 0;
+    }
+}
+
+
+void GraphPlotClass::ClearSpecCompDisplay(){
+	qDebug("hi....");
+	for(int o=0;o<2048;o++){
+           xFreq_1[o] = 0.0;
+           yAmp_1[o] = 0.0;
+           xFreq_2[o] = 0.0;
+           yAmp_2[o] = 0.0;
+           xFreq_3[o] = 0.0;
+           yAmp_3[o] = 0.0;
+	}
+	SpectrumComparisonGraphLegend->graph(0)->setData(xFreq_1,yAmp_1);
+        SpectrumComparisonGraphLegend->graph(1)->setData(xFreq_2,yAmp_2);
+        SpectrumComparisonGraphLegend->graph(2)->setData(xFreq_3,yAmp_3);
+        SpectrumComparisonGraphLegend->replot();
+        
+        /*SpectrumComparisonGraphLegend->graph(0)->setVisible(false);
+        SpectrumComparisonGraphLegend->graph(1)->setVisible(false);
+	SpectrumComparisonGraphLegend->graph(2)->setVisible(false);*/
+}
+
+
 void GraphPlotClass::ShowDelSpectrumDisplay(bool Status,int16_t CH_ID)
 {
     if(IsDelData == 1 && GDyn == 1)
@@ -1278,23 +1360,30 @@ void GraphPlotClass::ShowDelSpectrumDisplay(bool Status,int16_t CH_ID)
            DelLofarHisto[CH_ID-1][delcount_] = yDelAmp[delcount_];
            xDelFreq_val[delcount_] = xDelFreq[delcount_];
            yDelAmp_val[delcount_]  = yDelAmp[delcount_];
-	   /*if(yDelAmp[delcount_] != 0.0){
-              printf("%d : %f : %f\n",delcount_,xDelFreq[delcount_],yDelAmp[delcount_]);
-	   }*/
         }
         RawDataDelSpectGraphLegend->graph(0)->setData(xDelFreq,yDelAmp);
         RawDataDelSpectGraphLegend->show();
-
-        //RawDataGraphLegend->graph(0)->setData(DelRawData_X,DelRawData_Y);
-        //RawDataGraphLegend->show();
 	IsDelData = 0;
     }
-//-------------------------------------Obtaining values for CSV File---------------------------------------//
-//printf("\n Inside ExportDelayedSpectrumCSV %lf",xDelFreq_val);
-//printf("\n Inside ExportDelayedSpectrumCSV %lf",yDelAmp_val);
-//printf("\n Inside RawDataCSV %lf",DelRawData_X_val);
-//printf("\n Inside RawDataCSV %lf",DelRawData_Y_val);
 }
+
+void GraphPlotClass::ShowCompSpectrumDisplay(int16_t CH_ID)
+{
+    if(IsCompData == 1 )
+    {
+        for (int m = 0; m <1200; m++){
+           xDelFreq[m] = (float)3.816 * m;
+           yDelAmp[m] =((DelSpectrumMainDataPlot[CH_ID][delcount_]*0.40)+((DelLofarHisto[CH_ID][delcount_]*0.60)));
+           DelLofarHisto[CH_ID][delcount_] = yDelAmp[delcount_];
+           xDelFreq_val[delcount_] = xDelFreq[delcount_];
+           yDelAmp_val[delcount_]  = yDelAmp[delcount_];
+        }
+        RawDataDelSpectGraphLegend->graph(0)->setData(xDelFreq,yDelAmp);
+        RawDataDelSpectGraphLegend->show();
+        IsCompData = 0;
+    }
+}
+
 
 void GraphPlotClass::freezeDelSpecPlot(QMouseEvent* m){
    if(GDyn == 1) {	
@@ -1678,7 +1767,7 @@ void GraphPlotClass::ExportSpecCompData_to_CSV(){
 
 void GraphPlotClass::ExportSpecCompData_to_JPG(){
     QString filename = QFileDialog::getSaveFileName(this, "ExporttoJPG", "SpectrumCompare_image_name.jpg", "JPG files (.jpg);;Zip files (.zip, *.7z)", 0, 0);
-    RawDataDelSpectGraphLegend->saveJpg(filename,SpectrumComparisonGraphLegend->width(),SpectrumComparisonGraphLegend->height());
+    SpectrumComparisonGraphLegend->saveJpg(filename,SpectrumComparisonGraphLegend->width(),SpectrumComparisonGraphLegend->height());
 }
 
 

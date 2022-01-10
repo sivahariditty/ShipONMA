@@ -59,7 +59,7 @@ public:
     int32_t IntHistroy[6][MainWaterfallPixMapSize][2048]; /**< Integrated Waterfall Histroy array used for Waterfall draw */
     int32_t IntSpecHistroy[6][MainWaterfallPixMapSize][2048]; /**< Integrated Spectrum Waterfall Histroy array used for Waterfall draw */
     int16_t RandomValue_,Max_,Min_,xCount,yCount;
-    int GDyn, LofDyn,SpecDyn;
+    int GDyn, LofDyn,SpecDyn,CompDyn;
 
     char NameLabel[10];
     QLabel *TrackName[NO_OF_TRACK];
@@ -148,6 +148,9 @@ public:
      void ShowIntSpectrumDisplay(bool,int16_t,int16_t);
      void DrawTrackFinFrame();
      void DrawThresholdFinFrame();
+     void ShowSpecCompDisplay();
+     void ClearSpecCompDisplay();
+     void ShowCompSpectrumDisplay(int16_t CH_ID);
 
     ~GraphPlotClass();
 

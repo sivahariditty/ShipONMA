@@ -224,6 +224,18 @@ void MainWindow::freezPlot(){
                                                           "color: rgb(0, 0, 0);"));
       }
    }
+   else if(DisplayBase->SelectedPageID == 7){
+      if(DisplayBase->graphPlot->CompDyn == 1){
+         DisplayBase->graphPlot->CompDyn = 0;
+	 DisplayBase->LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(255,0,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
+      }
+      else{
+         DisplayBase->graphPlot->CompDyn = 1;
+	 DisplayBase->LFreeze->setStyleSheet(QString::fromUtf8("background-color: rgb(0,255,0);\n"
+                                                          "color: rgb(0, 0, 0);"));
+      }
+   }
 }
 
 void MainWindow::CallStatusPage()

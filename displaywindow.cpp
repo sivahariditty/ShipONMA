@@ -1,6 +1,12 @@
 #include "displaywindow.h"
+#include "FilterCoeffients.h"
+#include "signalprocessingclass.h"
+#include <QRegExp>
 #define THRESHOLD_FILE_STATUS 0             // If 0 LaptopVersion else SBC Version
 
+float CompSpectData[3][16384]={0};
+int ReplaySpectrumCompFlag=0;
+int CompFlagInd[3]={0};
 FILE *ft,*fr;
 extern double SpectrumMainDataPlot[NO_OF_SENSOR][1200];
 extern double OctaveMainDataPlot[NO_OF_SENSOR][40];
@@ -17,6 +23,16 @@ int16_t ReplayProgressBar;
 int16_t RecordProgressBar;
 extern int16_t ReplayCompFlag;
 extern int ReplayContFlag;
+extern int isCompSpecRdy;
+char SpectrumReplayPathSet[1024];
+int Selectedfileno;
+char tempNam1[100];
+char tempNam2[100];
+char tempNam3[100];
+char txtReplFileNw[200];
+QStringList strFileNames;
+
+extern void ClearSpecCompDisplay();
 
 int32_t DelayMaking;
 Host_Control_pkt_t control_object;
@@ -59,6 +75,7 @@ char HydrophoneName[HYDROPHONE_SENSOR][35]={"HMS1","HMS2","HMS3","B&K1","B&K2","
 
 DisplayWindow::DisplayWindow(QFrame *parent)
 {
+    sprintf(SpectrumReplayPathSet,"%s","/home");
     DisplayBaseFrame=new QFrame(parent);
     graphPlot=new GraphPlotClass();
     IssInfo=new ISSInfoClass();
@@ -94,6 +111,9 @@ DisplayWindow::DisplayWindow(QFrame *parent)
     connect(graphPlot->SpectrumComparisonGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showSpectCompDataRightWidgetVal(QMouseEvent*)));
     connect(graphPlot->ButtonExportCSV_SpecCompData,SIGNAL(clicked()),graphPlot, SLOT (ExportSpecCompData_to_CSV()));
     connect(graphPlot->ButtonExportJPG_SpecCompData,SIGNAL(clicked()),graphPlot,SLOT (ExportSpecCompData_to_JPG()));
+    connect(Replay_Button_Spec_comp,SIGNAL(clicked()),this,SLOT(SelectSpectrumComp()));
+    connect(StopReplay_Button_Spec_comp,SIGNAL(clicked()),this,SLOT(StopReplaySpecComp()));
+
 
 }
 
@@ -749,7 +769,7 @@ void DisplayWindow::AnnotationControls()
             PageSelection->addItem("1/3 OCTAVE BANDS",4);
             PageSelection->addItem("TRACK PAGE",5);
             PageSelection->addItem("TIME AVERAGED SPECTRUM",6);
-	    PageSelection->addItem("SPECTRUM COMPARISON PAGE",7);
+	    PageSelection->addItem("SPECTRUM COMPARISON",7);
             PageSelection->addItem("HMI EXIT",8);
 
             ToolBoxWidget= new QToolBox(DisplayAnnotationFrame);
@@ -1446,6 +1466,98 @@ void DisplayWindow::AnnotationControls()
        connect(ZoomResetButton,SIGNAL(clicked()),this,SLOT(ResetSet()));//ZoomWindow_RESET button
 }
 
+void DisplayWindow::SelectSpectrumComp(){
+
+    //graphPlot->ClearSpecCompDisplay();
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::DirectoryOnly);
+    dialog.setStyleSheet("background-color:white");
+    QStringList strFileNames = dialog.getOpenFileNames(this,tr("Select up to 3  Replay Files to Compare"),SpectrumReplayPathSet, tr("All Files (*.*)"));
+    Selectedfileno=strFileNames.size();
+    if (Selectedfileno!=0){
+	    Replay_Button_Spec_comp->hide();
+	    StopReplay_Button_Spec_comp->show();
+    }
+    QRegExp rx("[^/]*.txt");
+
+    printf("Selectedfileno : %d\n",Selectedfileno);
+
+    switch(Selectedfileno){
+       case 1:
+	  CompFlagInd[0]=1;
+	  CompFlagInd[1]=0;
+	  CompFlagInd[2]=0;
+          memcpy( tempNam1, strFileNames[0].toStdString().c_str() ,strFileNames[0].size());
+          ReplaySpectrumCompFlag=1;
+
+	  GreenLegend->show();
+          rx.indexIn(strFileNames[0]);
+	  GreenLegendtext->setText(rx.cap(0));
+	  GreenLegendtext->show();
+	  RedLegend->hide();
+	  BlueLegend->hide();
+          RedLegendtext->hide();
+          BlueLegendtext->hide();
+
+	  break;
+       case 2:
+	  CompFlagInd[0]=1;
+	  CompFlagInd[1]=1;
+	  CompFlagInd[2]=0;
+          memcpy( tempNam1, strFileNames[0].toStdString().c_str() ,strFileNames[0].size());
+          memcpy( tempNam2, strFileNames[1].toStdString().c_str() ,strFileNames[1].size());
+          ReplaySpectrumCompFlag=1;
+
+	  GreenLegend->show();
+	  rx.indexIn(strFileNames[0]);
+	  GreenLegendtext->setText(rx.cap(0));
+          GreenLegendtext->show();
+
+	  RedLegend->show();
+	  rx.indexIn(strFileNames[1]);
+	  RedLegendtext->setText(rx.cap(0));
+          RedLegendtext->show();
+
+	  BlueLegendtext->hide();
+          BlueLegend->hide();
+	  break;
+       case 3:
+	  CompFlagInd[0]=1;
+	  CompFlagInd[1]=1;
+	  CompFlagInd[2]=1;
+          memcpy( tempNam1, strFileNames[0].toStdString().c_str() ,strFileNames[0].size());
+          memcpy( tempNam2, strFileNames[1].toStdString().c_str() ,strFileNames[1].size());
+          memcpy( tempNam3, strFileNames[2].toStdString().c_str() ,strFileNames[2].size());
+          ReplaySpectrumCompFlag=1;
+
+	  GreenLegend->show();
+	  rx.indexIn(strFileNames[0]);
+	  GreenLegendtext->setText(rx.cap(0));
+          GreenLegendtext->show();
+
+          RedLegend->show();
+	  rx.indexIn(strFileNames[1]);
+	  RedLegendtext->setText(rx.cap(0));
+          RedLegendtext->show();
+
+	  BlueLegend->show();
+	  rx.indexIn(strFileNames[2]);
+	  BlueLegendtext->setText(rx.cap(0));
+          BlueLegendtext->show();
+	  break;
+    }
+
+}
+
+void DisplayWindow::StopReplaySpecComp(){
+    Replay_Button_Spec_comp->show();
+    StopReplay_Button_Spec_comp->hide();
+    ReplaySpectrumCompFlag=0;
+    CompFlagInd[0]=0;
+    CompFlagInd[1]=0;
+    CompFlagInd[2]=0;
+
+}
 
 void DisplayWindow::Zoom_XmaxAlertOK(){
 
@@ -1661,13 +1773,60 @@ void DisplayWindow::DrawLOFARFrame()
     Spec_Comp_Frame->setFrameShadow(QFrame::Raised);
     Spec_Comp_Frame->hide();
 
- /*   Replay_Button_Spec_comp = new QPushButton(Spec_Comp_Frame);
+    Replay_Button_Spec_comp = new QPushButton(Spec_Comp_Frame);
     Replay_Button_Spec_comp->setObjectName(QString::fromUtf8("Replay_Button_Spec_comp"));
     Replay_Button_Spec_comp->setStyleSheet(QString::fromUtf8("background-color:white;\n" "color: black;"
      "border-style: outset;" "border-width: 2px;" "border-radius: 10px;"" font: bold 14px;""min-width: 10em;"));
     Replay_Button_Spec_comp->setText("REPLAY");
     Replay_Button_Spec_comp->setGeometry(350,450,120,30);
-    Replay_Button_Spec_comp->show();*/
+    Replay_Button_Spec_comp->show();
+
+
+    StopReplay_Button_Spec_comp = new QPushButton(Spec_Comp_Frame);
+    StopReplay_Button_Spec_comp->setObjectName(QString::fromUtf8("StopReplay_Button_Spec_comp"));
+    StopReplay_Button_Spec_comp->setStyleSheet(QString::fromUtf8("background-color:white;\n" "color: black;"
+     "border-style: outset;" "border-width: 2px;" "border-radius: 10px;"" font: bold 14px;""min-width: 10em;"));
+    StopReplay_Button_Spec_comp->setText("STOP REPLAY");
+    StopReplay_Button_Spec_comp->setGeometry(350,450,120,30);
+    StopReplay_Button_Spec_comp->hide();
+
+    GreenLegend = new QLabel(Spec_Comp_Frame);
+    GreenLegend->setObjectName(QString::fromUtf8("greenlegendlabel"));
+    GreenLegend->setStyleSheet(QString::fromUtf8("background-color:green;\n" "color: black;"));
+    GreenLegend->setGeometry(100,8,50,30);
+    GreenLegend->hide();
+    
+    RedLegend = new QLabel(Spec_Comp_Frame);
+    RedLegend->setObjectName(QString::fromUtf8("redlegendlabel"));
+    RedLegend->setStyleSheet(QString::fromUtf8("background-color:red;\n" "color: black;"));
+    RedLegend->setGeometry(300,8,50,30);
+    RedLegend->hide();
+
+    BlueLegend = new QLabel(Spec_Comp_Frame);
+    BlueLegend->setObjectName(QString::fromUtf8("bluelegendlabel"));
+    BlueLegend->setStyleSheet(QString::fromUtf8("background-color:blue;\n" "color: black;"));
+    BlueLegend->setGeometry(500,8,50,30);
+    BlueLegend->hide();
+
+    GreenLegendtext = new QLabel(Spec_Comp_Frame);
+    GreenLegendtext->setStyleSheet("background-color: black; color: white;");
+ //  GreenLegendtext->setText("sample");
+    GreenLegendtext->setGeometry(155,0,150,33);
+    GreenLegendtext->hide();
+
+    RedLegendtext = new QLabel(Spec_Comp_Frame);
+    RedLegendtext->setStyleSheet("background-color: black; color: white;");
+   // RedLegendtext->setText("sample");
+    RedLegendtext->setGeometry(355,0,150,33);
+    RedLegendtext->hide();
+
+    BlueLegendtext = new QLabel(Spec_Comp_Frame);
+    BlueLegendtext->setStyleSheet("background-color: black; color: white;");
+   // BlueLegendtext->setText("sample");
+    BlueLegendtext->setGeometry(555,0,220,33);
+    BlueLegendtext->hide();
+
+    
     
     printf("\n Spectrum Comparison Page is selected---");
 }
@@ -4368,6 +4527,9 @@ void DisplayWindow::UpdateSpectrumDisplay()
               De_Spec_CursorEnable == true;
               }
               break;
+   case 7:
+	      graphPlot->ShowSpecCompDisplay();
+	      break;
 
     default:break;
     };
@@ -5713,6 +5875,7 @@ void DisplayWindow::setReplayCntFlag(){
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::DirectoryOnly);
     dialog.setStyleSheet("background-color:white");
-    //QString strRepFileName = dialog.getOpenFileName(this,tr("Select Replay File"),ReplayPathSet, tr("All Files (*.*)")); 
+    QString strRepFileName = dialog.getOpenFileName(this,tr("Select Replay File"),"/home/", tr("All Files (*.*)")); 
+    memcpy( txtReplFileNw, strRepFileName.toStdString().c_str() ,strRepFileName.size());
     ReplayContFlag = 1;
 }

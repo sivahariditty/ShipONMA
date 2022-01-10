@@ -90,6 +90,8 @@ public:
         QComboBox *Xmin_Combobox,*Xmax_Combobox,*Ymin_Combobox, *Ymax_Combobox;//ZoomWindow
         QDialog *XmaxAlert, *YmaxAlert;//ZoomWindow
 	QPushButton *ZoomXAlertOK, *ZoomYAlertOK;
+        QPushButton *Replay_Button_Spec_comp,*StopReplay_Button_Spec_comp;
+	QLabel *RedLegend, *BlueLegend, *GreenLegend, *RedLegendtext, *GreenLegendtext, *BlueLegendtext;
 
         QTextEdit *RawTextData;
         QPushButton *ExportCSV_Button_1,*ExportCSV_Button_2,*Export_Button;
@@ -113,6 +115,7 @@ public:
         float DispFreq,DispAmp,InterValue;
         int16_t HydrophoneScale,AccelerometerScale;
         QString format_combo_value;
+	ifstream myfile1;
 
         bool GAIN_SET_FLAG[MAX_SCU_NO];
        //bool PageID;
@@ -191,6 +194,7 @@ public:
         int32_t CHGaindBValue;
         float CHGainFloatValue;
         int16_t yScale,yScaleValue;
+	double CompSpectrumFilterImagOutput1[1100];
 
    protected:
 
@@ -236,6 +240,8 @@ public slots:
       void Zoom_YmaxAlertOK();
       void ZoomSet();
       void ResetSet();
+      void SelectSpectrumComp();
+      void StopReplaySpecComp();
 };
 
 

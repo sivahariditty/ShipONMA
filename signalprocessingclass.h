@@ -18,6 +18,8 @@
 #define ADC_Highest_Value 8388607
 #include <iostream>
 #include <fstream>
+#include <QDebug>
+
 using namespace std;
 
 class SignalProcessingClass : public QThread
@@ -28,6 +30,7 @@ public:
 
      SignalProcessingClass();
      ifstream RepFile; 
+     ifstream RepCompFile[3]; 
      int16_t LftZoomValue,SpectrumZoomValue,iCount,yCount,zCount,rCount,kCount,jCount,xCount,ChannelID,datalength_,ChannelIndex[61],SpectrumZoomChannelIndex,LofarZoomChannelIndex,LofarChannelIndex[61];
      int16_t StartPos,EndPos,SampleLen,TrackFreqData,ThresholdAmpData,ThresholdFreqData,TrackAmpData,TrackStartBin,TrackEndBin,ThresholdStartBin,ThresholdEndBin;
      float fCount,aCount,ftCount,atCount,EngQuantisationValue;
@@ -38,8 +41,13 @@ public:
      int16_t StartValue,EndValue,AVGVAL;
      float AVG,OctaveDataValue;
      float delData[16384];
+     float compData[3][16384];
      float delDataFIR[16384];
+     float compDataFIR_1[16384];
+     float compDataFIR_2[16384];
+     float compDataFIR_3[16384];
      int delDataCnt;
+     int SpecCompBefFlg;
      void run();
      void StartInitProcessing();
      void ReplayInit();
@@ -48,6 +56,13 @@ public:
      void StartRecordProcessing(int16_t,int16_t,int32_t*);
      void SpectrumProcessing(int16_t);
      void delSpectrumProcessing(int16_t);
+     void compSpectrumProcessing_1(int16_t CH_ID);
+     void compSpectrumProcessing_2(int16_t CH_ID);
+     void compSpectrumProcessing_3(int16_t CH_ID);
+     void compSetSpectrumDisplayBuffer_1(int16_t CH_ID);
+     void compSetSpectrumDisplayBuffer_2(int16_t CH_ID);
+     void compSetSpectrumDisplayBuffer_3(int16_t CH_ID);
+     void startRepComSpec_();
      void OctaveProcessing(int16_t);
 
      void DemonProcessing(int16_t);
@@ -89,6 +104,7 @@ public:
      void CaluclateTrack(int16_t*,int16_t,int16_t,int16_t);
      void CaluclateThreshold(int16_t*,int16_t,int16_t,int16_t);
      void SpectrumProcessingInd(int16_t CH_ID,float *BaseInputDataInd,double *SpecOutDataInd);
+     void startRepComSpec();
      double SpectrumMainDataPlotInd[1200];
      bool TrackStatusFlag,ThresholdFlag;
      float SpectrumIntermediate_;
@@ -98,28 +114,49 @@ public:
      float DataPtr1;
      int16_t LofarQuantisedOutput[NO_OF_SENSOR][1200],SpectrumExpAvgCount[NO_OF_SENSOR],OctaveExpAvgCount[NO_OF_SENSOR],Index,LofarExpAvgCount[NO_OF_SENSOR];
      int16_t DelSpectrumExpAvgCount[NO_OF_SENSOR];
+     int16_t CompSpectrumExpAvgCount[3];
      float LofarDisplayCorrect,fPeak_Value,CorrectionValue,PeakRatioFactor,LofarMainZoomPeakAmp,SpectrumMainZoomPeakAmp,SpectrumPeakAmp,LofarPeakAmp,LofarNormalisedPeakAmp,LofarZoomPeakQuantise,LofarPeakQuantise,SpectrumPeakQuantise,SpectrumZoom1PeakAmp,SpectrumZoom2PeakAmp;
      float SpectrumFilterRealOutput[16384];
      float DelSpectrumFilterRealOutput[16384];
+     float CompSpectrumFilterRealOutput_1[16384];
+     float CompSpectrumFilterRealOutput_2[16384];
+     float CompSpectrumFilterRealOutput_3[16384];
      float SpectrumFilterImagOutput[16384];
      float DelSpectrumFilterImagOutput[16384];
+     float CompSpectrumFilterImagOutput_1[16384];
+     float CompSpectrumFilterImagOutput_2[16384];
+     float CompSpectrumFilterImagOutput_3[16384];
      float OctaveFilterRealOutput[16384];
      float OctaveFilterImagOutput[16384];
      float SpectrumMagnitudeOutput[8192];
      float DelSpectrumMagnitudeOutput[8192];
+     float CompSpectrumMagnitudeOutput_1[8192];
+     float CompSpectrumMagnitudeOutput_2[8192];
+     float CompSpectrumMagnitudeOutput_3[8192];
      float OctaveMagnitudeOutput[8192];
      float OctaveBandOutput[40];
 
      float SpectrumExpAvgOutput[NO_OF_SENSOR][4096];
      float DelSpectrumExpAvgOutput[NO_OF_SENSOR][4096];
+     float CompSpectrumExpAvgOutput_1[4096];
+     float CompSpectrumExpAvgOutput_2[4096];
+     float CompSpectrumExpAvgOutput_3[4096];
+
      float OctaveExpAvgOutput[NO_OF_SENSOR][40];
 
      float Spectrum50HzEleiminateBuffer[4096];
      float DelSpectrum50HzEleiminateBuffer[4096];
+     float CompSpectrum50HzEleiminateBuffer_1[4096];
+     float CompSpectrum50HzEleiminateBuffer_2[4096];
+     float CompSpectrum50HzEleiminateBuffer_3[4096];
+
      float Octave50HzEleiminateBuffer[4096];
 
      int16_t SpectrumQuantisedOutput[1200],EnergyAvgCount[HYDROPHONE_SENSOR];
      int16_t DelSpectrumQuantisedOutput[1200];
+     int16_t CompSpectrumQuantisedOutput_1[1200];
+     int16_t CompSpectrumQuantisedOutput_2[1200];
+     int16_t CompSpectrumQuantisedOutput_3[1200];
      float LofarExpAvgOutput[NO_OF_SENSOR][1200];
 
      float LofarFilterOutput[16384];
@@ -198,6 +235,7 @@ public:
 
      int8_t SpectrumZoomAvgCount,LofarZoomAvgCount;
      float DataPtr7;
+     float DataPtr8;
 
 //void  convolve (const float*, int,float*, float*, int) ;
 

@@ -22,7 +22,7 @@ static const uint qt_meta_data_DisplayWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      34,   14, // methods
+      36,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -66,6 +66,8 @@ static const uint qt_meta_data_DisplayWindow[] = {
      704,   14,   14,   14, 0x0a,
      723,   14,   14,   14, 0x0a,
      733,   14,   14,   14, 0x0a,
+     744,   14,   14,   14, 0x0a,
+     765,   14,   14,   14, 0x0a,
 
        0        // eod
 };
@@ -91,7 +93,8 @@ static const char qt_meta_stringdata_DisplayWindow[] = {
     "ExportRawData_to_CSV()\0setReplayCntFlag()\0"
     "Xmax_dialogmsg()\0Ymax_dialogmsg()\0"
     "Zoom_XmaxAlertOK()\0Zoom_YmaxAlertOK()\0"
-    "ZoomSet()\0ResetSet()\0"
+    "ZoomSet()\0ResetSet()\0SelectSpectrumComp()\0"
+    "StopReplaySpecComp()\0"
 };
 
 void DisplayWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -134,6 +137,8 @@ void DisplayWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 31: _t->Zoom_YmaxAlertOK(); break;
         case 32: _t->ZoomSet(); break;
         case 33: _t->ResetSet(); break;
+        case 34: _t->SelectSpectrumComp(); break;
+        case 35: _t->StopReplaySpecComp(); break;
         default: ;
         }
     }
@@ -171,9 +176,9 @@ int DisplayWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 34)
+        if (_id < 36)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 34;
+        _id -= 36;
     }
     return _id;
 }

@@ -5,6 +5,9 @@
 #define SpectrumAmplitudeRes 0.000029802//Calculated for Max ADC value=8388607(Vin*pow(2,24)/Vref).Vref=5Vpp,ADC is 24 bit Resolution.
 #define SpectrumZoomAmplitudeRes 0.000024765//Higest Value taken for Zoom1 FFT=10094839.000000
 
+extern float CompSpectData[3][16384];
+extern int ReplaySpectrumCompFlag;
+extern int CompFlagInd[3];
 extern ControlData Controls[NO_OF_SENSOR];
 extern DelayedSpectrum_Data Del_Controls[NO_OF_SENSOR];
 
@@ -14,12 +17,21 @@ extern int16_t ReplayCompFlag;
 extern int32_t DelayMaking;
 extern int16_t ReplayProgressBar;
 int ReplayContFlag;
+extern int Selectedfileno;
+extern QStringList strFileNames;
+extern char tempNam1[100];
+extern char tempNam2[100];
+extern char tempNam3[100];
+extern char txtReplFileNw[200];
+
 
 extern Recording Records[REC_DATA_SEGLEN];
 extern bool StartProcessing;
 extern double SpectrumMainDataPlot[NO_OF_SENSOR][1200];
 extern double DelSpectrumMainDataPlot[NO_OF_SENSOR][1200];
+extern double CompSpectrumMainDataPlot[3][1200];
 extern int IsDelData;
+extern int IsCompData;
 extern  float  RawDataMainDataPlot[16384];
 //extern  float  RawDataMainDataPlot[NO_OF_SENSOR][16384];
 extern double OctaveMainDataPlot[NO_OF_SENSOR][40];
@@ -37,7 +49,8 @@ extern int16_t SpectrumZoomCursor,LofarZoomCursor;
 float SPECZOMM_ALPHA,LOFZOOM_ALPHA;
 extern bool SpectrumZoomCursorStatus,LofarZoomCursorStatus,SpectrumZoomEnable,LofarZoomEnable;
 FILE *frp;
-
+double CompSpectrumOut[3][1100];
+int isCompSpecRdy = 0;
 
 int16_t LowerOctaveBand[30]={11,14,18,22,28,35,44,56,70,88,111,140,177,223,281,354,445,561,707,891,1122,1414,1782,2245,2828,3564,4490,5657,7127,8980};
 
@@ -70,6 +83,7 @@ SignalProcessingClass::SignalProcessingClass()
     LofarZoomAvgCount=0;
     SpectrumZoomSetFlag=0;
     LofarZoomSetFlag=0;
+    SpecCompBefFlg = 0;
     for(iCount=0;iCount<61;iCount++)
     {
       Track_Data[0].CH_NO[iCount]=0;
@@ -89,6 +103,7 @@ SignalProcessingClass::SignalProcessingClass()
     }
     delDataCnt = 0;
     IsDelData = 0;
+    IsCompData = 0;
     ReplayContFlag = 0;
 }
 
@@ -106,6 +121,7 @@ void SignalProcessingClass::run()
     RecordSegmentVal=0;
     delayCounter_=0;
     DelayMaking=0;
+
     while(1)
     {
              if(ReplayCompFlag==1)
@@ -121,6 +137,17 @@ void SignalProcessingClass::run()
              {
                StartInitProcessing();
              }
+	     if(ReplaySpectrumCompFlag == 1){
+	       //ReplaySpectrumCompFlag = 0;
+	       SpecCompBefFlg = 1;
+	       startRepComSpec_();
+	     }
+
+	    else{
+	       RepCompFile[0].close();
+	       RepCompFile[1].close();
+	       RepCompFile[2].close();
+            }
     }
 }
 
@@ -203,7 +230,172 @@ void SignalProcessingClass::StartInitProcessing()
          }
 }
 
+void SignalProcessingClass::startRepComSpec_(){
 
+   int32_t ReplyPtr[16384];
+   int32_t testData;
+   float tmpFrmFil;
+
+  if (Selectedfileno==1)
+   {
+   // printf("in 1");
+
+   if(!RepCompFile[0].is_open()){
+      RepCompFile[0].open(tempNam1);
+   //   printf("opening file 1\n");
+	 CompFlagInd [0] = 1;
+   }
+   for(iCount=0;iCount<16384;iCount++){
+      if(!RepCompFile[0].eof()){
+      RepCompFile[0] >> tmpFrmFil;
+      DataPtr8=(float)tmpFrmFil;
+      compData[0][iCount]=(DataPtr8/ADC_Highest_Value);
+	 CompFlagInd [0] = 1;
+      }
+      else{
+         compData[0][iCount]=0.00;
+	 CompFlagInd [0] = 0;
+      }
+
+      if(RepCompFile[0].eof()){
+         RepCompFile[0].close();
+	 ReplaySpectrumCompFlag = 0;
+      }
+
+   }
+   FIRFilter(&GenralFIR1[0],72,&compData[0][0],&compDataFIR_1[0],16384);
+   compSpectrumProcessing_1(0);
+   }
+
+
+if (Selectedfileno==2)
+   {
+    //printf("in 2");
+
+   if(!RepCompFile[0].is_open()){
+      RepCompFile[0].open(tempNam1);
+  //    printf("opening file 1\n");
+	 CompFlagInd [0] = 1;
+   }
+   if(!RepCompFile[1].is_open()){
+      RepCompFile[1].open(tempNam2);
+    //  printf("opening file 2\n");
+	 CompFlagInd [1] = 1;
+   }
+   for(iCount=0;iCount<16384;iCount++){
+      if(!RepCompFile[0].eof()){
+      RepCompFile[0] >> tmpFrmFil;
+      DataPtr8=(float)tmpFrmFil;
+      compData[0][iCount]=(DataPtr8/ADC_Highest_Value);
+	 CompFlagInd [0] = 1;
+      }
+      else{
+         compData[0][iCount]=0.00;
+	 CompFlagInd [0] = 0;
+      }
+      if(!RepCompFile[1].eof()){
+      RepCompFile[1] >> tmpFrmFil;
+      DataPtr8=(float)tmpFrmFil;
+      compData[1][iCount]=(DataPtr8/ADC_Highest_Value);
+	 CompFlagInd [1] = 1;
+      }
+      else{
+         compData[1][iCount]=0.00;
+	 CompFlagInd [1] = 0;
+      }
+
+      if(RepCompFile[0].eof() && RepCompFile[1].eof()){
+         RepCompFile[0].close();
+         RepCompFile[1].close();
+	 ReplaySpectrumCompFlag = 0;
+      }
+
+   }
+   FIRFilter(&GenralFIR1[0],72,&compData[0][0],&compDataFIR_1[0],16384);
+   compSpectrumProcessing_1(0);
+   FIRFilter(&GenralFIR1[0],72,&compData[1][0],&compDataFIR_2[0],16384);
+   compSpectrumProcessing_2(1);
+   }
+
+
+
+if (Selectedfileno==3)
+   {
+  //    printf("in 3");
+
+   if(!RepCompFile[0].is_open()){
+      RepCompFile[0].open(tempNam1);
+     // printf("opening file 1\n");
+	 CompFlagInd [0] = 1;
+   }
+   if(!RepCompFile[1].is_open()){
+      RepCompFile[1].open(tempNam2);
+     // printf("opening file 2\n");
+	 CompFlagInd [1] = 1;
+   }
+   if(!RepCompFile[2].is_open()){
+      RepCompFile[2].open(tempNam3);
+     // printf("opening file 3\n");
+	 CompFlagInd [2] = 1;
+   }
+   for(iCount=0;iCount<16384;iCount++){
+      if(!RepCompFile[0].eof()){
+      RepCompFile[0] >> tmpFrmFil;
+      DataPtr8=(float)tmpFrmFil;
+      compData[0][iCount]=(DataPtr8/ADC_Highest_Value);
+	 CompFlagInd [0] = 1;
+      }
+      else{
+         compData[0][iCount]=0.00;
+	 CompFlagInd [0] = 0;
+      }
+      if(!RepCompFile[1].eof()){
+      RepCompFile[1] >> tmpFrmFil;
+      DataPtr8=(float)tmpFrmFil;
+      compData[1][iCount]=(DataPtr8/ADC_Highest_Value);
+	 CompFlagInd [1] = 1;
+      }
+      else{
+         compData[1][iCount]=0.00;
+	 CompFlagInd [1] = 0;
+      }
+      if(!RepCompFile[2].eof()){
+      RepCompFile[2] >> tmpFrmFil;
+      DataPtr8=(float)tmpFrmFil;
+      compData[2][iCount]=(DataPtr8/ADC_Highest_Value);
+	 CompFlagInd [2] = 1;
+      } 
+      else{
+         compData[2][iCount]=0.00;
+	 CompFlagInd [2] = 0;
+      }
+
+      if(RepCompFile[2].eof() && RepCompFile[1].eof() && RepCompFile[2].eof()){
+         RepCompFile[0].close();
+         RepCompFile[1].close();
+         RepCompFile[2].close();
+         ReplayCompFlag=0;
+	 ReplaySpectrumCompFlag = 0;
+      }
+
+   }
+   FIRFilter(&GenralFIR1[0],72,&compData[0][0],&compDataFIR_1[0],16384);
+   compSpectrumProcessing_1(0);
+   FIRFilter(&GenralFIR1[0],72,&compData[1][0],&compDataFIR_2[0],16384);
+   compSpectrumProcessing_2(1);
+   FIRFilter(&GenralFIR1[0],72,&compData[2][0],&compDataFIR_3[0],16384);
+   compSpectrumProcessing_3(2);
+   }
+   isCompSpecRdy = 1;
+
+   /*if(ReplaySpectrumCompFlag==0){
+    if (RepCompFile[0].is_open() || RepCompFile[1].is_open() || RepCompFile[2].is_open()) {
+	    RepCompFile[0].close();
+	    RepCompFile[1].close();
+	    RepCompFile[2].close();
+    }
+   }*/
+}
 
 
 void SignalProcessingClass::StartRepaly()
@@ -270,15 +462,14 @@ void SignalProcessingClass::StartRepalyCont(){
    int32_t testData;
    float tmpFrmFil;
    if(!RepFile.is_open())
-      RepFile.open("/home/neena/Text_float_data/800Hz.txt");
+      RepFile.open(txtReplFileNw);
    delDataCnt = 0;
    rCount=0;
    ChannelID=(rCount+1);
    for(iCount=0;iCount<16384;iCount++){
-      if(RepFile.peek() != EOF){
+      if(!RepFile.eof()){
       RepFile >> tmpFrmFil;
       DataPtr7=(float)tmpFrmFil;
-      printf("%f\n",DataPtr7);
       ReplyData[iCount]=(DataPtr7/ADC_Highest_Value);
       InputData[iCount]= ReplyData[iCount];
       if(delDataCnt == 0){
@@ -290,7 +481,8 @@ void SignalProcessingClass::StartRepalyCont(){
       }
       if(RepFile.eof()){
          RepFile.close();
-         ReplayCompFlag=0;
+         ReplayContFlag = 0;
+         printf("File closed\n");
       }
    }
    FIRFilter(&GenralFIR1[0],72,&ReplyData[0],&BaseInputData[0],16384);
@@ -372,6 +564,83 @@ void SignalProcessingClass::delSpectrumProcessing(int16_t CH_ID)
     delSetSpectrumDisplayBuffer(ChannelID);
     }
 }
+
+void SignalProcessingClass::compSpectrumProcessing_1(int16_t CH_ID)
+{
+    //if(CH_ID == 0){
+    ComplexFunction(&compDataFIR_1[0],&CompSpectrumFilterRealOutput_1[0],&CompSpectrumFilterImagOutput_1[0],16384);
+    FFT_Funtion(&CompSpectrumFilterRealOutput_1[0],&CompSpectrumFilterImagOutput_1[0],8192,8192,false);
+    FFTMagnitudeExtraction(&CompSpectrumFilterRealOutput_1[0],&CompSpectrumFilterImagOutput_1[0],&CompSpectrumMagnitudeOutput_1[0],4096,3);
+    Exponential_Average(&CompSpectrumMagnitudeOutput_1[0],&CompSpectrumExpAvgOutput_1[0],4096,0.40);
+    CompSpectrumExpAvgCount[CH_ID]=((CompSpectrumExpAvgCount[CH_ID]+1)%SPEC_AVG_FACTOR);
+    if(CompSpectrumExpAvgCount[CH_ID]==0)
+    {
+    PeakQunatize(&CompSpectrumExpAvgOutput_1[0],&CompSpectrum50HzEleiminateBuffer_1[0],1,4096)  ;
+    Requantisation(CH_ID,1,&CompSpectrum50HzEleiminateBuffer_1[0],&CompSpectrumQuantisedOutput_1[0],&CompSpectrumQuantisationTable[0],1200,1,SpectrumAmplitudeRes);
+    compSetSpectrumDisplayBuffer_1(CH_ID);
+    }
+    /*}
+    else if(CH_ID == 1){
+    ComplexFunction(&compDataFIR[CH_ID][0],&CompSpectrumFilterRealOutput[0],&CompSpectrumFilterImagOutput[0],16384);
+    FFT_Funtion(&CompSpectrumFilterRealOutput[0],&CompSpectrumFilterImagOutput[0],8192,8192,false);
+    FFTMagnitudeExtraction(&CompSpectrumFilterRealOutput[0],&CompSpectrumFilterImagOutput[0],&CompSpectrumMagnitudeOutput[0],4096,3);
+    Exponential_Average(&CompSpectrumMagnitudeOutput[0],&CompSpectrumExpAvgOutput[0][0],4096,0.40);
+    CompSpectrumExpAvgCount[0]=((CompSpectrumExpAvgCount[CH_ID]+1)%SPEC_AVG_FACTOR);
+    if(CompSpectrumExpAvgCount[0]==0)
+    {
+    PeakQunatize(&CompSpectrumExpAvgOutput[CH_ID][0],&CompSpectrum50HzEleiminateBuffer[0],1,4096)  ;
+    Requantisation(CH_ID,1,&CompSpectrum50HzEleiminateBuffer[0],&CompSpectrumQuantisedOutput[0],&CompSpectrumQuantisationTable[0],1200,1,SpectrumAmplitudeRes);
+    compSetSpectrumDisplayBuffer(CH_ID);
+    }
+    }
+    else if(CH_ID == 2){
+    ComplexFunction(&compDataFIR[CH_ID][0],&CompSpectrumFilterRealOutput[0],&CompSpectrumFilterImagOutput[0],16384);
+    FFT_Funtion(&CompSpectrumFilterRealOutput[0],&CompSpectrumFilterImagOutput[0],8192,8192,false);
+    FFTMagnitudeExtraction(&CompSpectrumFilterRealOutput[0],&CompSpectrumFilterImagOutput[0],&CompSpectrumMagnitudeOutput[0],4096,3);
+    Exponential_Average(&CompSpectrumMagnitudeOutput[0],&CompSpectrumExpAvgOutput[0][0],4096,0.40);
+    CompSpectrumExpAvgCount[0]=((CompSpectrumExpAvgCount[CH_ID]+1)%SPEC_AVG_FACTOR);
+    if(CompSpectrumExpAvgCount[0]==0)
+    {
+    PeakQunatize(&CompSpectrumExpAvgOutput[CH_ID][0],&CompSpectrum50HzEleiminateBuffer[0],1,4096)  ;
+    Requantisation(CH_ID,1,&CompSpectrum50HzEleiminateBuffer[0],&CompSpectrumQuantisedOutput[0],&CompSpectrumQuantisationTable[0],1200,1,SpectrumAmplitudeRes);
+    compSetSpectrumDisplayBuffer(CH_ID);
+    }
+    }*/
+}
+
+void SignalProcessingClass::compSpectrumProcessing_2(int16_t CH_ID)
+{
+    //if(CH_ID == 0){
+    ComplexFunction(&compDataFIR_2[0],&CompSpectrumFilterRealOutput_2[0],&CompSpectrumFilterImagOutput_2[0],16384);
+    FFT_Funtion(&CompSpectrumFilterRealOutput_2[0],&CompSpectrumFilterImagOutput_2[0],8192,8192,false);
+    FFTMagnitudeExtraction(&CompSpectrumFilterRealOutput_2[0],&CompSpectrumFilterImagOutput_2[0],&CompSpectrumMagnitudeOutput_2[0],4096,3);
+    Exponential_Average(&CompSpectrumMagnitudeOutput_2[0],&CompSpectrumExpAvgOutput_2[0],4096,0.40);
+    CompSpectrumExpAvgCount[CH_ID]=((CompSpectrumExpAvgCount[CH_ID]+1)%SPEC_AVG_FACTOR);
+    if(CompSpectrumExpAvgCount[CH_ID]==0)
+    {
+    PeakQunatize(&CompSpectrumExpAvgOutput_2[0],&CompSpectrum50HzEleiminateBuffer_2[0],1,4096)  ;
+    Requantisation(CH_ID,1,&CompSpectrum50HzEleiminateBuffer_2[0],&CompSpectrumQuantisedOutput_2[0],&CompSpectrumQuantisationTable[0],1200,1,SpectrumAmplitudeRes);
+    compSetSpectrumDisplayBuffer_2(CH_ID);
+    }
+}
+
+void SignalProcessingClass::compSpectrumProcessing_3(int16_t CH_ID)
+{
+    //if(CH_ID == 0){
+    ComplexFunction(&compDataFIR_3[0],&CompSpectrumFilterRealOutput_3[0],&CompSpectrumFilterImagOutput_3[0],16384);
+    FFT_Funtion(&CompSpectrumFilterRealOutput_3[0],&CompSpectrumFilterImagOutput_3[0],8192,8192,false);
+    FFTMagnitudeExtraction(&CompSpectrumFilterRealOutput_3[0],&CompSpectrumFilterImagOutput_3[0],&CompSpectrumMagnitudeOutput_3[0],4096,3);
+    Exponential_Average(&CompSpectrumMagnitudeOutput_3[0],&CompSpectrumExpAvgOutput_3[0],4096,0.40);
+    CompSpectrumExpAvgCount[CH_ID]=((CompSpectrumExpAvgCount[CH_ID]+1)%SPEC_AVG_FACTOR);
+    if(CompSpectrumExpAvgCount[CH_ID]==0)
+    {
+    PeakQunatize(&CompSpectrumExpAvgOutput_3[0],&CompSpectrum50HzEleiminateBuffer_3[0],1,4096)  ;
+    Requantisation(CH_ID,1,&CompSpectrum50HzEleiminateBuffer_3[0],&CompSpectrumQuantisedOutput_3[0],&CompSpectrumQuantisationTable[0],1200,1,SpectrumAmplitudeRes);
+    compSetSpectrumDisplayBuffer_3(CH_ID);
+    }
+}
+
+
 
 void SignalProcessingClass::SpectrumProcessingInd(int16_t CH_ID,float *BaseInputDataInd,double *SpecOutDataInd)
 {
@@ -746,6 +1015,30 @@ void SignalProcessingClass::delSetSpectrumDisplayBuffer(int16_t CH_ID)
     for(iCount=0;iCount<1100;iCount++)
     {
          DelSpectrumMainDataPlot[CH_ID-1][iCount]=(double)sqrt(pow(DelSpectrumQuantisedOutput[iCount],2));
+    }
+}
+void SignalProcessingClass::compSetSpectrumDisplayBuffer_1(int16_t CH_ID)
+{
+    for(iCount=0;iCount<1100;iCount++)
+    {
+         CompSpectrumMainDataPlot[0][iCount]=(double)sqrt(pow(CompSpectrumQuantisedOutput_1[iCount],2));
+    }
+}
+
+
+void SignalProcessingClass::compSetSpectrumDisplayBuffer_2(int16_t CH_ID)
+{
+    for(iCount=0;iCount<1100;iCount++)
+    {
+         CompSpectrumMainDataPlot[1][iCount]=(double)sqrt(pow(CompSpectrumQuantisedOutput_2[iCount],2));
+    }
+}
+
+void SignalProcessingClass::compSetSpectrumDisplayBuffer_3(int16_t CH_ID)
+{
+    for(iCount=0;iCount<1100;iCount++)
+    {
+         CompSpectrumMainDataPlot[2][iCount]=(double)sqrt(pow(CompSpectrumQuantisedOutput_3[iCount],2));
     }
 }
 
