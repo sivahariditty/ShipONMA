@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDateTime> 
 extern ChannelThreshold Threshold;
 extern ChannelTrack CH_Track;
 extern RecordingControls RecControl;
@@ -1489,13 +1490,18 @@ void MainWindow::OctaveGroupWind()
 }
 
 void MainWindow::recChanlData(){
+       ContRecSelCh = RecChSel->itemData(RecChSel->currentIndex()).toInt();
+       QDateTime now = QDateTime::currentDateTime();
+       QString now_s = now.toString("dd.MM.yyyy_hh:mm:ss.zzz");
+       ContRecSelCh = 10;
        QFileDialog dialog(this);
        dialog.setFileMode(QFileDialog::DirectoryOnly);
        dialog.setStyleSheet("background-color:white");
-       QString strFileName = dialog.getSaveFileName(this,tr("Save File"),"", tr("All Files (*.*)"));
+       QString strFileName = dialog.getSaveFileName(this,tr("Save File"),QString(RecChSel->itemText(RecChSel->currentIndex()) +"_"+now_s+".txt"), tr("All Files (*.txt)"));
        ContRecFileName = strFileName;
-       ContRecSelCh = RecChSel->itemData(RecChSel->currentIndex()).toInt();
        SelectRecChanel->close();
+       RecordStopFlagCont = 0;
+       DisplayBase->RecChnlButton->setText("STOP REC");
        RecordStartFlagCont = 1;
        RecordSetFlagCont = 1;
 }
@@ -1506,6 +1512,8 @@ void MainWindow::shwChSelDialog(){
    }
    else if(RecordStopFlagCont == 0){
       RecordStopFlagCont = 1;
+      RecordStartFlagCont = 0;
+      DisplayBase->RecChnlButton->setText("CHNL REC");
    }
 }
 
