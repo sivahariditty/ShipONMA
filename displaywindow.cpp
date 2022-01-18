@@ -7,6 +7,7 @@
 float CompSpectData[3][16384]={0};
 int ReplaySpectrumCompFlag=0;
 int CompFlagInd[3]={0};
+float DispAmpTmp;
 FILE *ft,*fr;
 extern double SpectrumMainDataPlot[NO_OF_SENSOR][1200];
 extern double OctaveMainDataPlot[NO_OF_SENSOR][40];
@@ -100,17 +101,23 @@ DisplayWindow::DisplayWindow(QFrame *parent)
     connect(graphPlot->LofarGraphLegend,SIGNAL(mouseDoubleClick(QMouseEvent *)),graphPlot, SLOT (freezeLoFarPlot(QMouseEvent*)));
     connect(ReplayButtonCont,SIGNAL(clicked()),this, SLOT (setReplayCntFlag()));
     connect(graphPlot->SpectrumGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showSpectrumValue(QMouseEvent*)));
+    connect(graphPlot->CloseSpectrumVal,SIGNAL(clicked()),graphPlot, SLOT (CloseSpectrumvalue()));
     connect(graphPlot->SpectrumGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showSpectrumRightWidgetVal(QMouseEvent*)));
     connect(graphPlot->ButtonExportCSV_Spectrum,SIGNAL(clicked()),graphPlot, SLOT (ExportSpectrumData_to_CSV()));
     connect(graphPlot->ButtonExportJPG_Spectrum,SIGNAL(clicked()),graphPlot,SLOT (ExportSpectrumData_to_JPG()));
+    connect(graphPlot->ButtonJPG_CSV_Close_Spectrum,SIGNAL(clicked()),graphPlot,SLOT (ButtonJPG_CSV_Close_Spectrum_Tab()));
     connect(graphPlot-> RawDataDelSpectGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showRawDataValue(QMouseEvent*)));
+    connect(graphPlot->CloseRawDataVal,SIGNAL(clicked()),graphPlot, SLOT (CloseRawDatavalue()));
     connect(graphPlot->RawDataDelSpectGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showRawDataRightWidgetVal(QMouseEvent*)));
     connect(graphPlot->ButtonExportCSV_RawData,SIGNAL(clicked()),graphPlot, SLOT (ExportRawData_to_CSV()));
     connect(graphPlot->ButtonExportJPG_RawData,SIGNAL(clicked()),graphPlot,SLOT (ExportRawData_to_JPG()));
+    connect(graphPlot->ButtonJPG_CSV_Close_RawData,SIGNAL(clicked()),graphPlot,SLOT (ButtonJPG_CSV_Close_RawData_Tab()));
     connect(graphPlot->SpectrumComparisonGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showSpectCompDataValue(QMouseEvent*)));
+    connect(graphPlot->CloseSpecCompVal,SIGNAL(clicked()),graphPlot, SLOT (CloseSpecCompvalue()));
     connect(graphPlot->SpectrumComparisonGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showSpectCompDataRightWidgetVal(QMouseEvent*)));
     connect(graphPlot->ButtonExportCSV_SpecCompData,SIGNAL(clicked()),graphPlot, SLOT (ExportSpecCompData_to_CSV()));
     connect(graphPlot->ButtonExportJPG_SpecCompData,SIGNAL(clicked()),graphPlot,SLOT (ExportSpecCompData_to_JPG()));
+    connect(graphPlot->ButtonJPG_CSV_Close_SpecComp,SIGNAL(clicked()),graphPlot,SLOT (ButtonJPG_CSV_Close_SpecComp_Tab()));
     connect(Replay_Button_Spec_comp,SIGNAL(clicked()),this,SLOT(SelectSpectrumComp()));
     connect(StopReplay_Button_Spec_comp,SIGNAL(clicked()),this,SLOT(StopReplaySpecComp()));
 
@@ -2887,10 +2894,10 @@ void DisplayWindow::ChangeDisplayPageConfiguration(int16_t x)
               ZoomCursorVLine1->hide();
               ZoomCursorVLine2->hide();
               ZoomCursorVLine3->hide();
-              graphPlot->Lofar_Scale_TickLabel1->show();
-              graphPlot->Lofar_Scale_TickLabel2->show();
-              graphPlot->Lofar_Scale_TickLabel3->show();
-              graphPlot->GraphXScaleFrame->show();
+              graphPlot->Lofar_Scale_TickLabel1->hide();
+              graphPlot->Lofar_Scale_TickLabel2->hide();
+              graphPlot->Lofar_Scale_TickLabel3->hide();
+              graphPlot->GraphXScaleFrame->hide();
               graphPlot->GraphYScaleFrame->hide();
               graphPlot->zoomGraphXScaleFrame->show();
               graphPlot->zoomGraphYScaleFrame->show();
@@ -5870,6 +5877,37 @@ void DisplayWindow::ScaleCalculation(float xFreq,float yAmp,int16_t Page_ID, int
     }
 
 }
+
+float DisplayWindow::ScaleCalculationRet(float xFreq,float yAmp,int16_t Page_ID, int16_t SCAL_ID,int16_t Zoom_ID )
+{
+    float pi=6.28;
+    float val;
+    float y;
+    //float DispAmpTmp;
+
+    if(SCAL_ID==1)
+    {
+        InterValue=(yAmp/47.2);
+        val=pi*xFreq;
+        DispAmpTmp=((InterValue-CHGaindBValue)/pow(val,2));
+    }
+    else if(SCAL_ID==2)
+    {
+        InterValue=(yAmp/(95.4));
+        val=pi*xFreq;
+        DispAmpTmp=((InterValue-CHGaindBValue)/val);
+    }
+    else
+    {
+        InterValue=(yAmp/(95.4));
+        DispAmpTmp=(InterValue);
+    }
+    return DispAmpTmp;
+
+}
+
+
+
 
 void DisplayWindow::setReplayCntFlag(){
     QFileDialog dialog(this);

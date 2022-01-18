@@ -171,7 +171,7 @@ void GraphPlotClass::SpectrumDisplaySelect()
    showValuesSpectrumplot= new QFrame(SpectrumGraphLegend);
     showValuesSpectrumplot->setGeometry(QRect(30,30,190,30));
     showValuesSpectrumplot->setStyleSheet(QString::fromUtf8("background-color: rgb(255,204,229);"));
-    showValuesSpectrumplot->hide();
+    showValuesSpectrumplot->show();
 
     showSpectrumVal = new QLabel(showValuesSpectrumplot);
     showSpectrumVal->setStyleSheet(QString::fromUtf8("background-color: rgb(255,204,229);\n"
@@ -181,12 +181,12 @@ void GraphPlotClass::SpectrumDisplaySelect()
     CloseSpectrumVal = new QPushButton(showValuesSpectrumplot);
     CloseSpectrumVal->setObjectName(QString::fromUtf8("CloseSpecVal"));
     CloseSpectrumVal->setText("x");
-    CloseSpectrumVal->setGeometry(QRect(180,0, 15, 30));
+    CloseSpectrumVal->setGeometry(QRect(180,0, 10, 30));
 
 
     showSpectrumRightClickWid= new QFrame(SpectrumGraphLegend);
     showSpectrumRightClickWid->setStyleSheet(QString::fromUtf8("background-color: rgb(204,204,255);"));
-    showSpectrumRightClickWid->setGeometry(0,0,113,57);
+    showSpectrumRightClickWid->setGeometry(0,0,98,57);
     showSpectrumRightClickWid->hide();
 
     ButtonExportCSV_Spectrum = new QPushButton(showSpectrumRightClickWid);
@@ -196,12 +196,6 @@ void GraphPlotClass::SpectrumDisplaySelect()
     ButtonExportJPG_Spectrum= new QPushButton(showSpectrumRightClickWid);
     ButtonExportJPG_Spectrum->setObjectName(QString::fromUtf8("export_jpg_spec"));
     ButtonExportJPG_Spectrum->setText("Export to  JPG");
-
-    ButtonJPG_CSV_Close_Spectrum = new QPushButton(showSpectrumRightClickWid);
-    ButtonJPG_CSV_Close_Spectrum->setObjectName(QString::fromUtf8("CloseJPGCSV"));
-    ButtonJPG_CSV_Close_Spectrum->setText("x");
-    ButtonJPG_CSV_Close_Spectrum->setGeometry(98,0,15,57);
-
 
 }
 
@@ -252,12 +246,6 @@ void GraphPlotClass::RawDataDisplaySelect()
             "color: rgb(0,0,0);"));
   showRawDataVal->setGeometry(QRect(0,0, 180, 30));
 
-  CloseRawDataVal = new QPushButton(showValuesRawDataplot);
-  CloseRawDataVal->setObjectName(QString::fromUtf8("CloseSpecVal"));
-  CloseRawDataVal->setText("x");
-  CloseRawDataVal->setGeometry(QRect(180,0, 15, 30));
-
-
   showRawDataRightClickWid= new QFrame(RawDataDelSpectGraphLegend);
   showRawDataRightClickWid->setStyleSheet(QString::fromUtf8("background-color: rgb(229,204,255);"));
   showRawDataRightClickWid->hide();
@@ -270,11 +258,6 @@ void GraphPlotClass::RawDataDisplaySelect()
   ButtonExportJPG_RawData->setObjectName(QString::fromUtf8("export_jpg_spec"));
   ButtonExportJPG_RawData->setText("Export to  JPG");
 
-
-  ButtonJPG_CSV_Close_RawData = new QPushButton(showRawDataRightClickWid);
-  ButtonJPG_CSV_Close_RawData->setObjectName(QString::fromUtf8("CloseJPGCSV"));
-  ButtonJPG_CSV_Close_RawData->setText("x");
-  ButtonJPG_CSV_Close_RawData->setGeometry(98,0,15,57);
 }
 
 void GraphPlotClass::SpectrumComparisonDisplaySelect()
@@ -324,11 +307,6 @@ void GraphPlotClass::SpectrumComparisonDisplaySelect()
             "color: rgb(0,0,0);"));
   showSpecCompDataVal->setGeometry(QRect(0,0, 180, 30));
 
-  CloseSpecCompVal = new QPushButton(showValuesSpectCompDataplot);
-  CloseSpecCompVal->setObjectName(QString::fromUtf8("CloseSpecVal"));
-  CloseSpecCompVal->setText("x");
-  CloseSpecCompVal->setGeometry(QRect(180,0, 15, 30));
-
   showSpectCompDataRightClickWid= new QFrame(SpectrumComparisonGraphLegend);
   showSpectCompDataRightClickWid->setStyleSheet(QString::fromUtf8("background-color: rgb(229,204,255);"));
   showSpectCompDataRightClickWid->hide();
@@ -341,11 +319,6 @@ void GraphPlotClass::SpectrumComparisonDisplaySelect()
   ButtonExportJPG_SpecCompData->setObjectName(QString::fromUtf8("export_jpg_spec"));
   ButtonExportJPG_SpecCompData->setText("Export to  JPG");
 
-
-  ButtonJPG_CSV_Close_SpecComp = new QPushButton(showSpectCompDataRightClickWid);
-  ButtonJPG_CSV_Close_SpecComp->setObjectName(QString::fromUtf8("CloseJPGCSV"));
-  ButtonJPG_CSV_Close_SpecComp->setText("x");
-  ButtonJPG_CSV_Close_SpecComp->setGeometry(98,0,15,57);
 }
 void GraphPlotClass::DrawGraphWidget(QCustomPlot *customPlot,int16_t Pos_X,int16_t Pos_Y,int16_t X_Range,int16_t Y_Range,int16_t XLW_Range,int16_t YLW_Range)
 {
@@ -1321,7 +1294,7 @@ void GraphPlotClass::ShowSpecCompDisplay(){
                xFreq_1[count_] = 0.00;
                yAmp_1[count_] = 0.00;
                SpecCompLofarHisto[0][count_]=0.00;
-	   //    printf("in else 1\n");
+	       printf("in else 1\n");
 	   }
 	   if(CompFlagInd[1] == 1){
               xFreq_2[count_] = round(3.814*count_);
@@ -1332,7 +1305,7 @@ void GraphPlotClass::ShowSpecCompDisplay(){
                xFreq_2[count_] = 0.00;
                yAmp_2[count_] = 0.00;
                SpecCompLofarHisto[1][count_]=0.00;
-	   //    printf("in else 2\n");
+	       printf("in else 2\n");
 	   }
 	   if(CompFlagInd[2] == 1){
 	      xFreq_3[count_] = round(3.814*count_);
@@ -1343,7 +1316,7 @@ void GraphPlotClass::ShowSpecCompDisplay(){
                xFreq_3[count_] = 0.00;
                yAmp_3[count_] = 0.00;
                SpecCompLofarHisto[2][count_]=0.00;
-	     //  printf("in else 3\n");
+	       printf("in else 3\n");
 	   }
         }
         SpectrumComparisonGraphLegend->graph(0)->setData(xFreq_1,yAmp_1);
@@ -1672,25 +1645,18 @@ void GraphPlotClass::DrawThresholdFinFrame()
 
 void GraphPlotClass::showSpectrumValue(QMouseEvent* m){
    if(m->button() == 0x00000001){
-      showValuesSpectrumplot->setGeometry(QRect(m->x(),m->y(),195,30));
+      showValuesSpectrumplot->setGeometry(QRect(m->x(),m->y(),180,30));
       showSpectrumVal->setText("Freq:"+QString::number(SpectrumGraphLegend->xAxis->pixelToCoord(m->x()))+","+" Amp:"+ QString::number(SpectrumGraphLegend->yAxis->pixelToCoord(m->y())));
       showValuesSpectrumplot->show();
-
    }
    else
       showValuesSpectrumplot->hide();
 
 }
 
-void GraphPlotClass::CloseSpectrumvalue()
-{
-   showValuesSpectrumplot->hide();
-
-}
-
 void GraphPlotClass::showSpectrumRightWidgetVal(QMouseEvent* m){
    if(m->button() == 0x00000002){
-      showSpectrumRightClickWid->setGeometry(QRect(m->x(),m->y(),113,57));
+      showSpectrumRightClickWid->setGeometry(QRect(m->x(),m->y(),98,57));
       ButtonExportJPG_Spectrum->move(0,30);
       showSpectrumRightClickWid->show();
    }
@@ -1722,16 +1688,10 @@ void GraphPlotClass::ExportSpectrumData_to_JPG(){
 
 }
 
-void GraphPlotClass::ButtonJPG_CSV_Close_Spectrum_Tab()
-{
-       	showSpectrumRightClickWid->hide();
-
-}
-
 
 void GraphPlotClass::showRawDataValue(QMouseEvent* m){
    if(m->button() == 0x00000001){
-      showValuesRawDataplot->setGeometry(QRect(m->x(),m->y(),195,30));
+      showValuesRawDataplot->setGeometry(QRect(m->x(),m->y(),180,30));
       showRawDataVal->setText("Freq:"+QString::number(RawDataDelSpectGraphLegend->xAxis->pixelToCoord(m->x()))+","+" Amp:"+ QString::number(RawDataDelSpectGraphLegend->yAxis->pixelToCoord(m->y())));
       showValuesRawDataplot->show();
    }
@@ -1739,15 +1699,11 @@ void GraphPlotClass::showRawDataValue(QMouseEvent* m){
       showValuesRawDataplot->hide();
 
 }
-void GraphPlotClass::CloseRawDatavalue()
-{
-   showValuesRawDataplot->hide();
 
-}
 
 void GraphPlotClass::showRawDataRightWidgetVal(QMouseEvent* m){
    if(m->button() == 0x00000002){
-      showRawDataRightClickWid->setGeometry(QRect(m->x(),m->y(),113,57));
+      showRawDataRightClickWid->setGeometry(QRect(m->x(),m->y(),98,57));
       ButtonExportJPG_RawData->move(0,30);
       showRawDataRightClickWid->show();
    }
@@ -1777,14 +1733,9 @@ void GraphPlotClass::ExportRawData_to_JPG(){
     RawDataDelSpectGraphLegend->saveJpg(filename,RawDataDelSpectGraphLegend->width(),RawDataDelSpectGraphLegend->height());
 }
 
-void GraphPlotClass::ButtonJPG_CSV_Close_RawData_Tab()
-{
-        showRawDataRightClickWid->hide();
-
-}
 void GraphPlotClass::showSpectCompDataValue(QMouseEvent* m){
    if(m->button() == 0x00000001){
-      showValuesSpectCompDataplot->setGeometry(QRect(m->x(),m->y(),195,30));
+      showValuesSpectCompDataplot->setGeometry(QRect(m->x(),m->y(),180,30));
       showSpecCompDataVal->setText("Freq:"+ QString::number(SpectrumComparisonGraphLegend->xAxis->pixelToCoord(m->x()))+","+" Amp:"+ QString::number(SpectrumComparisonGraphLegend->yAxis->pixelToCoord(m->y())));
       showValuesSpectCompDataplot->show();
    }
@@ -1792,16 +1743,9 @@ void GraphPlotClass::showSpectCompDataValue(QMouseEvent* m){
       showValuesSpectCompDataplot->hide();
 }
 
-void GraphPlotClass::CloseSpecCompvalue()
-{
-   showValuesSpectCompDataplot->hide();
-
-}
-
-
 void GraphPlotClass::showSpectCompDataRightWidgetVal(QMouseEvent* m){
    if(m->button() == 0x00000002){
-      showSpectCompDataRightClickWid->setGeometry(QRect(m->x(),m->y(),113,57));
+      showSpectCompDataRightClickWid->setGeometry(QRect(m->x(),m->y(),98,57));
       ButtonExportJPG_SpecCompData->move(0,30);
       showSpectCompDataRightClickWid->show();
    }
@@ -1831,11 +1775,6 @@ void GraphPlotClass::ExportSpecCompData_to_JPG(){
     SpectrumComparisonGraphLegend->saveJpg(filename,SpectrumComparisonGraphLegend->width(),SpectrumComparisonGraphLegend->height());
 }
 
-void GraphPlotClass::ButtonJPG_CSV_Close_SpecComp_Tab()
-{
-        showSpectCompDataRightClickWid->hide();
-
-}
 
 GraphPlotClass::~GraphPlotClass()
 {

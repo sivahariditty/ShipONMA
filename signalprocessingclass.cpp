@@ -567,7 +567,6 @@ void SignalProcessingClass::delSpectrumProcessing(int16_t CH_ID)
 
 void SignalProcessingClass::compSpectrumProcessing_1(int16_t CH_ID)
 {
-    //if(CH_ID == 0){
     ComplexFunction(&compDataFIR_1[0],&CompSpectrumFilterRealOutput_1[0],&CompSpectrumFilterImagOutput_1[0],16384);
     FFT_Funtion(&CompSpectrumFilterRealOutput_1[0],&CompSpectrumFilterImagOutput_1[0],8192,8192,false);
     FFTMagnitudeExtraction(&CompSpectrumFilterRealOutput_1[0],&CompSpectrumFilterImagOutput_1[0],&CompSpectrumMagnitudeOutput_1[0],4096,3);
@@ -579,33 +578,6 @@ void SignalProcessingClass::compSpectrumProcessing_1(int16_t CH_ID)
     Requantisation(CH_ID,1,&CompSpectrum50HzEleiminateBuffer_1[0],&CompSpectrumQuantisedOutput_1[0],&CompSpectrumQuantisationTable[0],1200,1,SpectrumAmplitudeRes);
     compSetSpectrumDisplayBuffer_1(CH_ID);
     }
-    /*}
-    else if(CH_ID == 1){
-    ComplexFunction(&compDataFIR[CH_ID][0],&CompSpectrumFilterRealOutput[0],&CompSpectrumFilterImagOutput[0],16384);
-    FFT_Funtion(&CompSpectrumFilterRealOutput[0],&CompSpectrumFilterImagOutput[0],8192,8192,false);
-    FFTMagnitudeExtraction(&CompSpectrumFilterRealOutput[0],&CompSpectrumFilterImagOutput[0],&CompSpectrumMagnitudeOutput[0],4096,3);
-    Exponential_Average(&CompSpectrumMagnitudeOutput[0],&CompSpectrumExpAvgOutput[0][0],4096,0.40);
-    CompSpectrumExpAvgCount[0]=((CompSpectrumExpAvgCount[CH_ID]+1)%SPEC_AVG_FACTOR);
-    if(CompSpectrumExpAvgCount[0]==0)
-    {
-    PeakQunatize(&CompSpectrumExpAvgOutput[CH_ID][0],&CompSpectrum50HzEleiminateBuffer[0],1,4096)  ;
-    Requantisation(CH_ID,1,&CompSpectrum50HzEleiminateBuffer[0],&CompSpectrumQuantisedOutput[0],&CompSpectrumQuantisationTable[0],1200,1,SpectrumAmplitudeRes);
-    compSetSpectrumDisplayBuffer(CH_ID);
-    }
-    }
-    else if(CH_ID == 2){
-    ComplexFunction(&compDataFIR[CH_ID][0],&CompSpectrumFilterRealOutput[0],&CompSpectrumFilterImagOutput[0],16384);
-    FFT_Funtion(&CompSpectrumFilterRealOutput[0],&CompSpectrumFilterImagOutput[0],8192,8192,false);
-    FFTMagnitudeExtraction(&CompSpectrumFilterRealOutput[0],&CompSpectrumFilterImagOutput[0],&CompSpectrumMagnitudeOutput[0],4096,3);
-    Exponential_Average(&CompSpectrumMagnitudeOutput[0],&CompSpectrumExpAvgOutput[0][0],4096,0.40);
-    CompSpectrumExpAvgCount[0]=((CompSpectrumExpAvgCount[CH_ID]+1)%SPEC_AVG_FACTOR);
-    if(CompSpectrumExpAvgCount[0]==0)
-    {
-    PeakQunatize(&CompSpectrumExpAvgOutput[CH_ID][0],&CompSpectrum50HzEleiminateBuffer[0],1,4096)  ;
-    Requantisation(CH_ID,1,&CompSpectrum50HzEleiminateBuffer[0],&CompSpectrumQuantisedOutput[0],&CompSpectrumQuantisationTable[0],1200,1,SpectrumAmplitudeRes);
-    compSetSpectrumDisplayBuffer(CH_ID);
-    }
-    }*/
 }
 
 void SignalProcessingClass::compSpectrumProcessing_2(int16_t CH_ID)
