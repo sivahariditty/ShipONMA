@@ -10520,7 +10520,7 @@ void QCPAbstractPlottable::setBrush(const QBrush &brush)
 }
 
 /*!
-  The key axis of a plottable can be set to any axis of a QCustomPlot, as long as it is orthogonal
+  The key axis of a plottable can be set to any axis of a QCustomPlot, as int as it is orthogonal
   to the plottable's value axis. This function performs no checks to make sure this is the case.
   The typical mathematical choice is to use the x-axis (QCustomPlot::xAxis) as key axis and the
   y-axis (QCustomPlot::yAxis) as value axis.
@@ -10536,7 +10536,7 @@ void QCPAbstractPlottable::setKeyAxis(QCPAxis *axis)
 }
 
 /*!
-  The value axis of a plottable can be set to any axis of a QCustomPlot, as long as it is
+  The value axis of a plottable can be set to any axis of a QCustomPlot, as int as it is
   orthogonal to the plottable's key axis. This function performs no checks to make sure this is the
   case. The typical mathematical choice is to use the x-axis (QCustomPlot::xAxis) as key axis and
   the y-axis (QCustomPlot::yAxis) as value axis.
@@ -11793,7 +11793,7 @@ void QCPItemPosition::setPixelPosition(const QPointF &pixelPosition)
   The built-in items are:
   <table>
   <tr><td>QCPItemLine</td><td>A line defined by a start and an end point. May have different ending styles on each side (e.g. arrows).</td></tr>
-  <tr><td>QCPItemStraightLine</td><td>A straight line defined by a start and a direction point. Unlike QCPItemLine, the straight line is infinitely long and has no endings.</td></tr>
+  <tr><td>QCPItemStraightLine</td><td>A straight line defined by a start and a direction point. Unlike QCPItemLine, the straight line is infinitely int and has no endings.</td></tr>
   <tr><td>QCPItemCurve</td><td>A curve defined by start, end and two intermediate control points. May have different ending styles on each side (e.g. arrows).</td></tr>
   <tr><td>QCPItemRect</td><td>A rectangle</td></tr>
   <tr><td>QCPItemEllipse</td><td>An ellipse</td></tr>

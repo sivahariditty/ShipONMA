@@ -34,7 +34,7 @@ public:
     void SonarHealthStatus();
     void SonarRequestInit();
     void SonarHealthStatusInit();
-    void swapBuffer(const char *,unsigned long);
+    void swapBuffer(const char *,unsigned int);
     void Gain_Set();
     void Npol_Header_Setting();
     void Npol_Header_Transmision_Setting();

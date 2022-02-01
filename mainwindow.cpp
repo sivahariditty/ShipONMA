@@ -1493,7 +1493,7 @@ void MainWindow::recChanlData(){
        ContRecSelCh = RecChSel->itemData(RecChSel->currentIndex()).toInt();
        QDateTime now = QDateTime::currentDateTime();
        QString now_s = now.toString("dd.MM.yyyy_hh:mm:ss.zzz");
-       ContRecSelCh = 10;
+       //ContRecSelCh = 10;
        QFileDialog dialog(this);
        dialog.setFileMode(QFileDialog::DirectoryOnly);
        dialog.setStyleSheet("background-color:white");
@@ -1502,6 +1502,9 @@ void MainWindow::recChanlData(){
        SelectRecChanel->close();
        RecordStopFlagCont = 0;
        DisplayBase->RecChnlButton->setText("STOP REC");
+       DisplayBase->RecChnlButton->setStyleSheet(QString::fromUtf8("background-color: rgb(255,141,133);\n"
+                                                  "color: rgb(0, 0, 0);"));
+
        RecordStartFlagCont = 1;
        RecordSetFlagCont = 1;
 }
@@ -1514,6 +1517,9 @@ void MainWindow::shwChSelDialog(){
       RecordStopFlagCont = 1;
       RecordStartFlagCont = 0;
       DisplayBase->RecChnlButton->setText("CHNL REC");
+      DisplayBase->RecChnlButton->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
+                                                          "color: rgb(0, 0, 0);"));
+
    }
 }
 

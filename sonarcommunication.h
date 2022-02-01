@@ -43,7 +43,7 @@ public:
     unsigned int Category1,Subcategory;
     unsigned int iCount,yCount,kCount;
     int32_t DataPtr2,DataBufferCount,DataBufferCountCont;
-    unsigned long int SampSetCnt;
+    unsigned int  SampSetCnt;
 signals:
     
 public slots:

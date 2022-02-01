@@ -188,7 +188,7 @@ void SignalProcessingClass::StartInitProcessing()
              FIRFilter(&GenralFIR1[0],72,&InputData[0],&BaseInputData[0],16384);
              for (int m =0;m<16384;m++)
              {
-                float tmpval2 = ((1000*sin(2*3.14*m*freq*0.000032)) + (900000000*((rand()/(float)((50000 - 1 + 1)) + 1))/(float)RAND_MAX));
+               // float tmpval2 = ((1000*sin(2*3.14*m*freq*0.000032)) + (900000000*((rand()/(float)((50000 - 1 + 1)) + 1))/(float)RAND_MAX));
                 if(delDataCnt == 0){
                    delDataFIR[m] = (float)(BaseInputData[m]/DELFACT_F);
                    //delDataFIR[m] = (tmpval2/DELFACT_F);
@@ -203,11 +203,11 @@ void SignalProcessingClass::StartInitProcessing()
              }
              SpectrumProcessing(kCount);
              OctaveProcessing(kCount);
-             LofarProcessing(kCount);
+             //LofarProcessing(kCount);
              delDataCnt++;
              if(delDataCnt == DELFACT_I){
-                //delSpectrumProcessing(kCount);
-		SpectrumProcessingInd(kCount,&delDataFIR[0],&DelSpectrumMainDataPlot[kCount-1][0]);
+              //  delSpectrumProcessing(kCount);
+                SpectrumProcessingInd(kCount,&delDataFIR[0],&DelSpectrumMainDataPlot[kCount-1][0]);
                 memcpy(RawDataMainDataPlot,delDataFIR,16384);
                 IsDelData = 1;
                 delDataCnt = 0;
@@ -435,7 +435,7 @@ void SignalProcessingClass::StartRepaly()
     }
 
         OctaveProcessing(rCount);
-        LofarProcessing(rCount);
+        //LofarProcessing(rCount);
   //delSpectrumProcessing(rCount); //Replay For Delayed Spectrum
         if(ChannelID<29)
         {
@@ -482,7 +482,7 @@ void SignalProcessingClass::StartRepalyCont(){
       if(RepFile.eof()){
          RepFile.close();
          ReplayContFlag = 0;
-         printf("File closed\n");
+       //  printf("File closed\n");
       }
    }
    FIRFilter(&GenralFIR1[0],72,&ReplyData[0],&BaseInputData[0],16384);
@@ -491,11 +491,12 @@ void SignalProcessingClass::StartRepalyCont(){
    delDataCnt ++;
    if(delDataCnt == DELFACT_I){
       delSpectrumProcessing(rCount);
+      //printf("\n Iam in the tr-----------");
       IsDelData = 1;
       delDataCnt = 0;
     }
     OctaveProcessing(rCount);
-    LofarProcessing(rCount);
+    //LofarProcessing(rCount);
   //delSpectrumProcessing(rCount); //Replay For Delayed Spectrum
         if(ChannelID<29)
         {
@@ -562,12 +563,14 @@ void SignalProcessingClass::delSpectrumProcessing(int16_t CH_ID)
     PeakQunatize(&DelSpectrumExpAvgOutput[CH_ID][0],&DelSpectrum50HzEleiminateBuffer[0],1,4096)  ;
     Requantisation(CH_ID,1,&DelSpectrum50HzEleiminateBuffer[0],&DelSpectrumQuantisedOutput[0],&DelSpectrumQuantisationTable[0],1200,1,SpectrumAmplitudeRes);
     delSetSpectrumDisplayBuffer(ChannelID);
+
     }
 }
 
+
+
 void SignalProcessingClass::compSpectrumProcessing_1(int16_t CH_ID)
 {
-    //if(CH_ID == 0){
     ComplexFunction(&compDataFIR_1[0],&CompSpectrumFilterRealOutput_1[0],&CompSpectrumFilterImagOutput_1[0],16384);
     FFT_Funtion(&CompSpectrumFilterRealOutput_1[0],&CompSpectrumFilterImagOutput_1[0],8192,8192,false);
     FFTMagnitudeExtraction(&CompSpectrumFilterRealOutput_1[0],&CompSpectrumFilterImagOutput_1[0],&CompSpectrumMagnitudeOutput_1[0],4096,3);
@@ -579,33 +582,6 @@ void SignalProcessingClass::compSpectrumProcessing_1(int16_t CH_ID)
     Requantisation(CH_ID,1,&CompSpectrum50HzEleiminateBuffer_1[0],&CompSpectrumQuantisedOutput_1[0],&CompSpectrumQuantisationTable[0],1200,1,SpectrumAmplitudeRes);
     compSetSpectrumDisplayBuffer_1(CH_ID);
     }
-    /*}
-    else if(CH_ID == 1){
-    ComplexFunction(&compDataFIR[CH_ID][0],&CompSpectrumFilterRealOutput[0],&CompSpectrumFilterImagOutput[0],16384);
-    FFT_Funtion(&CompSpectrumFilterRealOutput[0],&CompSpectrumFilterImagOutput[0],8192,8192,false);
-    FFTMagnitudeExtraction(&CompSpectrumFilterRealOutput[0],&CompSpectrumFilterImagOutput[0],&CompSpectrumMagnitudeOutput[0],4096,3);
-    Exponential_Average(&CompSpectrumMagnitudeOutput[0],&CompSpectrumExpAvgOutput[0][0],4096,0.40);
-    CompSpectrumExpAvgCount[0]=((CompSpectrumExpAvgCount[CH_ID]+1)%SPEC_AVG_FACTOR);
-    if(CompSpectrumExpAvgCount[0]==0)
-    {
-    PeakQunatize(&CompSpectrumExpAvgOutput[CH_ID][0],&CompSpectrum50HzEleiminateBuffer[0],1,4096)  ;
-    Requantisation(CH_ID,1,&CompSpectrum50HzEleiminateBuffer[0],&CompSpectrumQuantisedOutput[0],&CompSpectrumQuantisationTable[0],1200,1,SpectrumAmplitudeRes);
-    compSetSpectrumDisplayBuffer(CH_ID);
-    }
-    }
-    else if(CH_ID == 2){
-    ComplexFunction(&compDataFIR[CH_ID][0],&CompSpectrumFilterRealOutput[0],&CompSpectrumFilterImagOutput[0],16384);
-    FFT_Funtion(&CompSpectrumFilterRealOutput[0],&CompSpectrumFilterImagOutput[0],8192,8192,false);
-    FFTMagnitudeExtraction(&CompSpectrumFilterRealOutput[0],&CompSpectrumFilterImagOutput[0],&CompSpectrumMagnitudeOutput[0],4096,3);
-    Exponential_Average(&CompSpectrumMagnitudeOutput[0],&CompSpectrumExpAvgOutput[0][0],4096,0.40);
-    CompSpectrumExpAvgCount[0]=((CompSpectrumExpAvgCount[CH_ID]+1)%SPEC_AVG_FACTOR);
-    if(CompSpectrumExpAvgCount[0]==0)
-    {
-    PeakQunatize(&CompSpectrumExpAvgOutput[CH_ID][0],&CompSpectrum50HzEleiminateBuffer[0],1,4096)  ;
-    Requantisation(CH_ID,1,&CompSpectrum50HzEleiminateBuffer[0],&CompSpectrumQuantisedOutput[0],&CompSpectrumQuantisationTable[0],1200,1,SpectrumAmplitudeRes);
-    compSetSpectrumDisplayBuffer(CH_ID);
-    }
-    }*/
 }
 
 void SignalProcessingClass::compSpectrumProcessing_2(int16_t CH_ID)
@@ -1665,7 +1641,7 @@ Ratio=Amp/250;
     {
     for(iCount=0;iCount<nData_count;iCount++)
     {
-        nOutput_address[iCount]=(fInput_address[iCount]*500);
+        nOutput_address[iCount]=(fInput_address[iCount]*500*2.75);
     }
     }
     else
