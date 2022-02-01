@@ -49,8 +49,13 @@ void NetworkClass::NetworkInit()
     qint32 fd;
     qint16 port=(5235);
     group.setAddress("239.192.2.31");
+<<<<<<< HEAD
     MyAdress.setAddress("192.168.1.70");
     //MyPCAdress.setAddress("10.7.21.61");
+=======
+    MyAdress.setAddress("192.168.1.15");
+    MyPCAdress.setAddress("10.7.21.61");
+>>>>>>> refs/remotes/origin/main
     yCount=1;
     socket1=new QUdpSocket();
     socket1->bind(QHostAddress::Any,port,QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint );  //Data Signal bind

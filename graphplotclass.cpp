@@ -255,7 +255,11 @@ void GraphPlotClass::RawDataDisplaySelect()
   CloseRawDataVal = new QPushButton(showValuesRawDataplot);
   CloseRawDataVal->setObjectName(QString::fromUtf8("CloseSpecVal"));
   CloseRawDataVal->setText("x");
+<<<<<<< HEAD
   CloseRawDataVal->setGeometry(QRect(100,0, 15, 30));
+=======
+  CloseRawDataVal->setGeometry(QRect(180,0, 15, 30));
+>>>>>>> refs/remotes/origin/main
 
 
   showRawDataRightClickWid= new QFrame(RawDataDelSpectGraphLegend);
@@ -327,7 +331,11 @@ void GraphPlotClass::SpectrumComparisonDisplaySelect()
   CloseSpecCompVal = new QPushButton(showValuesSpectCompDataplot);
   CloseSpecCompVal->setObjectName(QString::fromUtf8("CloseSpecVal"));
   CloseSpecCompVal->setText("x");
+<<<<<<< HEAD
   CloseSpecCompVal->setGeometry(QRect(100,0, 15, 30));
+=======
+  CloseSpecCompVal->setGeometry(QRect(180,0, 15, 30));
+>>>>>>> refs/remotes/origin/main
 
   showSpectCompDataRightClickWid= new QFrame(SpectrumComparisonGraphLegend);
   showSpectCompDataRightClickWid->setStyleSheet(QString::fromUtf8("background-color: rgb(229,204,255);"));
@@ -1680,7 +1688,11 @@ void GraphPlotClass::DrawThresholdFinFrame()
 void GraphPlotClass::showSpectrumValue(QMouseEvent* m){
    if(m->button() == 0x00000001){
       showValuesSpectrumplot->setGeometry(QRect(m->x(),m->y(),195,30));
+<<<<<<< HEAD
       showSpectrumVal->setText("Freq:"+QString::number(SpectrumGraphLegend->xAxis->pixelToCoord(m->x()))+","+" Amp:"+ QString::number(DispAmpTmp));
+=======
+      showSpectrumVal->setText("Freq:"+QString::number(SpectrumGraphLegend->xAxis->pixelToCoord(m->x()))+","+" Amp:"+ QString::number(SpectrumGraphLegend->yAxis->pixelToCoord(m->y())));
+>>>>>>> refs/remotes/origin/main
       showValuesSpectrumplot->show();
 
    }
@@ -1738,8 +1750,13 @@ void GraphPlotClass::ButtonJPG_CSV_Close_Spectrum_Tab()
 
 void GraphPlotClass::showRawDataValue(QMouseEvent* m){
    if(m->button() == 0x00000001){
+<<<<<<< HEAD
       showValuesRawDataplot->setGeometry(QRect(m->x(),m->y(),115,30));
       showRawDataVal->setText("Freq:"+QString::number(RawDataDelSpectGraphLegend->xAxis->pixelToCoord(m->x())));
+=======
+      showValuesRawDataplot->setGeometry(QRect(m->x(),m->y(),195,30));
+      showRawDataVal->setText("Freq:"+QString::number(RawDataDelSpectGraphLegend->xAxis->pixelToCoord(m->x()))+","+" Amp:"+ QString::number(RawDataDelSpectGraphLegend->yAxis->pixelToCoord(m->y())));
+>>>>>>> refs/remotes/origin/main
       showValuesRawDataplot->show();
    }
    else
@@ -1791,8 +1808,13 @@ void GraphPlotClass::ButtonJPG_CSV_Close_RawData_Tab()
 }
 void GraphPlotClass::showSpectCompDataValue(QMouseEvent* m){
    if(m->button() == 0x00000001){
+<<<<<<< HEAD
       showValuesSpectCompDataplot->setGeometry(QRect(m->x(),m->y(),115,30));
       showSpecCompDataVal->setText("Freq:"+ QString::number(SpectrumComparisonGraphLegend->xAxis->pixelToCoord(m->x())));
+=======
+      showValuesSpectCompDataplot->setGeometry(QRect(m->x(),m->y(),195,30));
+      showSpecCompDataVal->setText("Freq:"+ QString::number(SpectrumComparisonGraphLegend->xAxis->pixelToCoord(m->x()))+","+" Amp:"+ QString::number(SpectrumComparisonGraphLegend->yAxis->pixelToCoord(m->y())));
+>>>>>>> refs/remotes/origin/main
       showValuesSpectCompDataplot->show();
    }
    else

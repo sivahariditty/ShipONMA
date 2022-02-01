@@ -2910,9 +2910,15 @@ void DisplayWindow::ChangeDisplayPageConfiguration(int16_t x)
               ZoomCursorVLine3->hide();
               graphPlot->Lofar_Scale_TickLabel1->hide();
               graphPlot->Lofar_Scale_TickLabel2->hide();
+<<<<<<< HEAD
               graphPlot->Lofar_Scale_TickLabel3->show();
               graphPlot->GraphXScaleFrame->hide();
               graphPlot->GraphYScaleFrame->show();
+=======
+              graphPlot->Lofar_Scale_TickLabel3->hide();
+              graphPlot->GraphXScaleFrame->hide();
+              graphPlot->GraphYScaleFrame->hide();
+>>>>>>> refs/remotes/origin/main
               graphPlot->zoomGraphXScaleFrame->show();
               graphPlot->zoomGraphYScaleFrame->show();
               break;
@@ -5894,7 +5900,11 @@ void DisplayWindow::ScaleCalculation(float xFreq,float yAmp,int16_t Page_ID, int
 
 }
 
+<<<<<<< HEAD
 /*float DisplayWindow::ScaleCalculationRet(float xFreq,float yAmp,int16_t Page_ID, int16_t SCAL_ID,int16_t Zoom_ID )
+=======
+float DisplayWindow::ScaleCalculationRet(float xFreq,float yAmp,int16_t Page_ID, int16_t SCAL_ID,int16_t Zoom_ID )
+>>>>>>> refs/remotes/origin/main
 {
     float pi=6.28;
     float val;
@@ -5920,6 +5930,7 @@ void DisplayWindow::ScaleCalculation(float xFreq,float yAmp,int16_t Page_ID, int
     }
     return DispAmpTmp;
 
+<<<<<<< HEAD
 }*/
 
 float DisplayWindow::ScaleCalculationRet(float xFreq,float yAmp,int16_t Page_ID, int16_t SCAL_ID,int16_t Zoom_ID )
@@ -5974,6 +5985,8 @@ float DisplayWindow::ScaleCalculationRet(float xFreq,float yAmp,int16_t Page_ID,
     }
     return DispAmpTmp;
 
+=======
+>>>>>>> refs/remotes/origin/main
 }
 
 
