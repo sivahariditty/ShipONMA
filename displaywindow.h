@@ -189,6 +189,7 @@ public:
         void  ChangeEnergyValue(int16_t,int16_t);
         void  RecordTimeEnableFun();
         void  ScaleCalculation(float,float,int16_t,int16_t,int16_t);
+	float ScaleCalculationRet(float xFreq,float yAmp,int16_t Page_ID, int16_t SCAL_ID,int16_t Zoom_ID );
 
         int16_t RecRep;
         int32_t CHGaindBValue;

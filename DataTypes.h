@@ -78,8 +78,8 @@ typedef double npldouble64;
 #define HEALTH_TIMEOUT_SEC 5
 const npluint32 PERIODIC_HEALTH_DATA = 				0xF1;   ///< Periodic health data from individual subsystems
 
-const unsigned long INVALID_TEMP =  0xFFFF;
-const unsigned long INVALID_MEM =   0x0;
+const unsigned int INVALID_TEMP =  0xFFFF;
+const unsigned int INVALID_MEM =   0x0;
 const npluint32 HMI_TO_FDS_REQUEST = 0xF3;
 
 #define NO_OF_AMPLIFIER_ROOM_CABINETS 6
@@ -233,41 +233,41 @@ typedef struct UDPTRXData1
 
 typedef struct Npol_header
 {
-    unsigned long pkt_Length;
-    unsigned long Src;
-    unsigned long Dst;
-    unsigned long Catgry;
-    unsigned long Sub_Catgry;
-    unsigned long Protocol;
-    unsigned long No_of_Objs_in_pkt;
-    unsigned long No_of_Pkt_Fragment;
-    unsigned long Pkt_fragment_no;
-    unsigned long Flag ;
-    unsigned long Seq_no;
-    unsigned long Pkt_header;
-    unsigned long Endian_Type ;
-    unsigned long Time_Stamp[4];   //Which is not supported mentioned in src_npol
-    unsigned long Spare[14] ;
-    unsigned long Chk_Sum;
+    unsigned int pkt_Length;
+    unsigned int Src;
+    unsigned int Dst;
+    unsigned int Catgry;
+    unsigned int Sub_Catgry;
+    unsigned int Protocol;
+    unsigned int No_of_Objs_in_pkt;
+    unsigned int No_of_Pkt_Fragment;
+    unsigned int Pkt_fragment_no;
+    unsigned int Flag ;
+    unsigned int Seq_no;
+    unsigned int Pkt_header;
+    unsigned int Endian_Type ;
+    unsigned int Time_Stamp[4];   //Which is not supported mentioned in src_npol
+    unsigned int Spare[14] ;
+    unsigned int Chk_Sum;
 } npol_header_t;
 
 
 typedef struct Host_Control_Pkt
 {
     npol_header_t npol_hdr;
-    unsigned long obj_id;
-    unsigned long obj_len;
-    unsigned long obj_valid;
+    unsigned int obj_id;
+    unsigned int obj_len;
+    unsigned int obj_valid;
     unsigned char save_flag;
     unsigned char scu_id;
     unsigned short agc_mgc_flag;
     unsigned short thrs_flag_act_deact;
     unsigned short mode_of_op;
-    unsigned long master_flag;
-    unsigned long spr[3] ;
-    unsigned long data[32];
-    unsigned long reg[32];
-    unsigned long obj_trail ;
+    unsigned int master_flag;
+    unsigned int spr[3] ;
+    unsigned int data[32];
+    unsigned int reg[32];
+    unsigned int obj_trail ;
 
 } Host_Control_pkt_t;
 
@@ -620,11 +620,11 @@ typedef struct
 
 typedef struct
 {
-    unsigned long ulCriticalHealth;
-    unsigned long ulCtdHealth;
-    unsigned long ulCicsHealth;
-    unsigned long ulNavHealth;
-    unsigned long ulSpare[4];
+    unsigned int ulCriticalHealth;
+    unsigned int ulCtdHealth;
+    unsigned int ulCicsHealth;
+    unsigned int ulNavHealth;
+    unsigned int ulSpare[4];
 }ExtAndCriticalSysHealth;
 /*
 typedef enum
@@ -651,12 +651,12 @@ typedef enum
 
 //typedef struct
 //{
-//    unsigned long ulSonarHealth;
+//    unsigned int ulSonarHealth;
 //    //FdsHealthStatusType eCabinetHealth[NO_TOTAL_CAB_BLOCKS];
 // //   ExtAndCriticalSysHealth stExtAndCriticalSysHealth;
-// //   unsigned long ulDDROpStatus;
-// //   unsigned long ulHsuCabMasterSlaveStatus[NO_OF_CAPSULE_HSU];
-//  //  unsigned long ulHsuCabSyncOutOfSyncStatus[NO_OF_CAPSULE_HSU];
+// //   unsigned int ulDDROpStatus;
+// //   unsigned int ulHsuCabMasterSlaveStatus[NO_OF_CAPSULE_HSU];
+//  //  unsigned int ulHsuCabSyncOutOfSyncStatus[NO_OF_CAPSULE_HSU];
 //} FdsBriefHealthData;
 //typedef struct FdsBriefHealthPacketType
 //{
@@ -683,12 +683,12 @@ typedef enum
 
 typedef struct
 {
-    unsigned long ulSonarHealth;
+    unsigned int ulSonarHealth;
     FdsHealthStatusType eCabinetHealth[NO_TOTAL_CAB_BLOCKS];
     ExtAndCriticalSysHealth stExtAndCriticalSysHealth;
-    unsigned long ulDDROpStatus;
-    unsigned long ulHsuCabMasterSlaveStatus[NO_OF_CAPSULE_HSU];
-    unsigned long ulHsuCabSyncOutOfSyncStatus[NO_OF_CAPSULE_HSU];
+    unsigned int ulDDROpStatus;
+    unsigned int ulHsuCabMasterSlaveStatus[NO_OF_CAPSULE_HSU];
+    unsigned int ulHsuCabSyncOutOfSyncStatus[NO_OF_CAPSULE_HSU];
     int iPssHsuGain[MAX_NO_PSS_HSU];
     int iOasHsuGain;
     int iInterceptB2Gain;
@@ -713,22 +713,22 @@ int SpectrumZoom2Index;
 
 typedef struct
 {
-    unsigned long ulFreeMemInKb;
-    unsigned long ulTotalMemInKb;
-    unsigned long ulBoardUpTimeSeconds;
+    unsigned int ulFreeMemInKb;
+    unsigned int ulTotalMemInKb;
+    unsigned int ulBoardUpTimeSeconds;
     int iTemperature[4];
-    unsigned long ulSpare[9];
+    unsigned int ulSpare[9];
 }InfoProcHardHealth;
 
 typedef struct
 {
 
-    unsigned long ulAppUpTimeSeconds;
+    unsigned int ulAppUpTimeSeconds;
     DateType stAppBuildDate;
-    unsigned long ulMajVer;
-    unsigned long ulMinVer;
-    unsigned long ulBuildNum;
-    unsigned long ulSpare[3];
+    unsigned int ulMajVer;
+    unsigned int ulMinVer;
+    unsigned int ulBuildNum;
+    unsigned int ulSpare[3];
 }InfoProcSoftHealth;
 
 typedef struct
@@ -942,7 +942,7 @@ typedef struct
     int32_t RecordDataBuffer1[16384];
 } Recording;
 
-//void swapBuffer(const char *data, unsigned long len);
+//void swapBuffer(const char *data, unsigned int len);
 //void updateInfoProcHardHealth(InfoProcHardHealth *pstInfoProcHardHealth);
 //void updateInfoProcSoftHealth(InfoProcSoftHealth *pstInfoProcSoftHealth);
 //bool getTemperature(int *iLocalTemp, int *iRemoteTemp);

@@ -82,15 +82,18 @@ public:
   //SpectrumPage  
     QFrame *showValuesSpectrumplot, *showSpectrumRightClickWid;
     QLabel *showSpectrumVal;
-    QPushButton *ButtonExportCSV_Spectrum,*ButtonExportJPG_Spectrum;
+    QPushButton  *CloseSpectrumVal;
+    QPushButton *ButtonExportCSV_Spectrum,*ButtonExportJPG_Spectrum, *ButtonJPG_CSV_Close_Spectrum;
   //RawDataPage
    QFrame *showValuesRawDataplot,*showRawDataRightClickWid;
    QLabel *showRawDataVal;
-   QPushButton *ButtonExportCSV_RawData, *ButtonExportJPG_RawData;
+   QPushButton  *CloseRawDataVal;
+   QPushButton *ButtonExportCSV_RawData, *ButtonExportJPG_RawData, *ButtonJPG_CSV_Close_RawData;
    //SpectrumComparisonPage
    QFrame *showValuesSpectCompDataplot, *showSpectCompDataRightClickWid;
    QLabel *showSpecCompDataVal;
-   QPushButton *ButtonExportCSV_SpecCompData ,*ButtonExportJPG_SpecCompData;
+   QPushButton  *CloseSpecCompVal;
+   QPushButton *ButtonExportCSV_SpecCompData ,*ButtonExportJPG_SpecCompData,*ButtonJPG_CSV_Close_SpecComp;
 
     QFrame *DelSpectrumXScaleFrame,*DelSpectrumYScaleFrame;
     QMenu *HarmonicCursormenu;
@@ -162,19 +165,25 @@ public slots:
      void freezeLoFarPlot(QMouseEvent* m);
      //SpectrumPage
      void showSpectrumValue(QMouseEvent*);
+     void CloseSpectrumvalue();
      void showSpectrumRightWidgetVal(QMouseEvent* );
      void ExportSpectrumData_to_CSV();
      void ExportSpectrumData_to_JPG();
+     void ButtonJPG_CSV_Close_Spectrum_Tab();
      //RawDataPage
      void showRawDataValue(QMouseEvent*);
+     void CloseRawDatavalue();
      void showRawDataRightWidgetVal(QMouseEvent*);
      void ExportRawData_to_CSV();
      void ExportRawData_to_JPG();
+     void ButtonJPG_CSV_Close_RawData_Tab();
      //SpectrumComparisonPage
      void showSpectCompDataValue(QMouseEvent*);
+     void CloseSpecCompvalue();
      void showSpectCompDataRightWidgetVal(QMouseEvent*);
      void ExportSpecCompData_to_CSV();
      void ExportSpecCompData_to_JPG();
+     void ButtonJPG_CSV_Close_SpecComp_Tab();
 
 
 };

@@ -23,7 +23,7 @@ extern QString ContRecFileName;
 extern int ContRecSelCh;
 
  Recording Records[REC_DATA_SEGLEN];
- long int *RecordsPtr;
+ int  *RecordsPtr;
  SonarDataStructure SonarData;
  extern RecordingControls RecControl;
  int16_t ReplayCompFlag;
@@ -314,7 +314,7 @@ void SonarCommunication::NavDataControl()
 }
 int SonarCommunication::swapBuffer(const char *data, int len)
 {
-    unsigned long *pulData = (unsigned long *)data;
+    unsigned int *pulData = (unsigned int *)data;
 
     if (htons(0xAA55) == 0xAA55)
         return 0;
@@ -416,7 +416,7 @@ void SonarCommunication::run()
     }
     else
     {
-      //RecordDataFun();
+      RecordDataFun();
       RecordDataFunCont();
       //stopRecCont();
     }
@@ -474,6 +474,7 @@ void SonarCommunication:: RecordDataFunCont(){
             Controls[ContRecSelCh].PostRecStatus[Controls[ContRecSelCh].RearRecPointer]=false;
             Controls[ContRecSelCh].RearRecPointer=(Controls[ContRecSelCh].RearRecPointer+1)%RawDataBufferSize;
             DataBufferCountCont=(DataBufferCountCont+1);
+
          }
       }
       if(DataBufferCountCont == 2048)

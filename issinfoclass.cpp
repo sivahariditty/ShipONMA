@@ -563,9 +563,9 @@ void ISSInfoClass::Npol_Header_Transmision_Setting()
 
 }
 
-void ISSInfoClass::swapBuffer(const char *data, unsigned long len)
+void ISSInfoClass::swapBuffer(const char *data, unsigned int len)
 {
-    unsigned long *pulData = (unsigned long *)data;
+    unsigned int *pulData = (unsigned int *)data;
 
     if (htons(0xAA55) == 0xAA55)
         return;

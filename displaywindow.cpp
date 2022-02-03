@@ -7,6 +7,7 @@
 float CompSpectData[3][16384]={0};
 int ReplaySpectrumCompFlag=0;
 int CompFlagInd[3]={0};
+float DispAmpTmp;
 FILE *ft,*fr;
 extern double SpectrumMainDataPlot[NO_OF_SENSOR][1200];
 extern double OctaveMainDataPlot[NO_OF_SENSOR][40];
@@ -100,17 +101,23 @@ DisplayWindow::DisplayWindow(QFrame *parent)
     connect(graphPlot->LofarGraphLegend,SIGNAL(mouseDoubleClick(QMouseEvent *)),graphPlot, SLOT (freezeLoFarPlot(QMouseEvent*)));
     connect(ReplayButtonCont,SIGNAL(clicked()),this, SLOT (setReplayCntFlag()));
     connect(graphPlot->SpectrumGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showSpectrumValue(QMouseEvent*)));
+    connect(graphPlot->CloseSpectrumVal,SIGNAL(clicked()),graphPlot, SLOT (CloseSpectrumvalue()));
     connect(graphPlot->SpectrumGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showSpectrumRightWidgetVal(QMouseEvent*)));
     connect(graphPlot->ButtonExportCSV_Spectrum,SIGNAL(clicked()),graphPlot, SLOT (ExportSpectrumData_to_CSV()));
     connect(graphPlot->ButtonExportJPG_Spectrum,SIGNAL(clicked()),graphPlot,SLOT (ExportSpectrumData_to_JPG()));
+    connect(graphPlot->ButtonJPG_CSV_Close_Spectrum,SIGNAL(clicked()),graphPlot,SLOT (ButtonJPG_CSV_Close_Spectrum_Tab()));
     connect(graphPlot-> RawDataDelSpectGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showRawDataValue(QMouseEvent*)));
+    connect(graphPlot->CloseRawDataVal,SIGNAL(clicked()),graphPlot, SLOT (CloseRawDatavalue()));
     connect(graphPlot->RawDataDelSpectGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showRawDataRightWidgetVal(QMouseEvent*)));
     connect(graphPlot->ButtonExportCSV_RawData,SIGNAL(clicked()),graphPlot, SLOT (ExportRawData_to_CSV()));
     connect(graphPlot->ButtonExportJPG_RawData,SIGNAL(clicked()),graphPlot,SLOT (ExportRawData_to_JPG()));
+    connect(graphPlot->ButtonJPG_CSV_Close_RawData,SIGNAL(clicked()),graphPlot,SLOT (ButtonJPG_CSV_Close_RawData_Tab()));
     connect(graphPlot->SpectrumComparisonGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showSpectCompDataValue(QMouseEvent*)));
+    connect(graphPlot->CloseSpecCompVal,SIGNAL(clicked()),graphPlot, SLOT (CloseSpecCompvalue()));
     connect(graphPlot->SpectrumComparisonGraphLegend,SIGNAL(mousePress(QMouseEvent *)),graphPlot, SLOT (showSpectCompDataRightWidgetVal(QMouseEvent*)));
     connect(graphPlot->ButtonExportCSV_SpecCompData,SIGNAL(clicked()),graphPlot, SLOT (ExportSpecCompData_to_CSV()));
     connect(graphPlot->ButtonExportJPG_SpecCompData,SIGNAL(clicked()),graphPlot,SLOT (ExportSpecCompData_to_JPG()));
+    connect(graphPlot->ButtonJPG_CSV_Close_SpecComp,SIGNAL(clicked()),graphPlot,SLOT (ButtonJPG_CSV_Close_SpecComp_Tab()));
     connect(Replay_Button_Spec_comp,SIGNAL(clicked()),this,SLOT(SelectSpectrumComp()));
     connect(StopReplay_Button_Spec_comp,SIGNAL(clicked()),this,SLOT(StopReplaySpecComp()));
 
@@ -598,11 +605,11 @@ void DisplayWindow::DrawSubmarimeLayoutFrame()
     HydrophoneLabel[17]->setText("H18");
     AcceleometerLabel[17]->setText("A18");
     HydrophoneLabel[18]->setText("H19");
-    AcceleometerLabel[18]->setText("A20");
-    HydrophoneLabel[19]->setText("H21");
-    AcceleometerLabel[19]->setText("A21");
-    HydrophoneLabel[20]->setText("H22");
-    AcceleometerLabel[20]->setText("A22");
+    AcceleometerLabel[18]->setText("A19");
+    HydrophoneLabel[19]->setText("H20");
+    AcceleometerLabel[19]->setText("A20");
+    HydrophoneLabel[20]->setText("H21");
+    AcceleometerLabel[20]->setText("A21");
     HydrophoneLabel[21]->setText("H22");
     AcceleometerLabel[21]->setText("A22");
     HydrophoneLabel[22]->setText("H23");
@@ -762,12 +769,12 @@ void DisplayWindow::AnnotationControls()
             PageSelection->clear();
             PageSelection->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
                                                            "color: rgb(0, 0, 0);"));
-            //PageSelection->addItem("LOFAR PAGE");
+            // PageSelection->addItem("LOFAR PAGE");
 	    PageSelection->addItem("SPECTRUM PAGE",1);
-            PageSelection->addItem("INTEGRATED LOFAR  PAGE",2);
+         //   PageSelection->addItem("INTEGRATED LOFAR  PAGE",2);
             PageSelection->addItem("INTEGRATED SPECTRUM PAGE",3);
             PageSelection->addItem("1/3 OCTAVE BANDS",4);
-            PageSelection->addItem("TRACK PAGE",5);
+           // PageSelection->addItem("TRACK PAGE",5);
             PageSelection->addItem("TIME AVERAGED SPECTRUM",6);
 	    PageSelection->addItem("SPECTRUM COMPARISON",7);
             PageSelection->addItem("HMI EXIT",8);
@@ -809,6 +816,7 @@ void DisplayWindow::AnnotationControls()
             EnergyCursorSave->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
                                                                "color: rgb(0, 0, 0);"));
             EnergyCursorSave->setText(" Histogram Update");
+	    EnergyCursorSave->hide();
 
             POPThresoldWindow = new QPushButton(Annotation);
             POPThresoldWindow->setGeometry(QRect(60, 10,125,30));
@@ -818,6 +826,7 @@ void DisplayWindow::AnnotationControls()
                                                                "color: rgb(0, 0, 0);"));
 
             POPThresoldWindow->setText("Threshold Set");
+	    POPThresoldWindow->hide();
 
             POPTrackWindow = new QPushButton(Annotation);
             POPTrackWindow->setGeometry(QRect(60, 50, 125, 30));
@@ -826,6 +835,7 @@ void DisplayWindow::AnnotationControls()
             POPTrackWindow->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
                                                             "color: rgb(0, 0, 0);"));
             POPTrackWindow->setText("Track Set");
+	    POPTrackWindow->hide();
 
 
             RecordButton =new QPushButton(Annotation);
@@ -997,6 +1007,7 @@ void DisplayWindow::AnnotationControls()
                 ZoomLabel->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
                     "color: rgb(0,255,0);"));
                 ZoomLabel->setFont(font);
+		ZoomLabel->hide();
 
                 ZoomSpectrum=new QComboBox(Configuration);
                 ZoomSpectrum->setGeometry(QRect(90,150,120,30));
@@ -1024,6 +1035,7 @@ void DisplayWindow::AnnotationControls()
                 Tclabel->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
                     "color: rgb(0,255,0);"));
                 Tclabel->setFont(font);
+		Tclabel->hide();
 
                 Tc=new QComboBox(Configuration);
                 Tc->setGeometry(QRect(90,190,120,30));
@@ -1033,6 +1045,7 @@ void DisplayWindow::AnnotationControls()
                 Tc->addItem("2");
                 Tc->addItem("4");
                 Tc->addItem("8");
+		Tc->hide();
 
                 AgcLabel = new QLabel(Configuration);
                 AgcLabel->setObjectName(QString::fromUtf8("label"));
@@ -1041,6 +1054,7 @@ void DisplayWindow::AnnotationControls()
                 AgcLabel->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
                     "color: rgb(0,255,0);"));
                 AgcLabel->setFont(font);
+		AgcLabel->hide();
 
                 Agc=new QComboBox(Configuration);
                 Agc->setGeometry(QRect(90,230,120,30));
@@ -1050,17 +1064,18 @@ void DisplayWindow::AnnotationControls()
                 Agc->addItem("HIGH");
                 Agc->addItem("MEDIUM");
                 Agc->addItem("LOW");
+		Agc->hide();
 
                 MgcLabel = new QLabel(Configuration);
                 MgcLabel->setObjectName(QString::fromUtf8("label"));
-                MgcLabel->setGeometry(QRect(10,270,120,33));
-                MgcLabel->setText("MGC");
+                MgcLabel->setGeometry(QRect(7,150,122,50));
+                MgcLabel->setText("Manual Gain Control");
                 MgcLabel->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
                     "color: rgb(0,255,0);"));
                 MgcLabel->setFont(font);
 
                 Mgc=new QComboBox(Configuration);
-                Mgc->setGeometry(QRect(90,270,120,30));
+                Mgc->setGeometry(QRect(130,150,90,30));
                 Mgc->clear();
                 Mgc->setStyleSheet(QString::fromUtf8("background-color: rgb(235,235,255);\n"
                                                      "color: rgb(0, 0, 0);"));
@@ -1083,6 +1098,7 @@ void DisplayWindow::AnnotationControls()
                 PresetLabel->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
                     "color: rgb(0,255,0);"));
                 PresetLabel->setFont(font);
+		PresetLabel->hide();
 
                 Preset=new QComboBox(Configuration);
                 Preset->setGeometry(QRect(90,310,120,30));
@@ -1100,6 +1116,7 @@ void DisplayWindow::AnnotationControls()
                 Preset->addItem(" 40 dB");
                 Preset->addItem(" 60 dB");
                 Preset->setCurrentIndex(3);
+		Preset->hide();
 
               /*
                 AudioLabel = new QLabel(Configuration);
@@ -1129,6 +1146,7 @@ void DisplayWindow::AnnotationControls()
                 TrackLabel->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
                     "color: rgb(0,255,0);"));
                 TrackLabel->setFont(font);
+		TrackLabel->hide();
 
                 Track=new QComboBox(Configuration);
                 Track->setGeometry(QRect(90,230,120,30));
@@ -1199,7 +1217,7 @@ void DisplayWindow::AnnotationControls()
                 Track->addItem("62");
                 Track->addItem("63");
                 Track->addItem("64");
-
+                Track->hide();
    /*
         ScaleLabel = new QLabel(Annotation);
         ScaleLabel->setObjectName(QString::fromUtf8("label"));
@@ -1302,6 +1320,7 @@ void DisplayWindow::AnnotationControls()
        Ymin->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
                                                               "color: rgb(0,255,0);"));
        Ymin->setFont(font);
+       Ymin->hide();
 
        Ymax =new QLabel(ZoomWindow);
        Ymax->setObjectName(QString::fromUtf8("label"));
@@ -1310,6 +1329,7 @@ void DisplayWindow::AnnotationControls()
        Ymax->setStyleSheet(QString::fromUtf8("background-color: rgb(0,0,0);\n"
                                                               "color: rgb(0,255,0);"));
        Ymax->setFont(font);
+       Ymax->hide();
      /*if(SelectedPageID==2)
      {
        Alert =new QLabel(ZoomWindow);
@@ -1424,7 +1444,7 @@ void DisplayWindow::AnnotationControls()
         Ymin_Combobox->addItem("450");
         Ymin_Combobox->addItem("500");
         Ymin_Combobox->addItem("550");
-        
+        Ymin_Combobox->hide();
 
 
 
@@ -1450,6 +1470,7 @@ void DisplayWindow::AnnotationControls()
         Ymax_Combobox->addItem("500");
         Ymax_Combobox->addItem("550");
         Ymax_Combobox->addItem("600");
+	Ymax_Combobox->hide();
 
 
        connect(HydrophoneSel,SIGNAL(activated(int)),this,SLOT(HydrophoneSelect(int)));
@@ -2845,7 +2866,7 @@ void DisplayWindow::ChangeDisplayPageConfiguration(int16_t x)
 
     case 1:   SenserRefresh=true;
               ZoomLofar->hide();
-              ZoomSpectrum->show();
+              ZoomSpectrum->hide();
               SpectrumZoomEnable=false;
               SpectrumZoomCursorStatus=true;
               LofarZoomCursorStatus=false;
@@ -2887,11 +2908,11 @@ void DisplayWindow::ChangeDisplayPageConfiguration(int16_t x)
               ZoomCursorVLine1->hide();
               ZoomCursorVLine2->hide();
               ZoomCursorVLine3->hide();
-              graphPlot->Lofar_Scale_TickLabel1->show();
-              graphPlot->Lofar_Scale_TickLabel2->show();
+              graphPlot->Lofar_Scale_TickLabel1->hide();
+              graphPlot->Lofar_Scale_TickLabel2->hide();
               graphPlot->Lofar_Scale_TickLabel3->show();
-              graphPlot->GraphXScaleFrame->show();
-              graphPlot->GraphYScaleFrame->hide();
+              graphPlot->GraphXScaleFrame->hide();
+              graphPlot->GraphYScaleFrame->show();
               graphPlot->zoomGraphXScaleFrame->show();
               graphPlot->zoomGraphYScaleFrame->show();
               break;
@@ -4350,6 +4371,7 @@ void DisplayWindow::UpdateObservationData(float xFreq,float yAmp,float xMousePos
     if(CurrentChannelSel < 29)
     {
      ScaleCalculation(xFreq,yAmp,0,HydrophoneScale,0);
+     ScaleCalculationRet(xFreq,yAmp,0,HydrophoneScale,0);
     }
     else
     {
@@ -4520,6 +4542,7 @@ void DisplayWindow::UpdateSpectrumDisplay()
   case 6:     graphPlot->RawDataDelSpectGraphLegend->replot();
               graphPlot->RawDataGraphLegend->replot();
               graphPlot->ShowDelSpectrumDisplay(SenserRefresh,ChannelSelected);
+        //  printf("Iaminrawdata\n");
             //graphPlot->ShowSpectrumDisplay(SenserRefresh,ChannelSelected);
               if(Del_Spec_HarmonicCursorStatus == true)
               {
@@ -5237,7 +5260,7 @@ void DisplayWindow::Mgc_SetCmbo(int16_t arg)
     int16_t z=0,y=0;
     int16_t XData,YData,ZData=0x0000;
     GainModeSel=0;
-  //  printf("\n SCU No=%d,ChannelNo:%d,ChannelPos=%d gainStatus=%d AccePos=%d",LinkStatus.CH_SCU_NO[CurrentChannelSel],CurrentChannelSel,LinkStatus.CH_POS_NO[CurrentChannelSel],(LinkStatus.CH_GAIN_Rx[CurrentChannelSel]),CurrentChannelSel-29);
+   // printf("\n SCU No=%d,ChannelNo:%d,ChannelPos=%d gainStatus=%d AccePos=%d",LinkStatus.CH_SCU_NO[CurrentChannelSel],CurrentChannelSel,LinkStatus.CH_POS_NO[CurrentChannelSel],(LinkStatus.CH_GAIN_Rx[CurrentChannelSel]),CurrentChannelSel-29);
 
    switch(arg)
     {
@@ -5265,14 +5288,14 @@ void DisplayWindow::Mgc_SetCmbo(int16_t arg)
              Mgc->setCurrentIndex(3);
              Value=0;
              CHGainFloatValue=1;
-
+            //printf("\n--------- %d \n",NewGainVal);
              break;
     case 4:  NewGainVal=150;
              Mgc->setCurrentIndex(4);
              Value=6;
              CHGainFloatValue=2;
 
-                //printf("\n--------- %d \n",NewGainVal);
+               // printf("\n--------- %d \n",NewGainVal);
              break;
     case 5:  NewGainVal=171;
              Mgc->setCurrentIndex(5);
@@ -5533,7 +5556,7 @@ void DisplayWindow::Gain_Set(int16_t  SCU_ID)
         z=0x0001<<LinkStatus.CH_POS_NO[CurrentChannelSel];                              //MGC FLAG Setting Operation
         gain_flag1=((y^z)&(~z));
 
-      //  printf(" MGC Flag Settings=%X  %X \n",gain_flag1,y);
+        printf(" MGC Flag Settings=%X  %X \n",gain_flag1,y);
         for(iCount=0;iCount<NO_OF_CHANNEL;iCount++)
         {
             control_object.data[iCount]=htonl(CH_GAIN_VAL[iCount]);
@@ -5568,7 +5591,7 @@ void DisplayWindow::Gain_Set(int16_t  SCU_ID)
     {
 case 1:
         UnicastAddress.setAddress("192.168.1.1");
-
+       // printf("Ima in 1----------------------------------------- \n");
         break;
 case 2:
       // TransmitPack2.sin_addr.s_addr=inet_addr("192.168.1.2");
@@ -5870,6 +5893,91 @@ void DisplayWindow::ScaleCalculation(float xFreq,float yAmp,int16_t Page_ID, int
     }
 
 }
+
+/*float DisplayWindow::ScaleCalculationRet(float xFreq,float yAmp,int16_t Page_ID, int16_t SCAL_ID,int16_t Zoom_ID )
+{
+    float pi=6.28;
+    float val;
+    float y;
+    //float DispAmpTmp;
+
+    if(SCAL_ID==1)
+    {
+        InterValue=(yAmp/47.2);
+        val=pi*xFreq;
+        DispAmpTmp=((InterValue-CHGaindBValue)/pow(val,2));
+    }
+    else if(SCAL_ID==2)
+    {
+        InterValue=(yAmp/(95.4));
+        val=pi*xFreq;
+        DispAmpTmp=((InterValue-CHGaindBValue)/val);
+    }
+    else
+    {
+        InterValue=(yAmp/(95.4));
+        DispAmpTmp=(InterValue);
+    }
+    return DispAmpTmp;
+
+}*/
+
+float DisplayWindow::ScaleCalculationRet(float xFreq,float yAmp,int16_t Page_ID, int16_t SCAL_ID,int16_t Zoom_ID )
+{
+    float pi=6.28;
+    float val;
+    float y;
+
+    if(Page_ID==0)
+    {
+    if(SCAL_ID==1)
+    {
+        InterValue=((yAmp/250)*3.3*1000);
+        DispFreq=xFreq;
+        DispAmp=(InterValue/CHGainFloatValue);
+
+        DispAmpTmp=DispAmp-yScaleValue; //MaxDisp Size=250,Max dB for 3.3mV=-136.87.Disp Res=136.87/250=0.24 or 60dB/250;
+    }
+    else
+    {
+        y=(yAmp);
+        InterValue=(87+(114-(20*log10(500/yAmp)))-63);
+        DispFreq=xFreq;
+        DispAmp=(InterValue);
+        DispAmpTmp=DispAmp; //MaxDisp Size=250,Max dB for 3.3mV=-136.87.Disp Res=136.87/250=0.24 or 60dB/250;
+    }
+    }
+    else
+    {
+    if(SCAL_ID==1)
+    {
+        InterValue=(yAmp/47.2);
+        DispFreq=xFreq;
+        val=pi*xFreq;
+        DispAmp=((InterValue-CHGaindBValue)/pow(val,2));
+	DispAmpTmp=DispAmp;
+    }
+    else if(SCAL_ID==2)
+    {
+        InterValue=(yAmp/(95.4));
+        DispFreq=xFreq;
+        val=pi*xFreq;
+        DispAmp=((InterValue-CHGaindBValue)/val);
+	DispAmpTmp=DispAmp;
+    }
+    else
+    {
+        InterValue=(yAmp/(95.4));
+        DispFreq=xFreq;
+        DispAmp=(InterValue);
+    }
+    }
+    return DispAmpTmp;
+
+}
+
+
+
 
 void DisplayWindow::setReplayCntFlag(){
     QFileDialog dialog(this);
